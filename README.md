@@ -2,6 +2,10 @@
 
 **BLOCH** **U**niversal **S**imulator
 
+[![release](https://img.shields.io/github/release/ThoHiller/nmr-blochus.svg)](https://github.com/ThoHiller/nmr-blochus/releases/latest)
+[![DOI](https://zenodo.org/badge/264257175.svg)](https://zenodo.org/badge/latestdoi/264257175)
+- - -
+
 ### About
 
 **BLOCHUS** is a set of MATLAB<sup>TM</sup> tools, that allow some basic simulations of (S)NMR spin dynamics based on the Bloch equations. The Bloch equations are solved in the laboratory frame of reference with MATLABs built-in `ode45` solver. Because it was developed within the scope of a near surface SNMR project, its main features are the simulation of (1) pre-polarization switch-off ramps and (2) excitation pulses. The main front-end to the underlying simulation tools is a graphical user interface (GUI) that allows playing around with the different features and helps to understand the basic concepts of (S)NMR spin dynamics.
