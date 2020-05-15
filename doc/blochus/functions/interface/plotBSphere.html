@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotBSphere</title>
+  <meta name="keywords" content="plotBSphere">
+  <meta name="description" content=" plots a (Bloch)-Sphere (basically a unit sphere) with">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>plotBSphere
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> plots a (Bloch)-Sphere (basically a unit sphere) with</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function bsh = plotBSphere(dlat,dlong,ax,varargin) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">plotBSphere plots a (Bloch)-Sphere (basically a unit sphere) with
+increments 'dlat' [deg] and 'dlong' [deg] for latitude and longitude,
+respectively
+
+ Syntax:
+       plotBSphere
+
+ Inputs:
+       dlat - latitude increment [deg]
+       dlong - longitude increment [deg]
+       ax - axes handle
+        varargin - optional radius R
+
+ Outputs:
+       none
+
+ Example:
+       plotBSphere(30,30)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>	</li><li><a href="plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>	 plots results depending on the chosen settings</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function bsh = plotBSphere(dlat,dlong,ax,varargin)</a>
+0002 <span class="comment">%plotBSphere plots a (Bloch)-Sphere (basically a unit sphere) with</span>
+0003 <span class="comment">%increments 'dlat' [deg] and 'dlong' [deg] for latitude and longitude,</span>
+0004 <span class="comment">%respectively</span>
+0005 <span class="comment">%</span>
+0006 <span class="comment">% Syntax:</span>
+0007 <span class="comment">%       plotBSphere</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">% Inputs:</span>
+0010 <span class="comment">%       dlat - latitude increment [deg]</span>
+0011 <span class="comment">%       dlong - longitude increment [deg]</span>
+0012 <span class="comment">%       ax - axes handle</span>
+0013 <span class="comment">%        varargin - optional radius R</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Outputs:</span>
+0016 <span class="comment">%       none</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Example:</span>
+0019 <span class="comment">%       plotBSphere(30,30)</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Other m-files required:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% Subfunctions:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% MAT-files required:</span>
+0028 <span class="comment">%       none</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">% See also: BLOCHUS</span>
+0031 <span class="comment">% Author: Thomas Hiller</span>
+0032 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0033 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0034 
+0035 <span class="comment">%------------- BEGIN CODE --------------</span>
+0036 
+0037 <span class="comment">% radius of the sphere</span>
+0038 R = 1;
+0039 <span class="keyword">if</span> nargin &gt; 3
+0040     R = varargin{1};
+0041 <span class="keyword">end</span>
+0042 <span class="comment">% gray scale factor</span>
+0043 sf = 0.85;
+0044 
+0045 <span class="comment">% lines along longitude</span>
+0046 [lon1,lat1] = meshgrid(-180:dlong:180,linspace(-90,90,181));
+0047 <span class="comment">% lines along latitude:</span>
+0048 [lat2,lon2] = meshgrid(-90:dlat:90,linspace(-180,180,361));
+0049 
+0050 <span class="comment">% spherical to Cartesian coordinate transform</span>
+0051 [x1,y1,z1] = sph2cart(deg2rad(lon1),deg2rad(lat1),R);
+0052 [x2,y2,z2] = sph2cart(deg2rad(lon2),deg2rad(lat2),R);
+0053 
+0054 <span class="comment">% plotting the lines in the current axes</span>
+0055 bsh1 = plot3(x1,y1,z1,<span class="string">'-'</span>,<span class="string">'Color'</span>,sf*[1 1 1],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,ax);
+0056 bsh2 = plot3(x2,y2,z2,<span class="string">'-'</span>,<span class="string">'Color'</span>,sf*[1 1 1],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,ax);
+0057 
+0058 bsh3 = line([-R R],[0 0],[0 0],<span class="string">'Color'</span>,sf*[1 1 1],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,ax);
+0059 bsh4 = line([0 0],[-R R],[0 0],<span class="string">'Color'</span>,sf*[1 1 1],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,ax);
+0060 bsh5 = line([0 0],[0 0],[-R R],<span class="string">'Color'</span>,sf*[1 1 1],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,ax);
+0061 
+0062 bsh6 = line([0 R*1.2],[0 0],[0 0],<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,1.3,<span class="string">'Parent'</span>,ax);
+0063 bsh7 = line([0 0],[0 R*1.2],[0 0],<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,1.3,<span class="string">'Parent'</span>,ax);
+0064 bsh8 = line([0 0],[0 0],[0 R*1.2],<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,1.3,<span class="string">'Parent'</span>,ax);
+0065 
+0066 t1 = text(R*1.4,0,0,<span class="string">'X'</span>,<span class="string">'HorizontalAlignment'</span>,<span class="string">'center'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
+0067 t2 = text(0,R*1.4,0,<span class="string">'Y'</span>,<span class="string">'HorizontalAlignment'</span>,<span class="string">'center'</span>,<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'Parent'</span>,ax);
+0068 t3 = text(0,0,R*1.4,<span class="string">'Z'</span>,<span class="string">'HorizontalAlignment'</span>,<span class="string">'center'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'Parent'</span>,ax);
+0069 
+0070 <span class="comment">% output handles of all lines and text</span>
+0071 bsh.grid = [bsh1; bsh2];
+0072 bsh.axes1 = [bsh3; bsh4; bsh5];
+0073 bsh.axes2 = [bsh6; bsh7; bsh8];
+0074 bsh.label = [t1; t2; t3];
+0075 
+0076 <span class="keyword">end</span>
+0077 
+0078 <span class="comment">%------------- END OF CODE --------------</span>
+0079 
+0080 <span class="comment">%% License:</span>
+0081 <span class="comment">% GNU GPLv3</span>
+0082 <span class="comment">%</span>
+0083 <span class="comment">% BLOCHUS</span>
+0084 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0085 <span class="comment">%</span>
+0086 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0087 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0088 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0089 <span class="comment">% (at your option) any later version.</span>
+0090 <span class="comment">%</span>
+0091 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0092 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0093 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0094 <span class="comment">% GNU General Public License for more details.</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0097 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

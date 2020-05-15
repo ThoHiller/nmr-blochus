@@ -1,0 +1,374 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getMIDI_Tx</title>
+  <meta name="keywords" content="getMIDI_Tx">
+  <meta name="description" content=" creates discrete on-resonant or adiabatic pulses">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>getMIDI_Tx
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> creates discrete on-resonant or adiabatic pulses</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [t,Bxy,AP] = getMIDI_Tx(param) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getMIDI_Tx creates discrete on-resonant or adiabatic pulses
+
+ Syntax:
+       getMIDI_Tx(param)
+
+ Inputs:
+       param - struct containing the pulse settings
+
+ Outputs:
+       t - time vector [s]
+       Bxy - pulse amplitudes (x,y)
+       AP - struct containing adiabatic pulse settings
+
+ Example:
+       [t,y,~] = getMIDI_Tx(param)
+
+ Other m-files required:
+       getPulseTimeSeries
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [t,Bxy,AP] = getMIDI_Tx(param)</a>
+0002 <span class="comment">%getMIDI_Tx creates discrete on-resonant or adiabatic pulses</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getMIDI_Tx(param)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       param - struct containing the pulse settings</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       t - time vector [s]</span>
+0012 <span class="comment">%       Bxy - pulse amplitudes (x,y)</span>
+0013 <span class="comment">%       AP - struct containing adiabatic pulse settings</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       [t,y,~] = getMIDI_Tx(param)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       getPulseTimeSeries</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% input data</span>
+0035 <span class="comment">% Larmor freq. [Hz]</span>
+0036 fL = param.fL;
+0037 <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0038 gamma = param.gamma;
+0039 <span class="comment">% sampling freg. [Hz]</span>
+0040 sf = param.sf;
+0041 <span class="comment">% number of periods</span>
+0042 P = param.P;
+0043 <span class="comment">% Tx current</span>
+0044 I = param.I;
+0045 <span class="comment">% duty cycle min</span>
+0046 DCmin = param.DCmin;
+0047 <span class="comment">% duty cycle max</span>
+0048 DCmax = param.DCmax; 
+0049 
+0050 <span class="comment">% time sampling due to sampling frequency [s]</span>
+0051 dt = 1/sf;
+0052 
+0053 <span class="keyword">switch</span> param.Tx
+0054     <span class="keyword">case</span> <span class="string">'MIDI_OR'</span>
+0055         <span class="comment">% creating on-resonant pulses is straight forward</span>
+0056         
+0057         <span class="comment">% Larmor sampling + offset [s]</span>
+0058         <span class="comment">% this determines the time of a full period with the given</span>
+0059         <span class="comment">% frequency</span>
+0060         dtL = 1/(fL+param.df); 
+0061         
+0062         <span class="comment">% time vector [s]</span>
+0063         <span class="comment">% total length of pulse depending on the number of periods and the</span>
+0064         <span class="comment">% time length of one single period</span>
+0065         t = 0:dt:P*dtL; 
+0066         
+0067         <span class="comment">% positive (up) and negative (down) &quot;Larmor&quot; peaks</span>
+0068         <span class="comment">% we always start with a negative (down) one</span>
+0069         tLup = 3*dtL/4:dtL:P*dtL;
+0070         tLdown = dtL/4:dtL:P*dtL;
+0071         
+0072         <span class="comment">% peak width of positive and negative peaks depending on the duty</span>
+0073         <span class="comment">% cycle</span>
+0074         peakwidthup = DCmax*dtL/2.*ones(size(tLup));
+0075         peakwidthdown = DCmax*dtL/2.*ones(size(tLup));
+0076         
+0077         <span class="comment">% no adiabatic pulse data</span>
+0078         AP = 0;
+0079         
+0080     <span class="keyword">case</span> <span class="string">'MIDI_AP'</span>
+0081         <span class="comment">% creating the adiabatic pulses is more tricky because due to the</span>
+0082         <span class="comment">% frequency modulation it is not clear at the beginning how long</span>
+0083         <span class="comment">% the actual pulse is given the number of periods</span>
+0084         
+0085         <span class="comment">% Larmor sampling + offset [s]</span>
+0086         <span class="comment">% this determines the time of a full period with the given</span>
+0087         <span class="comment">% frequency</span>
+0088         dtL = 1/(fL); 
+0089         
+0090         <span class="comment">% time vector [s]</span>
+0091         <span class="comment">% total length of pulse depending on the number of periods and the</span>
+0092         <span class="comment">% time length of one single period</span>
+0093         t = 0:dt:P*dtL; 
+0094 
+0095         <span class="comment">% the adiabatic pulse is assembled in an iterative approach</span>
+0096         <span class="comment">% maybe there is a more neat way, but I could not think of one</span>
+0097         search = true;
+0098         count = 0;
+0099         <span class="keyword">while</span> search
+0100             <span class="comment">% first create a continuous adiabatic pulse with the modulation</span>
+0101             <span class="comment">% settings from the GUI</span>
+0102             
+0103             <span class="comment">% temporary time vector [s]</span>
+0104             tt = t(:);
+0105             
+0106             <span class="comment">% get the modulation functions</span>
+0107             fmod = param.fmod;
+0108             Imod = param.Imod;
+0109             
+0110             <span class="comment">% update the time vector and start and end point</span>
+0111             fmod.t = tt;
+0112             fmod.t0 = tt(1);
+0113             fmod.t1 = t(end);
+0114             
+0115             Imod.t = tt;
+0116             Imod.t0 = tt(1);
+0117             Imod.t1 = tt(end);
+0118             
+0119             <span class="comment">% standard adiabatic pulse settings</span>
+0120             pparam.PulseType = <span class="string">'AHP'</span>;
+0121              <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0122             pparam.gamma = gamma;
+0123             <span class="comment">% angular frequency [rad/s]</span>
+0124             <span class="keyword">if</span> gamma &gt; 0
+0125                 pparam.omega0 = -fL*2*pi;
+0126             <span class="keyword">else</span>
+0127                 pparam.omega0 = fL*2*pi;
+0128             <span class="keyword">end</span>
+0129             <span class="comment">% normalized pulse amplitude</span>
+0130             pparam.Amp = 1;
+0131             <span class="comment">% pulse frequency modulation [struct]</span>
+0132             pparam.fmod = fmod;
+0133             <span class="comment">% pulse current modulation [struct]</span>
+0134             pparam.Imod = Imod;
+0135             <span class="comment">% auxiliary pulse phase [rad]</span>
+0136             pparam.phi = 0;
+0137             <span class="comment">% pulse axis [string]</span>
+0138             <span class="keyword">if</span> isfield(param,<span class="string">'PulseAxis'</span>)
+0139                 pparam.PulseAxis = param.PulseAxis;
+0140             <span class="keyword">else</span>
+0141                 pparam.PulseAxis = <span class="string">'+y'</span>;
+0142             <span class="keyword">end</span>
+0143             <span class="comment">% pulse polarization [string]</span>
+0144             pparam.PulsePolarization = <span class="string">'linear'</span>;            
+0145             <span class="comment">% temporary time vector [s]</span>
+0146             pparam.t = tt;
+0147             <span class="comment">% create the continuous adiabatic pulse</span>
+0148             [AP.Bout,AP.df,AP.I,AP.theta] = <a href="getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>(pparam);
+0149             
+0150             <span class="comment">% find the indices of all peaks within the pulse</span>
+0151             [~,locs] = findpeaks(abs(AP.Bout(:,1)));
+0152             <span class="comment">% take only the positive one</span>
+0153             indup = AP.Bout(locs,1)&gt;0;
+0154             <span class="comment">% if there are more peaks than number of periods we are done</span>
+0155             <span class="keyword">if</span> sum(indup) &gt;= P
+0156                 search = false;
+0157             <span class="keyword">else</span>
+0158                 <span class="comment">% other wise extend the time vector and start again</span>
+0159                 count = count + 2;
+0160                 t = 0:dt:(P+count)*dtL;
+0161             <span class="keyword">end</span>
+0162         <span class="keyword">end</span>
+0163         
+0164         <span class="comment">% find the last positive peak that is equal to the number of</span>
+0165         <span class="comment">% periods</span>
+0166         ind = find(cumsum(indup)==P,1,<span class="string">'first'</span>);
+0167         <span class="comment">% keep all peaks (up &amp; down) within this range</span>
+0168         locs = locs(1:ind);
+0169         <span class="comment">% set the pulse length to the corresponding time and add a quarter</span>
+0170         <span class="comment">% of a period</span>
+0171         tmax = tt(locs(end)) + dtL/4;
+0172         
+0173         <span class="comment">% trim the temporary time vector</span>
+0174         tt = tt(tt&lt;=tmax);
+0175         <span class="comment">% trim the output data</span>
+0176         AP.Bout = AP.Bout(1:numel(tt),:);
+0177         AP.df = AP.df(1:numel(tt),:);
+0178         AP.I = AP.I(1:numel(tt),:);
+0179         AP.theta = AP.theta(1:numel(tt),:);
+0180         
+0181         <span class="comment">% update the original time vector</span>
+0182         t = tt';
+0183         
+0184         <span class="comment">% find all positive peaks</span>
+0185         indup = AP.Bout(locs,1)&gt;0;
+0186         <span class="comment">% find all negative peaks</span>
+0187         inddown = AP.Bout(locs,1)&lt;0;
+0188         <span class="comment">% find the corresponding time samples</span>
+0189         tLup = tt(locs(indup));
+0190         tLdown = tt(locs(inddown));
+0191         
+0192         <span class="comment">% the &quot;width&quot; of the peak in [s]</span>
+0193         dtLup = diff([0;tLup]);
+0194         dtLdown = diff([0;tLdown]);
+0195         
+0196         <span class="comment">% the actual peak width is the width in [s] scaled by the</span>
+0197         <span class="comment">% corresponding current amplitude of the continuous adiabatic pulse</span>
+0198         <span class="comment">% therewith the duty cycle increases as given by the current</span>
+0199         <span class="comment">% modulation function</span>
+0200         peakwidthup = AP.I(locs(indup)).*(dtLup./2);
+0201         peakwidthdown = AP.I(locs(inddown)).*(dtLdown/2);
+0202         
+0203         <span class="comment">% save all output data</span>
+0204         AP.locs = locs;
+0205         AP.indup = indup;
+0206         AP.inddown = inddown;
+0207         AP.tLup = tLup;
+0208         AP.tLdown = tLdown;
+0209         AP.peakwidthup = peakwidthup;
+0210         AP.peakwidthdown = peakwidthdown;
+0211 <span class="keyword">end</span>
+0212 
+0213 <span class="comment">% loop over all negative peaks</span>
+0214 <span class="keyword">for</span> i = 1:numel(tLdown)
+0215     <span class="comment">% find the discrete time steps that are within the range of peak</span>
+0216     <span class="comment">% width</span>
+0217     ind = find(t&gt;=tLdown(i)-peakwidthdown(i)/2 &amp; t&lt;tLdown(i)+peakwidthdown(i)/2);
+0218     <span class="comment">% store the indices within the time vector</span>
+0219     <span class="keyword">if</span> i == 1
+0220         locd = ind;
+0221     <span class="keyword">else</span>
+0222         locd = [locd ind]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0223     <span class="keyword">end</span>
+0224 <span class="keyword">end</span>
+0225 
+0226 <span class="comment">% loop over all negative peaks</span>
+0227 <span class="keyword">for</span> i = 1:numel(tLup)
+0228     <span class="comment">% find the discrete time steps that are within the range of peak</span>
+0229     <span class="comment">% width</span>
+0230     ind = find(t&gt;=tLup(i)-peakwidthup(i)/2 &amp; t&lt;tLup(i)+peakwidthup(i)/2);
+0231     <span class="comment">% store the indices within the time vector</span>
+0232     <span class="keyword">if</span> i == 1
+0233         locu = ind;
+0234     <span class="keyword">else</span>
+0235         locu = [locu ind]; <span class="comment">%#ok&lt;AGROW&gt;</span>
+0236     <span class="keyword">end</span>
+0237 <span class="keyword">end</span>
+0238 
+0239 <span class="comment">% create the amplitude vector</span>
+0240 x = zeros(size(t));
+0241 <span class="comment">% all negative peak positions get the corresponding Tx amplitude (scaled</span>
+0242 <span class="comment">% by the Tx current I)</span>
+0243 x(locd) = -I*ones(size(locd));
+0244 <span class="comment">% all positive peak positions get the corresponding Tx amplitude (scaled</span>
+0245 <span class="comment">% by the Tx current I)</span>
+0246 x(locu) = I*ones(size(locu));
+0247 
+0248 <span class="comment">% now create an artificial y-component by shifting the original signal</span>
+0249 <span class="comment">% (x-component) 90° (quarter of a full period)</span>
+0250 <span class="comment">% get the length of a quarter period</span>
+0251 t90 = dtL/4;
+0252 <span class="comment">% cut out these first samples and put them to the end of the original signal</span>
+0253 y = [x(t&gt;=t90) x(t&lt;t90)];
+0254 <span class="comment">% merge the x- and y-components</span>
+0255 Bxy = [x;y];
+0256 
+0257 <span class="comment">% because the created pulse is a +y-pulse adjust its pulse axis here if</span>
+0258 <span class="comment">% necessary (only the on-resonant case here because for the adiabatic</span>
+0259 <span class="comment">% pulse this is already taken care of during assembling)</span>
+0260 <span class="keyword">if</span> strcmp(param.Tx,<span class="string">'MIDI_OR'</span>) &amp;&amp; isfield(param,<span class="string">'PulseAxis'</span>)
+0261     <span class="comment">% depending on the frequency, there is a different amount of time</span>
+0262     <span class="comment">% steps for the &quot;90° phase shift&quot;</span>
+0263     shiftind = sum(t&lt;t90);
+0264     <span class="comment">% now shift both components by the necessary amount of samples</span>
+0265     <span class="keyword">switch</span> param.PulseAxis
+0266         <span class="keyword">case</span> <span class="string">'+x'</span>
+0267             tmp = circshift(Bxy',-shiftind);
+0268         <span class="keyword">case</span> <span class="string">'+y'</span>
+0269             tmp = Bxy'; <span class="comment">% nothing to do</span>
+0270         <span class="keyword">case</span> <span class="string">'-x'</span>
+0271             tmp = circshift(Bxy',+shiftind);
+0272         <span class="keyword">case</span> <span class="string">'-y'</span>
+0273             tmp = circshift(Bxy',+2*shiftind);
+0274     <span class="keyword">end</span>
+0275     <span class="comment">% update the pulse amplitudes</span>
+0276     Bxy = tmp';
+0277 <span class="keyword">end</span>
+0278 
+0279 <span class="keyword">return</span>
+0280 
+0281 <span class="comment">%------------- END OF CODE --------------</span>
+0282 
+0283 <span class="comment">%% License:</span>
+0284 <span class="comment">% GNU GPLv3</span>
+0285 <span class="comment">%</span>
+0286 <span class="comment">% BLOCHUS</span>
+0287 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0288 <span class="comment">%</span>
+0289 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0290 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0291 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0292 <span class="comment">% (at your option) any later version.</span>
+0293 <span class="comment">%</span>
+0294 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0295 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0296 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0297 <span class="comment">% GNU General Public License for more details.</span>
+0298 <span class="comment">%</span>
+0299 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0300 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

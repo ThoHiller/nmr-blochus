@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onPopupNucleus</title>
+  <meta name="keywords" content="onPopupNucleus">
+  <meta name="description" content=" selects the nucleus (proton) to use for the simulation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html popup -->
+<h1>onPopupNucleus
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> selects the nucleus (proton) to use for the simulation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onPopupNucleus(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onPopupNucleus selects the nucleus (proton) to use for the simulation
+
+ Syntax:
+       onPopupNucleus(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onPopupNucleus(src)
+
+ Other m-files required:
+       getGyroRatio
+       getOmega0
+       onEditValue
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/functions/blochsim/getGyroRatio.html" class="code" title="function gamma = getGyroRatio(nuc)">getGyroRatio</a>	 provides the gyromagnetic ratio of different nuclei</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelBasic.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)">BLOCHUS_createPanelBasic</a>	 creates "Basic" settings panel</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onPopupNucleus(src,~)</a>
+0002 <span class="comment">%onPopupNucleus selects the nucleus (proton) to use for the simulation</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       onPopupNucleus(src)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       src - handle of the calling object</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       onPopupNucleus(src)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       getGyroRatio</span>
+0018 <span class="comment">%       getOmega0</span>
+0019 <span class="comment">%       onEditValue</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% get GUI handle</span>
+0035 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0036 
+0037 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0038     <span class="comment">% get GUI data</span>
+0039     gui = getappdata(fig,<span class="string">'gui'</span>);
+0040     data = getappdata(fig,<span class="string">'data'</span>);
+0041     
+0042     <span class="comment">% get the popup menu entry</span>
+0043     val = get(src,<span class="string">'Value'</span>);
+0044     
+0045     <span class="comment">% set the corresponding nucleus</span>
+0046     <span class="keyword">switch</span> val
+0047         <span class="keyword">case</span> 1
+0048             data.basic.nucleus = <span class="string">'1H'</span>;
+0049         <span class="keyword">case</span> 2
+0050             data.basic.nucleus = <span class="string">'2H'</span>;
+0051         <span class="keyword">case</span> 3
+0052             data.basic.nucleus = <span class="string">'3He'</span>;
+0053         <span class="keyword">case</span> 4
+0054             data.basic.nucleus = <span class="string">'7Li'</span>;
+0055         <span class="keyword">case</span> 5
+0056             data.basic.nucleus = <span class="string">'13C'</span>;
+0057         <span class="keyword">case</span> 6
+0058             data.basic.nucleus = <span class="string">'14N'</span>;
+0059         <span class="keyword">case</span> 7
+0060             data.basic.nucleus = <span class="string">'15N'</span>;
+0061         <span class="keyword">case</span> 8
+0062             data.basic.nucleus = <span class="string">'17O'</span>;
+0063         <span class="keyword">case</span> 9
+0064             data.basic.nucleus = <span class="string">'19F'</span>;
+0065         <span class="keyword">case</span> 10
+0066             data.basic.nucleus = <span class="string">'23Na'</span>;
+0067         <span class="keyword">case</span> 11
+0068             data.basic.nucleus = <span class="string">'27Al'</span>;
+0069         <span class="keyword">case</span> 12
+0070             data.basic.nucleus = <span class="string">'29Si'</span>;
+0071         <span class="keyword">case</span> 13
+0072             data.basic.nucleus = <span class="string">'31P'</span>;
+0073         <span class="keyword">case</span> 14
+0074             data.basic.nucleus = <span class="string">'57Fe'</span>;
+0075         <span class="keyword">case</span> 15
+0076             data.basic.nucleus = <span class="string">'63Cu'</span>;
+0077         <span class="keyword">case</span> 16
+0078             data.basic.nucleus = <span class="string">'67Zn'</span>;
+0079         <span class="keyword">case</span> 17
+0080             data.basic.nucleus = <span class="string">'129Xe'</span>;
+0081     <span class="keyword">end</span>
+0082     <span class="comment">% update the gyromagnetic ration and Larmor frequency accordingly</span>
+0083     data.basic.gamma = <a href="../../../blochus/functions/blochsim/getGyroRatio.html" class="code" title="function gamma = getGyroRatio(nuc)">getGyroRatio</a>(data.basic.nucleus);
+0084     data.basic.Omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0)/2/pi;
+0085     
+0086     <span class="comment">% update the GUI data</span>
+0087     setappdata(fig,<span class="string">'data'</span>,data);
+0088     
+0089     <span class="comment">% update the GUI</span>
+0090     set(gui.edit_handles.Omega0,<span class="string">'String'</span>,sprintf(<span class="string">'%7.2f'</span>,data.basic.Omega0));
+0091     set(gui.edit_handles.Gyro,<span class="string">'String'</span>,sprintf(<span class="string">'%5.4e'</span>,data.basic.gamma));
+0092     
+0093     <span class="comment">% if the pulse panel is activated</span>
+0094     <span class="keyword">switch</span> data.basic.type
+0095         <span class="keyword">case</span> {<span class="string">'pulse'</span>,<span class="string">'prepolpulse'</span>}
+0096             <span class="comment">% adapt the B1 amplitude due to the changed gamma value</span>
+0097             <a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>(gui.edit_handles.PulseTtau);
+0098         <span class="keyword">otherwise</span>
+0099             <span class="comment">% nothing to do</span>
+0100     <span class="keyword">end</span>
+0101     
+0102 <span class="keyword">else</span>
+0103     warndlg({<span class="string">'onPopupNucleus:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0104         <span class="string">'BLOCHUS error'</span>);
+0105 <span class="keyword">end</span>
+0106 
+0107 <span class="keyword">end</span>
+0108 
+0109 <span class="comment">%------------- END OF CODE --------------</span>
+0110 
+0111 <span class="comment">%% License:</span>
+0112 <span class="comment">% GNU GPLv3</span>
+0113 <span class="comment">%</span>
+0114 <span class="comment">% BLOCHUS</span>
+0115 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0116 <span class="comment">%</span>
+0117 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0118 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0119 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0120 <span class="comment">% (at your option) any later version.</span>
+0121 <span class="comment">%</span>
+0122 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0123 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0124 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0125 <span class="comment">% GNU General Public License for more details.</span>
+0126 <span class="comment">%</span>
+0127 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0128 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

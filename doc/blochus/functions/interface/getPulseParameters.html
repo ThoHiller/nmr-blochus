@@ -1,0 +1,347 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getPulseParameters</title>
+  <meta name="keywords" content="getPulseParameters">
+  <meta name="description" content=" updates all relevant pulse settings">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>getPulseParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> updates all relevant pulse settings</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function getPulseParameters(fig) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getPulseParameters updates all relevant pulse settings
+
+ Syntax:
+       getPulseParameters(fig)
+
+ Inputs:
+       fig - figure handle
+
+ Outputs:
+       none
+
+ Example:
+       getPulseParameters(gui.figh)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       getMIDI_Tx
+       getOmega0
+       getPulseTimeSeries
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/blochsim/getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>	 creates discrete on-resonant or adiabatic pulses</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function getPulseParameters(fig)</a>
+0002 <span class="comment">%getPulseParameters updates all relevant pulse settings</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getPulseParameters(fig)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       fig - figure handle</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       getPulseParameters(gui.figh)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       none</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       none</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       getMIDI_Tx</span>
+0024 <span class="comment">%       getOmega0</span>
+0025 <span class="comment">%       getPulseTimeSeries</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% get GUI data</span>
+0035 gui = getappdata(fig,<span class="string">'gui'</span>);
+0036 data = getappdata(fig,<span class="string">'data'</span>);
+0037 
+0038 <span class="comment">% dummy time vector with sampling freq 50 kHz used mainly for plotting</span>
+0039 pulse_t = 0:1/50000:data.pulse.Ttau/1e3; <span class="comment">% [s]</span>
+0040 
+0041 <span class="comment">% --- frequency modulation struct ---</span>
+0042 <span class="comment">% this is also used when no modulation is done (then all settings are</span>
+0043 <span class="comment">% basically constant)</span>
+0044 <span class="comment">% pulse type [string]</span>
+0045 fmod.PulseType = data.pulse.Type;
+0046 <span class="comment">% shape of the modulation function [string]</span>
+0047 fmod.shape = data.pulse.DFmode;
+0048 <span class="comment">% time vector [s]</span>
+0049 fmod.t = pulse_t;
+0050 <span class="comment">% pulse start time [s]</span>
+0051 fmod.t0 = pulse_t(1);
+0052 <span class="comment">% pulse end time [s]</span>
+0053 fmod.t1 = pulse_t(end);
+0054 <span class="comment">% start frequency [Hz]</span>
+0055 fmod.v0 = data.pulse.DFstart;
+0056 <span class="comment">% end frequency [Hz]</span>
+0057 fmod.v1 = data.pulse.DFend;
+0058 <span class="comment">% modulation parameter (MIDI)</span>
+0059 fmod.A = data.pulse.DFA;
+0060 <span class="comment">% modulation parameter (MIDI)</span>
+0061 fmod.B = data.pulse.DFB;
+0062 
+0063 <span class="comment">% --- current modulation struct ---</span>
+0064 <span class="comment">% this is also used when no modulation is done (then all settings are</span>
+0065 <span class="comment">% basically constant)</span>
+0066 <span class="comment">% pulse type [string]</span>
+0067 Imod.PulseType = data.pulse.Type;
+0068 <span class="comment">% shape of the modulation function [string]</span>
+0069 Imod.shape = data.pulse.Imode;
+0070 <span class="comment">% check if quality factor tuning is activated [0/1]</span>
+0071 Imod.useQ = get(gui.check_handles.PulseQ,<span class="string">'Value'</span>);
+0072 <span class="comment">% quality factor</span>
+0073 Imod.Q = data.pulse.Q;
+0074 <span class="comment">% quality factor off-resonance frequency [Hz]</span>
+0075 Imod.Qdf = data.pulse.Qdf;
+0076 <span class="comment">% time vector [s]</span>
+0077 Imod.t = pulse_t;
+0078 <span class="comment">% pulse start time [s]</span>
+0079 Imod.t0 = pulse_t(1);
+0080 <span class="comment">% pulse end time [s]</span>
+0081 Imod.t1 = pulse_t(end);
+0082 <span class="comment">% start current [A]</span>
+0083 Imod.v0 = data.pulse.Istart;
+0084 <span class="comment">% end current [A]</span>
+0085 Imod.v1 = data.pulse.Iend;
+0086 <span class="comment">% modulation parameter (MIDI)</span>
+0087 Imod.A = data.pulse.IA;
+0088 <span class="comment">% modulation parameter (MIDI)</span>
+0089 Imod.B = data.pulse.IB;
+0090 
+0091 <span class="comment">% adjust some pulse settings depending on the pulse type</span>
+0092 <span class="keyword">switch</span> data.pulse.Type    
+0093     <span class="keyword">case</span> {<span class="string">'pi_half'</span>,<span class="string">'pi'</span>,<span class="string">'free'</span>}
+0094         <span class="comment">% set constant frequency modulation shape</span>
+0095         fmod.shape = <span class="string">'const'</span>;
+0096         <span class="comment">% equal start and end frequency</span>
+0097         fmod.v1 = fmod.v0;
+0098         <span class="comment">% set constant current modulation shape</span>
+0099         Imod.shape = <span class="string">'const'</span>;
+0100         <span class="comment">% equal start and end current</span>
+0101         Imod.v1 = Imod.v0;
+0102         
+0103     <span class="keyword">case</span> <span class="string">'MIDI_OR'</span>
+0104         <span class="comment">% set constant frequency modulation shape</span>
+0105         fmod.shape = <span class="string">'const'</span>;
+0106         <span class="comment">% equal start and end frequency</span>
+0107         fmod.v1 = fmod.v0;
+0108         <span class="comment">% set constant current modulation shape</span>
+0109         Imod.shape = <span class="string">'const'</span>;
+0110         <span class="comment">% equal start and end current</span>
+0111         Imod.v1 = Imod.v0;
+0112 
+0113         <span class="comment">% MIDI parameter settings for discrete pulses</span>
+0114         <span class="comment">% pulse type [string]</span>
+0115         mparam.Tx = data.pulse.Type;
+0116         <span class="comment">% Larmor frequency [Hz] WIHTOUT SIGN</span>
+0117         mparam.fL = abs(data.basic.Omega0);
+0118         <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0119         mparam.gamma = data.basic.gamma;
+0120         <span class="comment">% frequency offset [Hz]</span>
+0121         mparam.df = data.pulse.DFstart;
+0122         <span class="comment">% MIDI sampling frequency [Hz] (default is 50kHz)</span>
+0123         mparam.sf = data.pulse.MIDIsf;
+0124         <span class="comment">% number of periods</span>
+0125         mparam.P = data.pulse.MIDINP;
+0126         <span class="comment">% Tx-current [A] (within BLOCHUS always &quot;1&quot; because the pulse</span>
+0127         <span class="comment">% amplitude is scaled from the GUI)</span>
+0128         mparam.I = 1;
+0129         <span class="comment">% duty cycle width - start</span>
+0130         mparam.DCmin = data.pulse.Istart;
+0131         <span class="comment">% duty cycle width - end set equal to start</span>
+0132         mparam.DCmax = mparam.DCmin;
+0133         <span class="comment">% pulse axis [string]</span>
+0134         mparam.PulseAxis = data.pulse.Axis;
+0135         <span class="comment">% assemble the discrete pulse</span>
+0136         [t,y,AP] = <a href="../../../blochus/functions/blochsim/getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>(mparam);
+0137         <span class="comment">% because the ODE-solver does not like long rows of &quot;zeros&quot; due to</span>
+0138         <span class="comment">% the adaptive time stepping, the &quot;zeros&quot; in the pulse are set to a</span>
+0139         <span class="comment">% very small number</span>
+0140         ind = find(y==0);
+0141         y(ind) = (2.*rand(numel(ind),1)-1)*1e-7;
+0142         <span class="comment">% output struct containing the MIDI pulses</span>
+0143         param.MIDI.mparam = mparam;
+0144         param.MIDI.t = t';
+0145         param.MIDI.y = y';
+0146         param.MIDI.AP = AP;
+0147         <span class="comment">% update data</span>
+0148         data.pulse_MIDI = param.MIDI;
+0149         <span class="comment">% update dummy time vector</span>
+0150         pulse_t = t;
+0151         
+0152     <span class="keyword">case</span> <span class="string">'MIDI_AP'</span>
+0153         <span class="comment">% MIDI parameter settings for discrete pulses</span>
+0154         <span class="comment">% pulse type [string]</span>
+0155         mparam.Tx = data.pulse.Type;
+0156         <span class="comment">% Larmor frequency [Hz] WIHTOUT SIGN</span>
+0157         mparam.fL = abs(data.basic.Omega0);
+0158         <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0159         mparam.gamma = data.basic.gamma;
+0160         <span class="comment">% start frequency [Hz]</span>
+0161         mparam.df = data.pulse.DFstart;
+0162         <span class="comment">% MIDI sampling frequency [Hz] (default is 50kHz)</span>
+0163         mparam.sf = data.pulse.MIDIsf;
+0164         <span class="comment">% number of periods</span>
+0165         mparam.P = data.pulse.MIDINP;
+0166         <span class="comment">% Tx-current [A] (within BLOCHUS always &quot;1&quot; because the pulse</span>
+0167         <span class="comment">% amplitude is scaled from the GUI)</span>
+0168         mparam.I = 1;
+0169         <span class="comment">% duty cycle width - start</span>
+0170         mparam.DCmin = data.pulse.Istart;
+0171         <span class="comment">% duty cycle width - end</span>
+0172         mparam.DCmax = data.pulse.Iend;
+0173         <span class="comment">% pulse axis [string]</span>
+0174         mparam.PulseAxis = data.pulse.Axis;
+0175         <span class="comment">% frequency modulation struct</span>
+0176         mparam.fmod = fmod;
+0177         <span class="comment">% current modulation struct</span>
+0178         mparam.Imod = Imod;
+0179         <span class="comment">% assemble the discrete pulse</span>
+0180         [t,y,AP] = <a href="../../../blochus/functions/blochsim/getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>(mparam);
+0181         <span class="comment">% because the ODE-solver does not like long rows of &quot;zeros&quot; due to</span>
+0182         <span class="comment">% the adaptive time stepping, the &quot;zeros&quot; in the pulse are set to a</span>
+0183         <span class="comment">% very small number</span>
+0184         ind = find(y==0);
+0185         y(ind) = (2.*rand(numel(ind),1)-1)*1e-7;
+0186         <span class="comment">% output struct containing the MIDI pulses</span>
+0187         param.MIDI.mparam = mparam;
+0188         param.MIDI.t = t';
+0189         param.MIDI.y = y';
+0190         param.MIDI.AP = AP;
+0191         <span class="comment">% update data</span>
+0192         data.pulse_MIDI = param.MIDI;
+0193         <span class="comment">% update dummy time vector</span>
+0194         pulse_t = t;
+0195         
+0196         <span class="comment">% update the time vector within the modulation functions</span>
+0197         fmod.t = t;
+0198         fmod.t1 = t(end);
+0199         Imod.t = t;
+0200         Imod.t1 = t(end);
+0201         
+0202         <span class="comment">% adjust the pulse length to the actual value</span>
+0203         data.pulse.Ttau = data.pulse_MIDI.t(end)*1e3;
+0204         <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0205         <span class="keyword">switch</span> data.basic.type
+0206             <span class="keyword">case</span> <span class="string">'pulse'</span>
+0207                 data.basic.Tsim = data.pulse.Ttau;
+0208                 set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0209             <span class="keyword">otherwise</span>
+0210                 <span class="comment">% nothing to do</span>
+0211         <span class="keyword">end</span>
+0212     <span class="keyword">otherwise</span>
+0213         <span class="comment">% nothing to do</span>
+0214 <span class="keyword">end</span>
+0215 
+0216 <span class="comment">% --- pulse settings ---</span>
+0217 <span class="comment">% pulse type [string]</span>
+0218 param.PulseType = data.pulse.Type;
+0219 <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0220 param.gamma = data.basic.gamma;
+0221 <span class="comment">% Larmor frequency [rad/s]</span>
+0222 param.omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0);
+0223 <span class="comment">% pulse amplitude [B0]</span>
+0224 param.Amp = data.basic.B0*data.pulse.B1Factor;
+0225 <span class="comment">% pulse frequency modulation [struct]</span>
+0226 param.fmod = fmod;
+0227 <span class="comment">% pulse current modulation [struct]</span>
+0228 param.Imod = Imod;
+0229 <span class="comment">% auxiliary pulse phase [rad]</span>
+0230 param.phi = 0;
+0231 <span class="comment">% pulse axis [string]</span>
+0232 param.PulseAxis = data.pulse.Axis;
+0233 <span class="comment">% pulse polarization [string]</span>
+0234 param.PulsePolarization = data.pulse.Polarization;
+0235 <span class="comment">% time vector [s]</span>
+0236 param.t = pulse_t;
+0237 <span class="comment">% get the actual pulse time series (including frequency and current modulation)</span>
+0238 [pulse_Bxy,df,I] = <a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>(param);
+0239 <span class="comment">% dummy time vector [ms]</span>
+0240 data.results.pulse.t = pulse_t'.*1e3;
+0241 
+0242 <span class="comment">% update data</span>
+0243 data.results.pulse.fmod = fmod;
+0244 data.results.pulse.Imod = Imod;
+0245 data.results.pulse.df = df;
+0246 data.results.pulse.I = I;
+0247 data.results.pulse.Bxy = pulse_Bxy;
+0248 
+0249 <span class="comment">% update GUI data</span>
+0250 setappdata(fig,<span class="string">'data'</span>,data);
+0251 
+0252 <span class="keyword">end</span>
+0253 
+0254 <span class="comment">%------------- END OF CODE --------------</span>
+0255 
+0256 <span class="comment">%% License:</span>
+0257 <span class="comment">% GNU GPLv3</span>
+0258 <span class="comment">%</span>
+0259 <span class="comment">% BLOCHUS</span>
+0260 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0261 <span class="comment">%</span>
+0262 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0263 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0264 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0265 <span class="comment">% (at your option) any later version.</span>
+0266 <span class="comment">%</span>
+0267 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0268 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0269 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0270 <span class="comment">% GNU General Public License for more details.</span>
+0271 <span class="comment">%</span>
+0272 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0273 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onPushRun</title>
+  <meta name="keywords" content="onPushRun">
+  <meta name="description" content=" starts the calculation">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html push -->
+<h1>onPushRun
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> starts the calculation</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onPushRun(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onPushRun starts the calculation
+
+ Syntax:
+       onPushRun(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onPushRun(src)
+
+ Other m-files required:
+       fcn_BLOCHUS_ode
+       getFFT
+       getMrot
+       getOmega0
+       getPulsePhase
+       getPulseTimeSeries
+       plotResults
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>	 is the objective function for the ode-solver which solves</li><li><a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>	 calculates the FFT for a given time and signal pair</li><li><a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>	 transforms the magnetization from the laboratory frame of</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="../../../blochus/functions/blochsim/getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>	 provides the instantaneous phase of a pulse; this is</li><li><a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li><li><a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>	 plots results depending on the chosen settings</li><li><a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>	 updates all fields inside the bottom status bar</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelControl.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelControl(gui,myui)">BLOCHUS_createPanelControl</a>	 creates "Control" panel</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onPushRun(src,~)</a>
+0002 <span class="comment">%onPushRun starts the calculation</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       onPushRun(src)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       src - handle of the calling object</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       onPushRun(src)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       fcn_BLOCHUS_ode</span>
+0018 <span class="comment">%       getFFT</span>
+0019 <span class="comment">%       getMrot</span>
+0020 <span class="comment">%       getOmega0</span>
+0021 <span class="comment">%       getPulsePhase</span>
+0022 <span class="comment">%       getPulseTimeSeries</span>
+0023 <span class="comment">%       plotResults</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% Subfunctions:</span>
+0026 <span class="comment">%       none</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% MAT-files required:</span>
+0029 <span class="comment">%       none</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% See also: BLOCHUS</span>
+0032 <span class="comment">% Author: Thomas Hiller</span>
+0033 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0034 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0035 
+0036 <span class="comment">%------------- BEGIN CODE --------------</span>
+0037 
+0038 <span class="comment">% get GUI handle</span>
+0039 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0040 
+0041 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0042     <span class="comment">% get GUI data</span>
+0043     gui = getappdata(fig,<span class="string">'gui'</span>);
+0044     data = getappdata(fig,<span class="string">'data'</span>);
+0045     
+0046     <span class="comment">% change the pushbutton color to indicate that a calculation is running</span>
+0047     set(src,<span class="string">'BackGroundColor'</span>,<span class="string">'r'</span>);
+0048     
+0049     <span class="comment">% basic parameter that are always needed</span>
+0050     <span class="comment">% z unit vector</span>
+0051     zunit = [0 0 1]';
+0052     <span class="comment">% initial magnetization [A/m]</span>
+0053     Minit = data.basic.Minit(:);
+0054     <span class="comment">% total simulation time Tsim [s]</span>
+0055     Tsim = data.basic.Tsim/1e3; 
+0056     
+0057     <span class="comment">% parameter needed for the ODE solver</span>
+0058     <span class="comment">% simulation type [string]</span>
+0059     odeparam.type = data.basic.type;
+0060     <span class="comment">% equilibrium magnetization [A/m]</span>
+0061     odeparam.M0 = data.basic.M0(:);
+0062     <span class="comment">% primary (Earth's) magnetic field B0 [T]</span>
+0063     odeparam.B0 = data.basic.B0;
+0064     <span class="comment">% longitudinal relaxation time T1 [s]</span>
+0065     odeparam.T1 = data.basic.T1relax/1e3;
+0066     <span class="comment">% transversal relaxation time T2 [s]</span>
+0067     odeparam.T2 = data.basic.T2relax/1e3;
+0068     <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0069     odeparam.gamma = data.basic.gamma; 
+0070     
+0071     <span class="comment">% ODE solver error tolerance</span>
+0072     tol = 1e-9;
+0073     <span class="comment">% ODE solver options</span>
+0074     options = odeset(<span class="string">'RelTol'</span>,tol,<span class="string">'AbsTol'</span>,[tol tol tol]);
+0075     
+0076     <span class="comment">% time the calculation</span>
+0077     t0 = tic;
+0078     <span class="keyword">switch</span> data.basic.type
+0079         <span class="keyword">case</span> <span class="string">'std'</span>
+0080             <span class="comment">% update Info field</span>
+0081             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of relaxation ...'</span>);
+0082             pause(0.01);
+0083             
+0084             <span class="comment">% normalized initial magnetization</span>
+0085             Minit = Minit./norm(Minit);
+0086             <span class="comment">% update the corresponding GUI fields</span>
+0087             data.basic.Minit = Minit;
+0088             set(gui.edit_handles.Minitx,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(1)));
+0089             set(gui.edit_handles.Minity,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(2)));
+0090             set(gui.edit_handles.Minitz,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(3)));
+0091             
+0092             <span class="comment">% ODE solver call</span>
+0093             <span class="comment">% OUTPUT: time T and magnetization M</span>
+0094             [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Tsim],Minit,options);
+0095             
+0096             <span class="comment">% save data</span>
+0097             data.results.basic.T = TT;
+0098             data.results.basic.M = MM;
+0099             
+0100             <span class="comment">% rotate M into rotating frame of reference</span>
+0101             Mrot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,<a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT);
+0102             data.results.basic.Mrot = Mrot;
+0103             
+0104             <span class="comment">% get FFTof M in the laboratory frame of reference</span>
+0105             [Xm,fx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
+0106             data.results.basic.Mspec.fx = fx;
+0107             data.results.basic.Mspec.X = Xm;
+0108             
+0109             <span class="comment">% update Info field</span>
+0110             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of relaxation ... finished.'</span>);
+0111             pause(0.01);
+0112             
+0113         <span class="keyword">case</span> <span class="string">'prepol'</span>
+0114             <span class="comment">% update Info field</span>
+0115             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of pre-polarization switch-off ...'</span>);
+0116             pause(0.01);
+0117             
+0118             <span class="comment">% initial magnetization in the direction of B0+Bp</span>
+0119             Morient = data.results.prepol.orient*data.results.prepol.Bmax + odeparam.B0*zunit;
+0120             <span class="comment">% Minit does not get normalized in this case</span>
+0121             Minit = Morient;<span class="comment">%./norm(Morient);</span>
+0122             <span class="comment">% because Minit is not normalized to 1, M0 needs to be adjusted</span>
+0123             odeparam.M0 = odeparam.B0*zunit;
+0124             <span class="comment">% update the corresponding GUI fields</span>
+0125             set(gui.edit_handles.Minitx,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(1)/norm(Minit)));
+0126             set(gui.edit_handles.Minity,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(2)/norm(Minit)));
+0127             set(gui.edit_handles.Minitz,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(3)/norm(Minit)));
+0128             
+0129             <span class="comment">% orientation of the pre-polarization pulse axis</span>
+0130             odeparam.orient = data.results.prepol.orient;
+0131             
+0132             <span class="comment">% pre-polarization switch-off ramp parameter</span>
+0133             <span class="comment">% relaxation during switch-off [0/1]</span>
+0134             odeparam.RDS = data.prepol.RDS;
+0135             <span class="comment">% switch-off ramp type [string]</span>
+0136             rampparam.ramp = data.prepol.Ramp;            
+0137             <span class="comment">% amplitude of pre-polarization field</span>
+0138             rampparam.Bmax = data.results.prepol.Bmax;
+0139             <span class="comment">% switch over magnetization (for linexp case)</span>
+0140             rampparam.Bstar = data.results.prepol.Bstar;
+0141             <span class="comment">% switch-off ramp time [s]</span>
+0142             rampparam.Tramp = data.prepol.Tramp/1e3;
+0143             <span class="comment">% switch over ramp time [s] (for linexp case)</span>
+0144             rampparam.Tslope = data.prepol.Tslope/1e3;
+0145             
+0146             <span class="comment">% add the ramp parameter to the ode parameter struct</span>
+0147             odeparam.rampparam = rampparam;
+0148             
+0149             <span class="comment">% ODE solver call</span>
+0150             <span class="comment">% OUTPUT: time T and magnetization M</span>
+0151             [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Tsim],Minit,options);
+0152             
+0153             <span class="comment">% normalized magnetization vector at end of switch-off ramp</span>
+0154             MMn = MM(<span class="keyword">end</span>,:)./norm(MM(<span class="keyword">end</span>,:));
+0155             <span class="comment">% &quot;adiabatic quality&quot; p of the switch-off ramp</span>
+0156             <span class="comment">% -&gt; orientation of M with respect to z_unit</span>
+0157             p = dot(MMn(<span class="keyword">end</span>,:),zunit)./norm(zunit);
+0158             
+0159             <span class="comment">% save data</span>
+0160             data.results.basic.T = TT;
+0161             data.results.basic.M = MM;
+0162             data.results.prepol.p = p;
+0163             
+0164             <span class="comment">% update Info field</span>
+0165             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of pre-polarization switch-off ... finished.'</span>);
+0166             pause(0.01);
+0167             
+0168             <span class="comment">% activate the lab-frame panels to show the results</span>
+0169             set(gui.panels.Plot.Mag,<span class="string">'Selection'</span>,1);
+0170             set(gui.panels.Plot.Sphere,<span class="string">'Selection'</span>,1);
+0171             
+0172         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0173             <span class="comment">% update Info field</span>
+0174             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ...'</span>);
+0175             pause(0.01);
+0176             
+0177             <span class="comment">% normalized initial magnetization</span>
+0178             Minit = Minit./norm(Minit);
+0179             <span class="comment">% update the corresponding GUI fields</span>
+0180             data.basic.Minit = Minit;
+0181             set(gui.edit_handles.Minitx,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(1)));
+0182             set(gui.edit_handles.Minity,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(2)));
+0183             set(gui.edit_handles.Minitz,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(3)));
+0184             
+0185             <span class="comment">% excitation pulse parameter</span>
+0186             <span class="comment">% relaxation during pulse [0/1]</span>
+0187             odeparam.RDP = data.pulse.RDP;
+0188             <span class="comment">% pulse length [s]</span>
+0189             odeparam.Ttau = data.pulse.Ttau/1e3;
+0190             <span class="comment">% pulse type [string]</span>
+0191             pulseparam.PulseType = data.pulse.Type;
+0192             <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0193             pulseparam.gamma = odeparam.gamma;
+0194             <span class="comment">% Larmor frequency [rad]</span>
+0195             pulseparam.omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0);
+0196             <span class="comment">% pulse amplitude [B0]</span>
+0197             pulseparam.Amp = odeparam.B0*data.pulse.B1Factor;
+0198             <span class="comment">% pulse frequency modulation [struct]</span>
+0199             pulseparam.fmod = data.results.pulse.fmod;
+0200             <span class="comment">% pulse current modulation [struct]</span>
+0201             pulseparam.Imod = data.results.pulse.Imod;
+0202             <span class="comment">% auxiliary pulse phase [rad]</span>
+0203             pulseparam.phi = 0;
+0204             <span class="comment">% pulse axis [string]</span>
+0205             pulseparam.PulseAxis = data.pulse.Axis;
+0206             <span class="comment">% pulse polarization [string]</span>
+0207             pulseparam.PulsePolarization = data.pulse.Polarization;
+0208             <span class="comment">% if the discrete MIDI pulses are used add the corresponding</span>
+0209             <span class="comment">% data</span>
+0210             <span class="keyword">if</span> isfield(data,<span class="string">'pulse_MIDI'</span>)
+0211                 <span class="comment">% MIDI pulse data [struct]</span>
+0212                 pulseparam.MIDI = data.pulse_MIDI;
+0213             <span class="keyword">end</span>
+0214             
+0215             <span class="comment">% add the pulse parameter to the ode parameter struct</span>
+0216             odeparam.pulseparam = pulseparam;
+0217             
+0218             <span class="comment">% ODE solver call</span>
+0219             <span class="comment">% OUTPUT: time T and magnetization M</span>
+0220             <span class="keyword">switch</span> data.pulse.Type
+0221                 <span class="keyword">case</span> {<span class="string">'MIDI_OR'</span>,<span class="string">'MIDI_AP'</span>}
+0222                     <span class="comment">% if Tsim &gt; Ttau extend the discrete time steps</span>
+0223                     <span class="comment">% this is needed because for the discrete pulses</span>
+0224                     <span class="comment">% specific time steps are fed into the solver</span>
+0225                     Tsim = unique([data.pulse_MIDI.t;(0:1/50e3:Tsim)']);
+0226                     [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),Tsim,Minit,options);
+0227                 <span class="keyword">otherwise</span>
+0228                     [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Tsim],Minit,options);
+0229             <span class="keyword">end</span>
+0230             
+0231             <span class="comment">% save data</span>
+0232             data.results.basic.T = TT;
+0233             data.results.basic.M = MM;
+0234             
+0235             <span class="comment">% in order to transform M in the rotating frame of reference</span>
+0236             <span class="comment">% get the pulse phase theta for all simulated time steps</span>
+0237             pulseparam.fmod.t = TT;
+0238             pulseparam.Imod.t = TT;
+0239             pulseparam.t = TT;
+0240             <span class="comment">% get also the pulse amplitudes at these time steps</span>
+0241             [Bpulse,~,~,theta] = <a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>(pulseparam);
+0242             
+0243             <span class="comment">% if the simulation is longer then the pulse (additional</span>
+0244             <span class="comment">% relaxation afterwards), correct for the pulse phase for</span>
+0245             <span class="comment">% points AFTER the pulse by simply calculating the phase at</span>
+0246             <span class="comment">% the end of the pulse</span>
+0247             <span class="keyword">if</span> data.basic.Tsim&gt;data.pulse.Ttau
+0248                 <span class="comment">% correction phase</span>
+0249                 dphi = zeros(size(theta));
+0250                 <span class="comment">% pulse length</span>
+0251                 Ttau = odeparam.Ttau;
+0252                 <span class="comment">% get pulse phase at the end of the pulse</span>
+0253                 dphival = <a href="../../../blochus/functions/blochsim/getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>(Ttau,0,pulseparam,1);
+0254                 <span class="comment">% and add it to the correction phase for all time steps after</span>
+0255                 <span class="comment">% the pulse</span>
+0256                 indT = TT&gt;Ttau;
+0257                 dphi(indT) = dphival;
+0258                 <span class="comment">% set theta for all time steps after the pulse simply to</span>
+0259                 <span class="comment">% omega0*t</span>
+0260                 theta(indT) = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT(indT);
+0261                 <span class="comment">% rotate M into rotating frame of reference</span>
+0262                 Mrot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,dphi);
+0263                 <span class="comment">% get FFTof M in the laboratory frame of reference</span>
+0264                 [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
+0265                 <span class="comment">% get FFT for the pulse</span>
+0266                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT(TT&lt;=Ttau),Bpulse(TT&lt;=Ttau,1:2));
+0267                 
+0268                 <span class="comment">% update Info field</span>
+0269                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse &amp; relaxation ... finished.'</span>);
+0270                 pause(0.01);
+0271             <span class="keyword">else</span>
+0272                 <span class="comment">% rotate M into rotating frame of reference</span>
+0273                 Mrot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta);
+0274                 <span class="comment">% get FFTof M in the laboratory frame of reference</span>
+0275                 [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
+0276                 <span class="comment">% get FFT for the pulse</span>
+0277                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,Bpulse(:,1:2));
+0278                 
+0279                 <span class="comment">% update Info field</span>
+0280                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ... finished.'</span>);
+0281                 pause(0.01);
+0282             <span class="keyword">end</span>
+0283             
+0284             <span class="comment">% save data</span>
+0285             data.results.basic.Mrot = Mrot;
+0286             data.results.basic.Mspec.fx = fmx;
+0287             data.results.basic.Mspec.X = Xm;
+0288             data.results.pulse.Bspec.fx = fbx;
+0289             data.results.pulse.Bspec.X = Xb;
+0290             
+0291         <span class="keyword">case</span> <span class="string">'prepolpulse'</span>
+0292             
+0293             <span class="comment">% this is basically the combination of all of the above</span>
+0294             <span class="comment">% simulation types</span>
+0295             
+0296             <span class="comment">% these times we will later on, so init them already here</span>
+0297             <span class="comment">% total simulation time [s]</span>
+0298             Tsim = data.basic.Tsim/1e3;
+0299             <span class="comment">% switch-off ramp time [s]</span>
+0300             Tramp = data.prepol.Tramp/1e3;
+0301             <span class="comment">% wait time between switch-off ramp and pulse [s]</span>
+0302             Twait = data.pulse.Twait/1e3;
+0303             <span class="comment">% pulse length [s]</span>
+0304             Ttau = data.pulse.Ttau/1e3;
+0305             
+0306             <span class="comment">% check if the simulation time is long enough to process all</span>
+0307             <span class="comment">% different stages, if not fix it</span>
+0308             <span class="comment">% NOTE: of course the simulation time can be longer (relaxation)</span>
+0309             <span class="comment">% after the pulse</span>
+0310             <span class="keyword">if</span> Tsim-(Tramp+Twait+Ttau) &lt; 0
+0311                 Tsim = Tramp+Twait+Ttau;
+0312                 <span class="comment">% update the corresponding GUI data and field</span>
+0313                 data.basic.Tsim = Tsim*1e3; <span class="comment">% [ms]</span>
+0314                 set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0315                 <span class="comment">% no relaxation after excitation pulse</span>
+0316                 Trelax = 0;
+0317             <span class="keyword">else</span>
+0318                 <span class="comment">% relaxation after excitation pulse [s]</span>
+0319                 Trelax = Tsim-(Tramp+Twait+Ttau);
+0320             <span class="keyword">end</span>
+0321             
+0322             <span class="comment">% -------------------------------------------------------------</span>
+0323             <span class="comment">%% --- 1.) pre-polarization switch-off ------------------------</span>
+0324             <span class="comment">% -------------------------------------------------------------</span>
+0325             <span class="comment">% update Info field</span>
+0326             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of pre-polarization switch-off ...'</span>);
+0327             pause(0.01);
+0328             
+0329             <span class="comment">% initial magnetization in the direction of B0+Bp</span>
+0330             Morient = data.results.prepol.orient*data.results.prepol.Bmax + odeparam.B0*zunit;
+0331              <span class="comment">% Minit does not get normalized in this case</span>
+0332             Minit = Morient;<span class="comment">%./norm(Morient);</span>
+0333             <span class="comment">% because Minit is not normalized to 1, M0 needs to be adjusted</span>
+0334             odeparam.M0 = odeparam.B0*zunit;
+0335             <span class="comment">% update the corresponding GUI fields</span>
+0336             set(gui.edit_handles.Minitx,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(1)/norm(Minit)));
+0337             set(gui.edit_handles.Minity,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(2)/norm(Minit)));
+0338             set(gui.edit_handles.Minitz,<span class="string">'String'</span>,sprintf(<span class="string">'%4.3f'</span>,Minit(3)/norm(Minit)));
+0339 
+0340             <span class="comment">% update the simulation type</span>
+0341             odeparam.type = <span class="string">'prepol'</span>;
+0342             
+0343             <span class="comment">% orientation of the pre-polarization pulse axis</span>
+0344             odeparam.orient = data.results.prepol.orient;
+0345             
+0346             <span class="comment">% pre-polarization switch-off ramp parameter</span>
+0347             <span class="comment">% relaxation during switch-off [0/1]</span>
+0348             odeparam.RDS = data.prepol.RDS;
+0349             <span class="comment">% switch-off ramp type [string]</span>
+0350             rampparam.ramp = data.prepol.Ramp;            
+0351             <span class="comment">% amplitude of pre-polarization field</span>
+0352             rampparam.Bmax = data.results.prepol.Bmax;
+0353             <span class="comment">% switch over magnetization (for linexp case)</span>
+0354             rampparam.Bstar = data.results.prepol.Bstar;
+0355             <span class="comment">% switch-off ramp time [s]</span>
+0356             rampparam.Tramp = Tramp;
+0357             <span class="comment">% switch over ramp time [s] (for linexp case)</span>
+0358             rampparam.Tslope = data.prepol.Tslope/1e3;
+0359             
+0360             <span class="comment">% add the ramp parameter to the ode parameter struct</span>
+0361             odeparam.rampparam = rampparam;
+0362             
+0363             <span class="comment">% ODE solver call</span>
+0364             <span class="comment">% OUTPUT: time T and magnetization M</span>
+0365             [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Tramp],Minit,options);
+0366             
+0367             <span class="comment">% data of the first stage</span>
+0368             TT1 = TT;
+0369             MM1 = MM;
+0370 
+0371             <span class="comment">% normalized magnetization vector at end of switch-off ramp</span>
+0372             MMn = MM(<span class="keyword">end</span>,:)./norm(MM(<span class="keyword">end</span>,:));
+0373             <span class="comment">% &quot;adiabatic quality&quot; p of the switch-off ramp</span>
+0374             <span class="comment">% -&gt; orientation of M with respect to z_unit</span>
+0375             data.results.prepol.p = dot(MMn(<span class="keyword">end</span>,:),zunit)./norm(zunit);
+0376             
+0377             <span class="comment">% -------------------------------------------------------------</span>
+0378             <span class="comment">%% --- 2.) wait time (if any) ---------------------------------</span>
+0379             <span class="comment">% -------------------------------------------------------------</span>
+0380             <span class="keyword">if</span> Twait &gt; 0
+0381                 <span class="comment">% update Info field</span>
+0382                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of wait time ...'</span>);
+0383                 pause(0.01);
+0384                 <span class="comment">% initial magnetization is the end of the switch-off ramp</span>
+0385                 Minit2 = MM1(<span class="keyword">end</span>,:)';
+0386                 <span class="comment">% update the simulation type</span>
+0387                 odeparam.type = <span class="string">'std'</span>;
+0388                 
+0389                 <span class="comment">% ODE solver call</span>
+0390                 <span class="comment">% OUTPUT: time T and magnetization M</span>
+0391                 [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Twait],Minit2,options);
+0392                 
+0393                 <span class="comment">% rotate M into rotating frame of reference</span>
+0394                 MM2rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,<a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT);
+0395                 <span class="comment">% get the additional phase at the end of the wait time</span>
+0396                 phiWait = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT(end);
+0397                 
+0398                 <span class="comment">% because the simulation was done in &quot;local&quot; time</span>
+0399                 <span class="comment">% coordinates, shift the time vector to the end of the</span>
+0400                 <span class="comment">% switch-off ramp</span>
+0401                 TT2 = TT + Tramp;
+0402                 <span class="comment">% save data</span>
+0403                 MM2 = MM;
+0404                 <span class="comment">% initial magnetization for the pulse is the end of the</span>
+0405                 <span class="comment">% wait time period</span>
+0406                 Minit3 = MM2(<span class="keyword">end</span>,:)';
+0407             <span class="keyword">else</span>
+0408                 <span class="comment">% if wait time is 0, use dummy values</span>
+0409                 TT2 = [];
+0410                 MM2 = [];
+0411                 MM2rot = [];
+0412                 phiWait = 0;
+0413                 <span class="comment">% initial magnetization for the pulse is the end of the</span>
+0414                 <span class="comment">% switch-off ramp</span>
+0415                 Minit3 = MM1(<span class="keyword">end</span>,:)';
+0416             <span class="keyword">end</span>
+0417             
+0418             <span class="comment">% -------------------------------------------------------------</span>
+0419             <span class="comment">%% --- 3.) excitation pulse -----------------------------------</span>
+0420             <span class="comment">% -------------------------------------------------------------</span>
+0421             
+0422             <span class="comment">% update the simulation type</span>
+0423             odeparam.type = <span class="string">'pulse'</span>;
+0424 
+0425             <span class="comment">% excitation pulse parameter</span>
+0426             <span class="comment">% relaxation during pulse [0/1]</span>
+0427             odeparam.RDP = data.pulse.RDP;
+0428             <span class="comment">% pulse length [s]</span>
+0429             odeparam.Ttau = Ttau;
+0430             
+0431             <span class="comment">% pulse type [string]</span>
+0432             pulseparam.PulseType = data.pulse.Type;
+0433             <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0434             pulseparam.gamma = odeparam.gamma;
+0435             <span class="comment">% Larmor frequency [rad]</span>
+0436             pulseparam.omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0);
+0437             <span class="comment">% pulse amplitude [B0]</span>
+0438             pulseparam.Amp = odeparam.B0*data.pulse.B1Factor;
+0439             <span class="comment">% pulse frequency modulation [struct]</span>
+0440             pulseparam.fmod = data.results.pulse.fmod;
+0441             <span class="comment">% pulse current modulation [struct]</span>
+0442             pulseparam.Imod = data.results.pulse.Imod;
+0443             <span class="comment">% auxiliary pulse phase [rad]</span>
+0444             pulseparam.phi = 0;
+0445             <span class="comment">% pulse axis [string]</span>
+0446             pulseparam.PulseAxis = data.pulse.Axis;
+0447             <span class="comment">% pulse polarization [string]</span>
+0448             pulseparam.PulsePolarization = data.pulse.Polarization;
+0449             <span class="comment">% if the discrete MIDI pulses are used add the corresponding</span>
+0450             <span class="comment">% data</span>
+0451             <span class="keyword">if</span> isfield(data,<span class="string">'pulse_MIDI'</span>)
+0452                 <span class="comment">% MIDI pulse data [struct]</span>
+0453                 pulseparam.MIDI = data.pulse_MIDI;
+0454             <span class="keyword">end</span>
+0455 
+0456             <span class="comment">% add the pulse parameter to the ode parameter struct</span>
+0457             odeparam.pulseparam = pulseparam;
+0458             
+0459             <span class="comment">% update Info field</span>
+0460             set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ...'</span>);
+0461             pause(0.01);
+0462             
+0463             <span class="comment">% if there is a time span after the pulse</span>
+0464             <span class="keyword">if</span> abs(Trelax) &gt; eps
+0465                 <span class="comment">% the &quot;local&quot; simulation time is prolonged</span>
+0466                 Tsim1 = Ttau+Trelax;
+0467             <span class="keyword">else</span>
+0468                 <span class="comment">% otherwise the &quot;local&quot; simulation time is simply the pulse</span>
+0469                 <span class="comment">% length</span>
+0470                 Tsim1 = Ttau;
+0471             <span class="keyword">end</span>
+0472             
+0473             <span class="comment">% ODE solver call</span>
+0474             <span class="comment">% OUTPUT: time T and magnetization M</span>
+0475             <span class="keyword">switch</span> data.pulse.Type
+0476                 <span class="keyword">case</span> {<span class="string">'MIDI_OR'</span>,<span class="string">'MIDI_AP'</span>}
+0477                     <span class="comment">% if Tsim1 &gt; Ttau extend the discrete time steps</span>
+0478                     <span class="comment">% this is needed because for the discrete pulses</span>
+0479                     <span class="comment">% specific time steps are fed into the solver</span>
+0480                     Tsim1 = unique([data.pulse_MIDI.t;(0:1/50e3:Tsim1)']);
+0481                     [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),Tsim1,Minit3,options);
+0482                 <span class="keyword">otherwise</span>
+0483                     [TT,MM] = ode45(@(t,m) <a href="../../../blochus/functions/blochsim/fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>(t,m,odeparam),[0 Tsim1],Minit3,options);
+0484             <span class="keyword">end</span>
+0485             
+0486             <span class="comment">% in order to transform M in the rotating frame of reference</span>
+0487             <span class="comment">% get the pulse phase theta for all simulated time steps</span>
+0488             pulseparam.fmod.t = TT;
+0489             pulseparam.Imod.t = TT;
+0490             pulseparam.t = TT;
+0491             <span class="comment">% get also the pulse amplitudes at these time steps</span>
+0492             [Bpulse,~,~,theta] = <a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>(pulseparam);
+0493             
+0494             <span class="comment">% if the simulation is longer then the pulse (additional</span>
+0495             <span class="comment">% relaxation afterwards), correct for the pulse phase for</span>
+0496             <span class="comment">% points AFTER the pulse by simply calculating the phase at</span>
+0497             <span class="comment">% the end of the pulse</span>
+0498             <span class="keyword">if</span> abs(Trelax) &gt; eps<span class="comment">%max(Tsim1)&gt;Ttau</span>
+0499                 <span class="comment">% correction phase</span>
+0500                 dphi = zeros(size(theta));
+0501                 <span class="comment">% get pulse phase at the end of the pulse</span>
+0502                 dphival = <a href="../../../blochus/functions/blochsim/getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>(Ttau,0,pulseparam,1);
+0503                 <span class="comment">% and add it to the correction phase for all time steps after</span>
+0504                 <span class="comment">% the pulse</span>
+0505                 indT = TT&gt;Ttau;
+0506                 dphi(indT) = dphival;
+0507                 <span class="comment">% set theta for all time steps after the pulse simply to</span>
+0508                 <span class="comment">% omega0*t</span>
+0509                 theta(indT) = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT(indT);
+0510                 <span class="comment">% rotate M into rotating frame of reference</span>
+0511                 <span class="comment">% and account for the phase from the wait time before the</span>
+0512                 <span class="comment">% pulse</span>
+0513                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,dphi+phiWait);
+0514                 <span class="comment">% get FFT pulse B-field</span>
+0515                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT(TT&lt;=Ttau),Bpulse(TT&lt;=Ttau,1:2));
+0516                 
+0517                 <span class="comment">% update Info field</span>
+0518                 set(gui.text_handles.Status,<span class="string">'String'</span>,[<span class="string">'Calculation of excitation pulse'</span>,<span class="keyword">...</span>
+0519                     <span class="string">' &amp; relaxation ... finished.'</span>]);
+0520                 pause(0.01);
+0521             <span class="keyword">else</span>
+0522                 <span class="comment">% rotate M into rotating frame of reference</span>
+0523                 <span class="comment">% and account for the phase from the wait time before the</span>
+0524                 <span class="comment">% pulse</span>
+0525                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,phiWait);
+0526                 <span class="comment">% get FFT pulse B-field</span>
+0527                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,Bpulse(:,1:2));
+0528                 
+0529                 <span class="comment">% update Info field</span>
+0530                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ... finished.'</span>);
+0531                 pause(0.01);
+0532             <span class="keyword">end</span>
+0533             
+0534             <span class="comment">% -------------------------------------------------------------</span>
+0535             <span class="comment">%% --- 4.) final data merging ---------------------------------</span>
+0536             <span class="comment">% -------------------------------------------------------------</span>
+0537             <span class="comment">% because the simulation was done in &quot;local&quot; time</span>
+0538             <span class="comment">% coordinates, shift the time vector to the end of the</span>
+0539             <span class="comment">% wait time after the switch-off</span>
+0540             TT3 = TT + Tramp + Twait;
+0541             <span class="comment">% save data</span>
+0542             MM3 = MM;
+0543             
+0544             <span class="comment">% combine data from all stages</span>
+0545             TT = [TT1;TT2;TT3];
+0546             MM = [MM1;MM2;MM3];
+0547             <span class="comment">% because there is no M in the rotating frame of reference</span>
+0548             <span class="comment">% during the switch-off ramp, use the lab-frame data instead</span>
+0549             MMrot = [MM1;MM2rot;MM3rot];
+0550             
+0551             <span class="comment">% remove possible duplicate points</span>
+0552             [TT,ix] = unique(TT);
+0553             MM = MM(ix,:);
+0554             MMrot = MMrot(ix,:);
+0555             
+0556             <span class="comment">% save combined data</span>
+0557             data.results.basic.T = TT;
+0558             data.results.basic.M = MM;
+0559             data.results.basic.Mrot = MMrot;
+0560             
+0561             <span class="comment">% get FFT for the combined M</span>
+0562             [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
+0563             data.results.basic.Mspec.fx = fmx;
+0564             data.results.basic.Mspec.X = Xm;
+0565             <span class="comment">% save pulse FFT</span>
+0566             data.results.pulse.Bspec.fx = fbx;
+0567             data.results.pulse.Bspec.X = Xb;
+0568 
+0569     <span class="keyword">end</span>
+0570     <span class="comment">% time the calculation</span>
+0571     data.info.Timer = toc(t0);
+0572     
+0573     <span class="comment">% update GUI data</span>
+0574     setappdata(fig,<span class="string">'data'</span>,data);
+0575     <span class="comment">% plot results</span>
+0576     <a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>(fig);
+0577     <span class="comment">% update status bar</span>
+0578     <a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>(fig);
+0579     <span class="comment">% activate animation button</span>
+0580     set(gui.push_handles.Animate,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0581     
+0582     <span class="comment">% change the pushbutton color back to green</span>
+0583     set(src,<span class="string">'BackGroundColor'</span>,<span class="string">'g'</span>);
+0584     
+0585 <span class="keyword">else</span>
+0586     warndlg({<span class="string">'onPushRun:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0587         <span class="string">'BLOCHUS error'</span>);
+0588 <span class="keyword">end</span>
+0589 
+0590 <span class="keyword">end</span>
+0591 
+0592 <span class="comment">%------------- END OF CODE --------------</span>
+0593 
+0594 <span class="comment">%% License:</span>
+0595 <span class="comment">% GNU GPLv3</span>
+0596 <span class="comment">%</span>
+0597 <span class="comment">% BLOCHUS</span>
+0598 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0599 <span class="comment">%</span>
+0600 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0601 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0602 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0603 <span class="comment">% (at your option) any later version.</span>
+0604 <span class="comment">%</span>
+0605 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0606 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0607 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0608 <span class="comment">% GNU General Public License for more details.</span>
+0609 <span class="comment">%</span>
+0610 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0611 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

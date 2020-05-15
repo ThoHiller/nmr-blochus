@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onPopupPrePolRamp</title>
+  <meta name="keywords" content="onPopupPrePolRamp">
+  <meta name="description" content=" selects the pre-polarization switch-off ramp">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html popup -->
+<h1>onPopupPrePolRamp
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> selects the pre-polarization switch-off ramp</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onPopupPrePolRamp(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onPopupPrePolRamp selects the pre-polarization switch-off ramp
+
+ Syntax:
+       onPopupPrePolRamp(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onPopupPrePolRamp(src)
+
+ Other m-files required:
+       getRampParameters;
+       plotRamp;
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>	 updates all relevant switch-off ramp settings</li><li><a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>	 plots different pre-polarization switch-off ramp parameter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPrePol.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPrePol(data,gui,myui)">BLOCHUS_createPanelPrePol</a>	 creates "Pre-polarization" settings panel</li><li><a href="../../../blochus/callbacks/checkbox/onCheckPrePolPulse.html" class="code" title="function onCheckPrePolPulse(src,~)">onCheckPrePolPulse</a>	 activates / deactivates all control elements needed for</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onPopupPrePolRamp(src,~)</a>
+0002 <span class="comment">%onPopupPrePolRamp selects the pre-polarization switch-off ramp</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       onPopupPrePolRamp(src)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       src - handle of the calling object</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       onPopupPrePolRamp(src)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       getRampParameters;</span>
+0018 <span class="comment">%       plotRamp;</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% Subfunctions:</span>
+0021 <span class="comment">%       none</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% MAT-files required:</span>
+0024 <span class="comment">%       none</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% See also BLOCHUS</span>
+0027 <span class="comment">% Author: Thomas Hiller</span>
+0028 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0029 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0030 
+0031 <span class="comment">%------------- BEGIN CODE --------------</span>
+0032 
+0033 <span class="comment">% get GUI handle</span>
+0034 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0035 
+0036 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0037     <span class="comment">% get GUI data</span>
+0038     gui  = getappdata(fig,<span class="string">'gui'</span>);
+0039     data = getappdata(fig,<span class="string">'data'</span>);
+0040     
+0041     <span class="comment">% get the popup menu entry</span>
+0042     val = get(src,<span class="string">'Value'</span>);
+0043     
+0044     <span class="comment">% set the corresponding switch-off ramp</span>
+0045     <span class="keyword">switch</span> val
+0046         <span class="keyword">case</span> 1 <span class="comment">% exponential</span>
+0047             data.prepol.Ramp = <span class="string">'exp'</span>;
+0048             data.prepol.Tslope = data.prepol.Tramp/10;
+0049             data.prepol.Factor = 100;
+0050             data.prepol.SwitchFactor = 1;
+0051             
+0052             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0053             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0054             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0055             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0056             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0057             
+0058             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0059             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0060             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0061             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0062             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0063             
+0064             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'Switch factor [B0]'</span>);
+0065             
+0066         <span class="keyword">case</span> 2 <span class="comment">% linear &amp; exponential (generic)</span>
+0067             data.prepol.Ramp = <span class="string">'linexp'</span>;
+0068             data.prepol.Tslope = data.prepol.Tramp/2;
+0069             data.prepol.Factor = 100;
+0070             data.prepol.SwitchFactor = 10;
+0071             
+0072             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0073             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0074             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0075             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0076             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0077             
+0078             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0079             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0080             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0081             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0082             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0083             
+0084             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'Switch factor [B0]'</span>);
+0085             
+0086         <span class="keyword">case</span> 3 <span class="comment">% half cosine (generic)</span>
+0087             data.prepol.Ramp = <span class="string">'halfcos'</span>;
+0088             data.prepol.Tslope = data.prepol.Tramp;
+0089             data.prepol.Factor = 100;
+0090             data.prepol.SwitchFactor = 1;
+0091             
+0092             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0093             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0094             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0095             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0096             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0097             
+0098             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0099             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0100             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0101             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0102             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0103             
+0104             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'Switch factor [B0]'</span>);    
+0105             
+0106         <span class="keyword">case</span> 4 <span class="comment">% linear (generic)</span>
+0107             data.prepol.Ramp = <span class="string">'lin'</span>;
+0108             data.prepol.Tslope = data.prepol.Tramp;
+0109             data.prepol.Factor = 100;
+0110             data.prepol.SwitchFactor = 1;
+0111             
+0112             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0113             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0114             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0115             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0116             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0117             
+0118             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0119             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0120             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0121             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0122             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0123             
+0124             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'Switch factor [B0]'</span>);
+0125             
+0126         <span class="keyword">case</span> 5 <span class="comment">% linear (Melton 1995)</span>
+0127             data.prepol.Ramp = <span class="string">'lin'</span>;
+0128             
+0129             <span class="comment">% k / rate</span>
+0130             GAMMA = data.prepol.Factor/data.prepol.SwitchFactor;
+0131             <span class="comment">% corresponding ramp time</span>
+0132             Tramp = GAMMA/(data.basic.B0*data.basic.gamma)*1e3; <span class="comment">% [ms]</span>
+0133             data.prepol.Tramp = Tramp;
+0134             data.prepol.Tslope = Tramp;
+0135 
+0136             <span class="keyword">switch</span> data.basic.type
+0137                 <span class="keyword">case</span> <span class="string">'prepol'</span>
+0138                     data.basic.Tsim = Tramp;
+0139                     set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0140                 <span class="keyword">otherwise</span>
+0141                     <span class="comment">% nothing to do</span>
+0142             <span class="keyword">end</span>
+0143             
+0144             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0145             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0146             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0147             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0148             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0149             
+0150             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0151             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0152             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0153             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0154             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0155             
+0156             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'cutoff rate'</span>);
+0157             
+0158         <span class="keyword">case</span> 6 <span class="comment">% half cosine (MIDI)</span>
+0159             data.prepol.Ramp = <span class="string">'halfcos'</span>;
+0160             
+0161             Tramp = 1; <span class="comment">% [ms]</span>
+0162             data.prepol.Tramp = Tramp;
+0163             data.prepol.Tslope = Tramp;            
+0164             data.prepol.Factor = 100;
+0165             data.prepol.SwitchFactor = 1;
+0166             
+0167             <span class="keyword">switch</span> data.basic.type
+0168                 <span class="keyword">case</span> <span class="string">'prepol'</span>
+0169                     data.basic.Tsim = Tramp;
+0170                     set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0171                 <span class="keyword">otherwise</span>
+0172                     <span class="comment">% nothing to do</span>
+0173             <span class="keyword">end</span>
+0174             
+0175             set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0176             set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0177             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0178             set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0179             set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0180             
+0181             set(gui.edit_handles.PrePolFactor,<span class="string">'String'</span>,num2str(data.prepol.Factor));
+0182             set(gui.edit_handles.PrePolTheta,<span class="string">'String'</span>,num2str(data.prepol.Theta));
+0183             set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'String'</span>,num2str(data.prepol.SwitchFactor));
+0184             set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0185             set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0186             
+0187             set(gui.text_handles.PrePolSwitchFactor,<span class="string">'String'</span>,<span class="string">'Switch factor [B0]'</span>);
+0188     <span class="keyword">end</span>
+0189     
+0190     <span class="comment">% update GUI data</span>
+0191     setappdata(fig,<span class="string">'data'</span>,data);    
+0192     <span class="comment">% get ramp parameters</span>
+0193     <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0194     <span class="comment">% update ramp plot</span>
+0195     <a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>(fig);
+0196     
+0197 <span class="keyword">else</span>
+0198     warndlg({<span class="string">'onPopupPrePolRamp:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0199         <span class="string">'BLOCHUS error'</span>);
+0200 <span class="keyword">end</span>
+0201 
+0202 <span class="keyword">end</span>
+0203 
+0204 <span class="comment">%------------- END OF CODE --------------</span>
+0205 
+0206 <span class="comment">%% License:</span>
+0207 <span class="comment">% GNU GPLv3</span>
+0208 <span class="comment">%</span>
+0209 <span class="comment">% BLOCHUS</span>
+0210 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0211 <span class="comment">%</span>
+0212 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0213 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0214 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0215 <span class="comment">% (at your option) any later version.</span>
+0216 <span class="comment">%</span>
+0217 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0218 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0219 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0220 <span class="comment">% GNU General Public License for more details.</span>
+0221 <span class="comment">%</span>
+0222 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0223 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

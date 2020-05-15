@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getPulseTimeSeries</title>
+  <meta name="keywords" content="getPulseTimeSeries">
+  <meta name="description" content=" returns the B-field amplitudes of the pulse either for a">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>getPulseTimeSeries
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> returns the B-field amplitudes of the pulse either for a</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [Bout,df,I,theta] = getPulseTimeSeries(param) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getPulseTimeSeries returns the B-field amplitudes of the pulse either for a
+single point or a complete time series
+
+ Syntax:
+       getPulseTimeSeries(param)
+
+ Inputs:
+       param - struct containing the pulse settings
+               PulseType         : pulse type [string]
+               gamma             : gyromagnetic ratio [rad/s/T]
+               omega0            : angular frequency [rad/s]
+               t                 : time [s]
+               Amp               : pulse amplitude
+               phi               : optional phase [rad]
+               PulseAxis         : pulse axis direction [string]
+               PulsePolarization : pulse polarization [string]
+               fmod              : struct containing the frequency modulation
+                                   settings
+               Imod              : struct containing the current modulation
+                                   settings
+               MIDI              : [optional] struct containing the predetermined
+                                   discrete MIDI pulse
+
+ Outputs:
+       Bout - B-field amplitudes
+       df - frequency modulation [Hz]
+       I - current modulation [A]
+       theta - instantaneous phase [rad]
+
+ Example:
+       getPulseTimeSeries(param)
+
+ Other m-files required:
+       modulatePulse
+       getPulseAxisPhase
+       getReferencePhase
+       getPulsePhase
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="getPulseAxisPhase.html" class="code" title="function ax_phi = getPulseAxisPhase(ax_dir)">getPulseAxisPhase</a>	 provides the phase angle of the given pulse axis</li><li><a href="getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>	 provides the instantaneous phase of a pulse; this is</li><li><a href="getReferencePhase.html" class="code" title="function phi_ref = getReferencePhase(gamma)">getReferencePhase</a>	 provides the reference phase after Levitt depending on</li><li><a href="modulatePulse.html" class="code" title="function out = modulatePulse(mod,type)">modulatePulse</a>	 generates the frequency and current modulation functions</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li><li><a href="fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>	 is the objective function for the ode-solver which solves</li><li><a href="getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>	 creates discrete on-resonant or adiabatic pulses</li><li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Bout,df,I,theta] = getPulseTimeSeries(param)</a>
+0002 <span class="comment">%getPulseTimeSeries returns the B-field amplitudes of the pulse either for a</span>
+0003 <span class="comment">%single point or a complete time series</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Syntax:</span>
+0006 <span class="comment">%       getPulseTimeSeries(param)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Inputs:</span>
+0009 <span class="comment">%       param - struct containing the pulse settings</span>
+0010 <span class="comment">%               PulseType         : pulse type [string]</span>
+0011 <span class="comment">%               gamma             : gyromagnetic ratio [rad/s/T]</span>
+0012 <span class="comment">%               omega0            : angular frequency [rad/s]</span>
+0013 <span class="comment">%               t                 : time [s]</span>
+0014 <span class="comment">%               Amp               : pulse amplitude</span>
+0015 <span class="comment">%               phi               : optional phase [rad]</span>
+0016 <span class="comment">%               PulseAxis         : pulse axis direction [string]</span>
+0017 <span class="comment">%               PulsePolarization : pulse polarization [string]</span>
+0018 <span class="comment">%               fmod              : struct containing the frequency modulation</span>
+0019 <span class="comment">%                                   settings</span>
+0020 <span class="comment">%               Imod              : struct containing the current modulation</span>
+0021 <span class="comment">%                                   settings</span>
+0022 <span class="comment">%               MIDI              : [optional] struct containing the predetermined</span>
+0023 <span class="comment">%                                   discrete MIDI pulse</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% Outputs:</span>
+0026 <span class="comment">%       Bout - B-field amplitudes</span>
+0027 <span class="comment">%       df - frequency modulation [Hz]</span>
+0028 <span class="comment">%       I - current modulation [A]</span>
+0029 <span class="comment">%       theta - instantaneous phase [rad]</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% Example:</span>
+0032 <span class="comment">%       getPulseTimeSeries(param)</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">% Other m-files required:</span>
+0035 <span class="comment">%       modulatePulse</span>
+0036 <span class="comment">%       getPulseAxisPhase</span>
+0037 <span class="comment">%       getReferencePhase</span>
+0038 <span class="comment">%       getPulsePhase</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">% Subfunctions:</span>
+0041 <span class="comment">%       none</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">% MAT-files required:</span>
+0044 <span class="comment">%       none</span>
+0045 <span class="comment">%</span>
+0046 <span class="comment">% See also: BLOCHUS</span>
+0047 <span class="comment">% Author: Thomas Hiller</span>
+0048 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0049 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0050 
+0051 <span class="comment">%------------- BEGIN CODE --------------</span>
+0052 
+0053 PulseType = param.PulseType;
+0054 gamma = param.gamma;
+0055 t = param.t;
+0056 Amp = param.Amp;
+0057 phi = param.phi;
+0058 fmod = param.fmod;
+0059 Imod = param.Imod;
+0060 
+0061 <span class="comment">% if the pulse axis is not given, it is set to '+x'</span>
+0062 <span class="keyword">if</span> isfield(param,<span class="string">'PulseAxis'</span>)
+0063     PulseAxis = param.PulseAxis;
+0064 <span class="keyword">else</span>
+0065     PulseAxis = <span class="string">'+x'</span>;
+0066 <span class="keyword">end</span>
+0067 <span class="comment">% if the pulse polarization is not given, it is set to 'circular'</span>
+0068 <span class="keyword">if</span> isfield(param,<span class="string">'PulsePolarization'</span>)
+0069     PulsePolarization = param.PulsePolarization;
+0070 <span class="keyword">else</span>
+0071     PulsePolarization = <span class="string">'circular'</span>;
+0072 <span class="keyword">end</span>
+0073 
+0074 <span class="keyword">switch</span> PulseType
+0075     <span class="comment">% handle the 'discrete' MIDI pulses</span>
+0076     <span class="keyword">case</span> {<span class="string">'MIDI_OR'</span>,<span class="string">'MIDI_AP'</span>}
+0077         t = t(:);
+0078         fmod.t = t;
+0079         Imod.t = t;
+0080         df = <a href="modulatePulse.html" class="code" title="function out = modulatePulse(mod,type)">modulatePulse</a>(fmod,<span class="string">'df'</span>);
+0081         I = <a href="modulatePulse.html" class="code" title="function out = modulatePulse(mod,type)">modulatePulse</a>(Imod,<span class="string">'I'</span>);        
+0082         
+0083         <span class="comment">% interpolate amplitudes at current time t from the pulse stored in</span>
+0084         <span class="comment">% param.MIDI</span>
+0085         xMIDI = interp1(param.MIDI.t,param.MIDI.y(:,1),t,<span class="string">'linear'</span>);
+0086         yMIDI = interp1(param.MIDI.t,param.MIDI.y(:,2),t,<span class="string">'linear'</span>);
+0087         
+0088         <span class="comment">% get instantaneous phase due to frequency modulation</span>
+0089         <span class="comment">% here the phase angle theta is simply the integral of the frequency</span>
+0090         <span class="comment">% modulation; this obviously only works for a vector (so this is</span>
+0091         <span class="comment">% not done during the ode calculation)</span>
+0092         <span class="keyword">if</span> numel(t)&gt;1
+0093             ft = -param.MIDI.mparam.fL-df;
+0094             theta = cumtrapz(t,ft.*2*pi);
+0095         <span class="keyword">end</span>        
+0096         
+0097         <span class="comment">% I is already incorporated in the MIDI fit</span>
+0098         <span class="keyword">switch</span> PulsePolarization
+0099             <span class="keyword">case</span> <span class="string">'circular'</span>
+0100                 Bout = Amp.*[xMIDI yMIDI];
+0101             <span class="keyword">case</span> <span class="string">'linear'</span>
+0102                 Bout = 2.*Amp.*[xMIDI 0.*t];
+0103         <span class="keyword">end</span>
+0104         
+0105     <span class="keyword">otherwise</span> <span class="comment">% all other (continuous) pulse types</span>
+0106         
+0107         <span class="comment">% direction of pulse axis</span>
+0108         phi_ax = <a href="getPulseAxisPhase.html" class="code" title="function ax_phi = getPulseAxisPhase(ax_dir)">getPulseAxisPhase</a>(PulseAxis);
+0109         <span class="comment">% reference phase due to gyromagnetic ratio</span>
+0110         <span class="comment">% NOTE: due to the reference phase, M flips according to the</span>
+0111         <span class="comment">% right-hand-rule in the rotating frame of reference</span>
+0112         <span class="comment">% -&gt; also protons with negative gyromagnetic ratio!</span>
+0113         <span class="comment">% refer to Levitt, 2002</span>
+0114         phi_ref = <a href="getReferencePhase.html" class="code" title="function phi_ref = getReferencePhase(gamma)">getReferencePhase</a>(gamma);
+0115 
+0116         <span class="comment">% pulse modulation</span>
+0117         t = t(:);
+0118         fmod.t = t;
+0119         Imod.t = t;
+0120         df = <a href="modulatePulse.html" class="code" title="function out = modulatePulse(mod,type)">modulatePulse</a>(fmod,<span class="string">'df'</span>);
+0121         I = <a href="modulatePulse.html" class="code" title="function out = modulatePulse(mod,type)">modulatePulse</a>(Imod,<span class="string">'I'</span>);
+0122         
+0123         <span class="comment">% check for quality factor tuning</span>
+0124         <span class="keyword">if</span> Imod.useQ &amp;&amp; Imod.Q &gt; 0
+0125             <span class="comment">% get line (band) width -&gt; f_L/Q (simple bandwidth for bandpass)</span>
+0126             Lwidth = abs(param.omega0/2/pi) / Imod.Q;
+0127             <span class="comment">% apply &quot;Breit-Wigner&quot; formula (here already normalized to 1 by</span>
+0128             <span class="comment">% multiplying with pi*Lwidth)</span>
+0129             L = 1 ./ ( ((df+Imod.Qdf).^2 ./ Lwidth.^2) + 1 );
+0130             I = I.*L;
+0131         <span class="keyword">end</span>
+0132            
+0133         <span class="comment">% get instantaneous phase due to frequency modulation</span>
+0134         theta = <a href="getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>(t,df,param,0);
+0135         
+0136         <span class="keyword">switch</span> PulsePolarization
+0137             <span class="keyword">case</span> <span class="string">'circular'</span>
+0138                 Bout = I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
+0139                     sin(theta + phi + phi_ax + phi_ref)];
+0140             <span class="keyword">case</span> <span class="string">'linear'</span>
+0141                 Bout = 2.*I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
+0142                     0.*t];
+0143         <span class="keyword">end</span>
+0144         <span class="comment">% test:</span>
+0145         <span class="keyword">if</span> phi ~= 0
+0146             disp(num2str(phi));
+0147         <span class="keyword">end</span>
+0148         <span class="comment">% end test</span>
+0149 <span class="keyword">end</span>
+0150 <span class="comment">% if B-field values are NaN, set them to zero</span>
+0151 <span class="comment">% this can happen due to the interpolation at the end of the MIDI-pulses</span>
+0152 Bout(isnan(Bout)) = 0;
+0153 
+0154 <span class="keyword">end</span>
+0155 
+0156 <span class="comment">%------------- END OF CODE --------------</span>
+0157 
+0158 <span class="comment">%% License:</span>
+0159 <span class="comment">% GNU GPLv3</span>
+0160 <span class="comment">%</span>
+0161 <span class="comment">% BLOCHUS</span>
+0162 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0163 <span class="comment">%</span>
+0164 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0165 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0166 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0167 <span class="comment">% (at your option) any later version.</span>
+0168 <span class="comment">%</span>
+0169 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0170 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0171 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0172 <span class="comment">% GNU General Public License for more details.</span>
+0173 <span class="comment">%</span>
+0174 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0175 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

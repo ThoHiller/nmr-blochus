@@ -1,0 +1,164 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createPanelControl</title>
+  <meta name="keywords" content="BLOCHUS_createPanelControl">
+  <meta name="description" content=" creates &quot;Control&quot; panel">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createPanelControl
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> creates &quot;Control&quot; panel</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [gui,myui] = BLOCHUS_createPanelControl(gui,myui) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createPanelControl creates &quot;Control&quot; panel
+
+ Syntax:
+       [gui,myui] = BLOCHUS_createPanelControl(gui,myui)
+
+ Inputs:
+       gui - figure gui elements structure
+       myui - individual GUI settings structure
+
+ Outputs:
+       gui
+       myui
+
+ Example:
+       [gui,myui] = BLOCHUS_createPanelControl(gui,myui)
+
+ Other m-files required:
+       findjobj.m
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>	</li><li><a href="../../blochus/callbacks/push/onPushGrid.html" class="code" title="function onPushGrid(src,~)">onPushGrid</a>	 resets the axes grid to equal size</li><li><a href="../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGUI.html" class="code" title="function BLOCHUS_createGUI(h,wbon)">BLOCHUS_createGUI</a>	 controls the creation of all GUI elements</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [gui,myui] = BLOCHUS_createPanelControl(gui,myui)</a>
+0002 <span class="comment">%BLOCHUS_createPanelControl creates &quot;Control&quot; panel</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelControl(gui,myui)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       gui - figure gui elements structure</span>
+0009 <span class="comment">%       myui - individual GUI settings structure</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       gui</span>
+0013 <span class="comment">%       myui</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelControl(gui,myui)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       findjobj.m</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 gui.panels.Control.HBox = uix.HBox(<span class="string">'Parent'</span>, gui.panels.Control.main,<span class="keyword">...</span>
+0035     <span class="string">'Spacing'</span>,3,<span class="string">'Padding'</span>,3);
+0036 
+0037 tstr = <span class="string">'Start calculation.'</span>;
+0038 gui.push_handles.Run = uicontrol(<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0039     <span class="string">'Parent'</span>,gui.panels.Control.HBox,<span class="keyword">...</span>
+0040     <span class="string">'String'</span>,<span class="string">'RUN'</span>,<span class="keyword">...</span>
+0041     <span class="string">'Tag'</span>,<span class="string">'RUN'</span>,<span class="keyword">...</span>
+0042     <span class="string">'ToolTipString'</span>,tstr,<span class="keyword">...</span>
+0043     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0044     <span class="string">'BackGroundColor'</span>,<span class="string">'g'</span>,<span class="keyword">...</span>
+0045     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0046     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>);
+0047 
+0048 tstr = <span class="string">'Show animation of the last result.'</span>;
+0049 gui.push_handles.Animate = uicontrol(<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0050     <span class="string">'Parent'</span>,gui.panels.Control.HBox,<span class="keyword">...</span>
+0051     <span class="string">'String'</span>,<span class="string">'ANIMATE'</span>,<span class="keyword">...</span>
+0052     <span class="string">'Tag'</span>,<span class="string">'ANIMATE'</span>,<span class="keyword">...</span>
+0053     <span class="string">'ToolTipString'</span>,tstr,<span class="keyword">...</span>
+0054     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0055     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0056     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0057     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>);
+0058 
+0059 tstr = <span class="string">'Reset axes grid to equally spaced 2x2.'</span>;
+0060 gui.push_handles.Grid = uicontrol(<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="keyword">...</span>
+0061     <span class="string">'Parent'</span>,gui.panels.Control.HBox,<span class="keyword">...</span>
+0062     <span class="string">'String'</span>,<span class="string">'RESET GRID'</span>,<span class="keyword">...</span>
+0063     <span class="string">'Tag'</span>,<span class="string">'GRID'</span>,<span class="keyword">...</span>
+0064     <span class="string">'ToolTipString'</span>,tstr,<span class="keyword">...</span>
+0065     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0066     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0067     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushGrid.html" class="code" title="function onPushGrid(src,~)">onPushGrid</a>);
+0068 
+0069 <span class="keyword">return</span>
+0070 
+0071 <span class="comment">%------------- END OF CODE --------------</span>
+0072 
+0073 <span class="comment">%% License:</span>
+0074 <span class="comment">% GNU GPLv3</span>
+0075 <span class="comment">%</span>
+0076 <span class="comment">% BLOCHUS</span>
+0077 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0080 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0081 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0082 <span class="comment">% (at your option) any later version.</span>
+0083 <span class="comment">%</span>
+0084 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0085 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0086 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0087 <span class="comment">% GNU General Public License for more details.</span>
+0088 <span class="comment">%</span>
+0089 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0090 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

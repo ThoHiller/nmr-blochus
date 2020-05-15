@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotRamp</title>
+  <meta name="keywords" content="plotRamp">
+  <meta name="description" content=" plots different pre-polarization switch-off ramp parameter">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>plotRamp
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> plots different pre-polarization switch-off ramp parameter</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function plotRamp(fig) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">plotRamp plots different pre-polarization switch-off ramp parameter
+
+ Syntax:
+       plotRamp(fig)
+
+ Inputs:
+       fig - figure handle
+
+ Outputs:
+       none
+
+ Example:
+       plotRamp(fig)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>	 selects the pre-polarization switch-off ramp</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function plotRamp(fig)</a>
+0002 <span class="comment">%plotRamp plots different pre-polarization switch-off ramp parameter</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       plotRamp(fig)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       fig - figure handle</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       plotRamp(fig)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       none</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       none</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% See also: BLOCHUS</span>
+0026 <span class="comment">% Author: Thomas Hiller</span>
+0027 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0028 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0029 
+0030 <span class="comment">%------------- BEGIN CODE --------------</span>
+0031 
+0032 <span class="comment">% get GUI data</span>
+0033 data = getappdata(fig,<span class="string">'data'</span>);
+0034 gui = getappdata(fig,<span class="string">'gui'</span>);
+0035 myui = gui.myui;
+0036 
+0037 <span class="comment">% time vector in [ms]</span>
+0038 t = data.results.prepol.t.*1e3;
+0039 
+0040 <span class="comment">%% pre-polarization switch-off ramp amplitude</span>
+0041 <span class="comment">% Bp amplitude in units of the Earth's magnetic field B0</span>
+0042 value = data.results.prepol.Bp./data.basic.B0;
+0043 <span class="comment">% min-max-spread</span>
+0044 d = max(value)-min(value);
+0045 ax = gui.axes_handles.Bpre;
+0046 cla(ax);
+0047 hold(ax,<span class="string">'on'</span>);
+0048 plot(t,value,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,myui.color.prepolB,<span class="keyword">...</span>
+0049     <span class="string">'Parent'</span>,ax);
+0050 line([min(t) max(t)],[1 1],<span class="string">'Linestyle'</span>,<span class="string">'--'</span>,<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,1,<span class="keyword">...</span>
+0051     <span class="string">'Parent'</span>,ax);
+0052 hold(ax,<span class="string">'off'</span>);
+0053 set(ax,<span class="string">'XLim'</span>,[min(t) max(t)],<span class="string">'YLim'</span>,[min(value)-d/20 max(value)+d/20]);
+0054 grid(ax,<span class="string">'on'</span>);
+0055 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0056 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'Bp [B0]'</span>);
+0057 legend(ax,<span class="string">'Bp'</span>,<span class="string">'Bp=B0'</span>,<span class="string">'Location'</span>,<span class="string">'NorthEast'</span>);
+0058 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0059 
+0060 <span class="comment">%% angle alpha between B and B0</span>
+0061 value = rad2deg(data.results.prepol.alpha);
+0062 <span class="comment">% min-max-spread</span>
+0063 d = max(value)-min(value);
+0064 ax = gui.axes_handles.alpha;
+0065 cla(ax);
+0066 plot(t,value,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,myui.color.prepolB,<span class="keyword">...</span>
+0067     <span class="string">'Parent'</span>,ax);
+0068 set(ax,<span class="string">'XLim'</span>,[min(t) max(t)],<span class="string">'YLim'</span>,[min(value)-d/20 max(value)+d/20]);
+0069 grid(ax,<span class="string">'on'</span>);
+0070 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0071 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'\alpha [deg]'</span>);
+0072 legend(ax,<span class="string">'\alpha=\angle B0 B'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
+0073 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0074 
+0075 <span class="comment">%% time derivative of alpha</span>
+0076 value = data.results.prepol.dadt;
+0077 <span class="comment">% min-max-spread</span>
+0078 d = max(value)-min(value);
+0079 ax = gui.axes_handles.dadt;
+0080 cla(ax);
+0081 semilogy(t(1:length(data.results.prepol.dadt)),value,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
+0082     <span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'Parent'</span>,ax);
+0083 set(ax,<span class="string">'XLim'</span>,[min(t) max(t)],<span class="string">'YLim'</span>,[min(value)-d/20 max(value)+d/20]);
+0084 grid(ax,<span class="string">'on'</span>);
+0085 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0086 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'d\alpha / dt'</span>);
+0087 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0088 
+0089 <span class="comment">%% ratio of da/dt and omega=gamma*B</span>
+0090 <span class="comment">% ratio = dadt./omega</span>
+0091 <span class="comment">% ratio &lt;&lt; 1 -&gt; adiabatic condition (see Melton 1995, eq. 1)</span>
+0092 value = data.results.prepol.dadt./data.results.prepol.omega(1:numel(data.results.prepol.dadt));
+0093 <span class="comment">% min-max-spread</span>
+0094 d = max(value)-min(value);
+0095 ax = gui.axes_handles.wda;
+0096 cla(ax);
+0097 hold(ax,<span class="string">'on'</span>);
+0098 plot(t(1:numel(data.results.prepol.dadt)),value,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
+0099     <span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'Parent'</span>,ax);
+0100 line([min(t) max(t)],[1 1],<span class="string">'Linestyle'</span>,<span class="string">'--'</span>,<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,1,<span class="keyword">...</span>
+0101     <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="string">'Parent'</span>,ax);
+0102 hold(ax,<span class="string">'off'</span>);
+0103 set(ax,<span class="string">'XLim'</span>,[min(t) max(t)],<span class="string">'YLim'</span>,[min(value)-d/20 max(value)+d/20]);
+0104 grid(ax,<span class="string">'on'</span>);
+0105 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0106 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'(d\alpha/dt) / \gammaB'</span>);
+0107 lh = legend(ax,<span class="string">'$$\ll$$ 1 $$\rightarrow$$ adiabatic cond.'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
+0108 set(lh,<span class="string">'Interpreter'</span>,<span class="string">'Latex'</span>);
+0109 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0110 
+0111 <span class="keyword">end</span>
+0112 
+0113 <span class="comment">%------------- END OF CODE --------------</span>
+0114 
+0115 <span class="comment">%% License:</span>
+0116 <span class="comment">% GNU GPLv3</span>
+0117 <span class="comment">%</span>
+0118 <span class="comment">% BLOCHUS</span>
+0119 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0120 <span class="comment">%</span>
+0121 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0122 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0123 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0124 <span class="comment">% (at your option) any later version.</span>
+0125 <span class="comment">%</span>
+0126 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0127 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0128 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0129 <span class="comment">% GNU General Public License for more details.</span>
+0130 <span class="comment">%</span>
+0131 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0132 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

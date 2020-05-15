@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of fcn_BLOCHUS_ode</title>
+  <meta name="keywords" content="fcn_BLOCHUS_ode">
+  <meta name="description" content=" is the objective function for the ode-solver which solves">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>fcn_BLOCHUS_ode
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> is the objective function for the ode-solver which solves</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function dM = fcn_BLOCHUS_ode(t,m,param) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">fcn_BLOCHUS_ode is the objective function for the ode-solver which solves
+the Bloch equation in the laboratory frame of reference
+
+ Syntax:
+       fcn_BLOCHUS_ode(t,m,param)
+
+ Inputs:
+       t - instantaneous time
+       m - instantaneous magnetization
+       param - struct that holds additional settings:
+                   type       : flag between 'std', 'prepol',
+                               'pulse', 'prepolpulse'
+                   M0         : equilibrium magnetization [A/m]
+                   B0         : Earth magnetic field [T]
+                   T1         : relaxation times [s]
+                   T2         : relaxation times [s]
+                   gamma      : gyromagnetic ratio [rad/s/T]
+                   rampparam  : struct holding switch-off settings
+                   pulseparam : struct holding pulse settings
+
+ Outputs:
+       dM - time derivative of m
+
+ Example:
+       fcn_BLOCHUS_ode(t,m,param)
+
+ Other m-files required:
+       getRampAmplitude
+       getPulseTimeSeries
+       getRotationMatrixFromVectors
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li><li><a href="getRampAmplitude.html" class="code" title="function Bp = getRampAmplitude(t,param)">getRampAmplitude</a>	 provides pre-polarization switch-off B-field amplitude</li><li><a href="getRotationMatrixFromVectors.html" class="code" title="function R = getRotationMatrixFromVectors(A,B)">getRotationMatrixFromVectors</a>	 calculates rotation matrix R to rotate A into B</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function dM = fcn_BLOCHUS_ode(t,m,param)</a>
+0002 <span class="comment">%fcn_BLOCHUS_ode is the objective function for the ode-solver which solves</span>
+0003 <span class="comment">%the Bloch equation in the laboratory frame of reference</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Syntax:</span>
+0006 <span class="comment">%       fcn_BLOCHUS_ode(t,m,param)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Inputs:</span>
+0009 <span class="comment">%       t - instantaneous time</span>
+0010 <span class="comment">%       m - instantaneous magnetization</span>
+0011 <span class="comment">%       param - struct that holds additional settings:</span>
+0012 <span class="comment">%                   type       : flag between 'std', 'prepol',</span>
+0013 <span class="comment">%                               'pulse', 'prepolpulse'</span>
+0014 <span class="comment">%                   M0         : equilibrium magnetization [A/m]</span>
+0015 <span class="comment">%                   B0         : Earth magnetic field [T]</span>
+0016 <span class="comment">%                   T1         : relaxation times [s]</span>
+0017 <span class="comment">%                   T2         : relaxation times [s]</span>
+0018 <span class="comment">%                   gamma      : gyromagnetic ratio [rad/s/T]</span>
+0019 <span class="comment">%                   rampparam  : struct holding switch-off settings</span>
+0020 <span class="comment">%                   pulseparam : struct holding pulse settings</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Outputs:</span>
+0023 <span class="comment">%       dM - time derivative of m</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% Example:</span>
+0026 <span class="comment">%       fcn_BLOCHUS_ode(t,m,param)</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% Other m-files required:</span>
+0029 <span class="comment">%       getRampAmplitude</span>
+0030 <span class="comment">%       getPulseTimeSeries</span>
+0031 <span class="comment">%       getRotationMatrixFromVectors</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">% Subfunctions:</span>
+0034 <span class="comment">%       none</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">% MAT-files required:</span>
+0037 <span class="comment">%       none</span>
+0038 <span class="comment">%</span>
+0039 <span class="comment">% See also: BLOCHUS</span>
+0040 <span class="comment">% Author: Thomas Hiller</span>
+0041 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0042 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0043 
+0044 <span class="comment">%------------- BEGIN CODE --------------</span>
+0045 
+0046 <span class="comment">% unit vectors</span>
+0047 xunit = [1 0 0]';
+0048 yunit = [0 1 0]';
+0049 zunit = [0 0 1]';
+0050 
+0051 <span class="comment">% basic parameters</span>
+0052 M0 = param.M0;
+0053 B0 = param.B0;
+0054 T1 = param.T1;
+0055 T2 = param.T2;
+0056 gamma = param.gamma;
+0057 
+0058 <span class="keyword">switch</span> param.type
+0059     <span class="keyword">case</span> <span class="string">'std'</span>
+0060         B = B0*zunit;        
+0061         <span class="comment">% dM/dt</span>
+0062         dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
+0063         
+0064     <span class="keyword">case</span> <span class="string">'prepol'</span>
+0065         <span class="comment">% switch-off ramp parameters</span>
+0066         rampparam = param.rampparam;
+0067         rampparam.B0 = B0;
+0068         rampparam.gamma = gamma;
+0069         <span class="comment">% decreasing Bp amplitude over time</span>
+0070         Bp = <a href="getRampAmplitude.html" class="code" title="function Bp = getRampAmplitude(t,param)">getRampAmplitude</a>(t,rampparam);
+0071         <span class="comment">% B0 - Earth field</span>
+0072         Be = B0*zunit;
+0073         <span class="comment">% check if we are during the switch-off or not</span>
+0074         <span class="keyword">if</span> t &lt;= rampparam.Tramp
+0075             <span class="comment">% during the switch-off we need to account for the decreasing</span>
+0076             <span class="comment">% Bp-field amplitude</span>
+0077             B1 = Bp*param.orient;
+0078             B = Be + B1;            
+0079             <span class="comment">% if RDS = 0 (switched-off) ignore T1 and T2 during switch-off</span>
+0080             <span class="comment">% ramp</span>
+0081             <span class="keyword">if</span> param.RDS == 0
+0082                 T1 = T1*1e6;
+0083                 T2 = T2*1e6;
+0084             <span class="keyword">end</span>            
+0085             <span class="comment">% if the B-field vector is not parallel to B0</span>
+0086             <span class="comment">% rotate B and m into z-axis to apply relaxation</span>
+0087             <span class="keyword">if</span> any(B./norm(B) ~= zunit)
+0088                 <span class="comment">% get rotation matrix from Beff to z-axis</span>
+0089                 R = <a href="getRotationMatrixFromVectors.html" class="code" title="function R = getRotationMatrixFromVectors(A,B)">getRotationMatrixFromVectors</a>(B,zunit);
+0090                 B = R*B; m = R*m;
+0091                 <span class="comment">% dM/dt</span>
+0092                 dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
+0093                 <span class="comment">% rotate dM back</span>
+0094                 dM = R'*dM;
+0095             <span class="keyword">else</span>
+0096                 <span class="comment">% dM/dt</span>
+0097                 dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
+0098             <span class="keyword">end</span>
+0099         <span class="keyword">else</span>
+0100             <span class="comment">% pure B0 evolution after the switch-off</span>
+0101             B = Be;
+0102             <span class="comment">% dM/dt</span>
+0103             dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
+0104         <span class="keyword">end</span>
+0105         
+0106     <span class="keyword">case</span> <span class="string">'pulse'</span>
+0107         pulseparam = param.pulseparam;
+0108         pulseparam.t = t;
+0109         <span class="comment">% check if we are during the pulse or not</span>
+0110         <span class="keyword">if</span> t &lt;= param.Ttau
+0111             <span class="comment">% get pulse amplitude over time</span>
+0112             B1 = <a href="getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>(pulseparam);            
+0113             B = [B1 B0]';
+0114             <span class="comment">% if RDP = 0 (switched-off) ignore T1 and T2 during pulse</span>
+0115             <span class="keyword">if</span> param.RDP == 0
+0116                 T1 = T1*1e6;
+0117                 T2 = T2*1e6;
+0118             <span class="keyword">end</span>
+0119         <span class="keyword">else</span>
+0120             <span class="comment">% pure B0 evolution after the pulse</span>
+0121             B = B0*zunit;
+0122         <span class="keyword">end</span>        
+0123         <span class="comment">% dM/dt</span>
+0124         dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
+0125 <span class="keyword">end</span>
+0126 
+0127 <span class="keyword">end</span>
+0128 
+0129 <span class="comment">%------------- END OF CODE --------------</span>
+0130 
+0131 <span class="comment">%% License:</span>
+0132 <span class="comment">% GNU GPLv3</span>
+0133 <span class="comment">%</span>
+0134 <span class="comment">% BLOCHUS</span>
+0135 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0136 <span class="comment">%</span>
+0137 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0138 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0139 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0140 <span class="comment">% (at your option) any later version.</span>
+0141 <span class="comment">%</span>
+0142 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0143 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0144 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0145 <span class="comment">% GNU General Public License for more details.</span>
+0146 <span class="comment">%</span>
+0147 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0148 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

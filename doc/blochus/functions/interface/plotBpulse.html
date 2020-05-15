@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of plotBpulse</title>
+  <meta name="keywords" content="plotBpulse">
+  <meta name="description" content=" plots different pulse parameter">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>plotBpulse
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> plots different pulse parameter</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function plotBpulse(fig) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">plotBpulse plots different pulse parameter
+
+ Syntax:
+       plotBpulse(fig)
+
+ Inputs:
+       fig - figure handle
+
+ Outputs:
+       none
+
+ Example:
+       plotBpulse(gui.figh)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function plotBpulse(fig)</a>
+0002 <span class="comment">%plotBpulse plots different pulse parameter</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       plotBpulse(fig)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       fig - figure handle</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       plotBpulse(gui.figh)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       none</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       none</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% See also: BLOCHUS</span>
+0026 <span class="comment">% Author: Thomas Hiller</span>
+0027 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0028 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0029 
+0030 <span class="comment">%------------- BEGIN CODE --------------</span>
+0031 
+0032 <span class="comment">% get GUI data</span>
+0033 data = getappdata(fig,<span class="string">'data'</span>);
+0034 gui = getappdata(fig,<span class="string">'gui'</span>);
+0035 myui = gui.myui;
+0036 
+0037 <span class="comment">% time vector in [ms]</span>
+0038 t = data.results.pulse.t;
+0039 
+0040 <span class="comment">%% pulse frequency and current modulation</span>
+0041 value = data.results.pulse.df;
+0042 <span class="comment">% min-max-spread</span>
+0043 d = max(value)-min(value);
+0044 <span class="keyword">if</span> d == 0 <span class="comment">% check if min=max</span>
+0045     d = 20;
+0046 <span class="keyword">end</span>
+0047 ax = gui.axes_handles.PulseSetupF;
+0048 cla(ax);
+0049 plot(t,value,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,myui.color.pulse,<span class="keyword">...</span>
+0050     <span class="string">'Parent'</span>,ax);
+0051 set(ax,<span class="string">'Xlim'</span>,[min(t) max(t)],<span class="string">'Ylim'</span>,[min(value)-d/20 max(value)+d/20]);
+0052 grid(ax,<span class="string">'on'</span>);
+0053 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0054 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'df [Hz]'</span>);
+0055 legend(ax,<span class="string">'df mod.'</span>,<span class="string">'Location'</span>,<span class="string">'SouthEast'</span>);
+0056 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0057 
+0058 ax = gui.axes_handles.PulseSetupI;
+0059 cla(ax);
+0060 plot(t,data.results.pulse.I,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,myui.color.pulse,<span class="keyword">...</span>
+0061     <span class="string">'Parent'</span>,ax);
+0062 set(ax,<span class="string">'Xlim'</span>,[min(t) max(t)],<span class="string">'Ylim'</span>,[-0.05 1.05]);
+0063 grid(ax,<span class="string">'on'</span>);
+0064 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0065 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'I [A]'</span>);
+0066 legend(ax,<span class="string">'I mod.'</span>,<span class="string">'Location'</span>,<span class="string">'SouthEast'</span>);
+0067 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0068 <span class="comment">% in case of discrete pulses the modulation is done via the duty cycle</span>
+0069 <span class="keyword">if</span> strcmp(data.pulse.Type,<span class="string">'MIDI_OR'</span>) || strcmp(data.pulse.Type,<span class="string">'MIDI_AP'</span>)
+0070     set(ax,<span class="string">'Ylim'</span>,[-0.03 0.63]);
+0071     set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'duty cycle'</span>);
+0072 <span class="keyword">end</span>
+0073 
+0074 
+0075 <span class="comment">%% pulse</span>
+0076 value = data.results.pulse.Bxy./data.basic.B0;
+0077 <span class="comment">% min-max-spread</span>
+0078 d = max(value(:))-min(value(:));
+0079 ax = gui.axes_handles.PulseB;
+0080 cla(ax);
+0081 hold(ax,<span class="string">'on'</span>);
+0082 plot(t,value(:,1),<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Parent'</span>,ax);
+0083 plot(t,value(:,2),<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Parent'</span>,ax);
+0084 hold(ax,<span class="string">'off'</span>);
+0085 set(ax,<span class="string">'Xlim'</span>,[min(t) max(t)]);
+0086 set(ax,<span class="string">'Ylim'</span>,[min(value(:))-d/20 max(value(:))+d/20]);
+0087 grid(ax,<span class="string">'on'</span>);
+0088 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0089 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'B_{1} [B_0]'</span>);
+0090 legend(ax,<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'Location'</span>,<span class="string">'SouthWest'</span>);
+0091 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0092 
+0093 <span class="keyword">end</span>
+0094 
+0095 <span class="comment">%------------- END OF CODE --------------</span>
+0096 
+0097 <span class="comment">%% License:</span>
+0098 <span class="comment">% GNU GPLv3</span>
+0099 <span class="comment">%</span>
+0100 <span class="comment">% BLOCHUS</span>
+0101 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0102 <span class="comment">%</span>
+0103 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0104 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0105 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0106 <span class="comment">% (at your option) any later version.</span>
+0107 <span class="comment">%</span>
+0108 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0109 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0110 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0111 <span class="comment">% GNU General Public License for more details.</span>
+0112 <span class="comment">%</span>
+0113 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0114 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

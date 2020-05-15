@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getRampAmplitude</title>
+  <meta name="keywords" content="getRampAmplitude">
+  <meta name="description" content=" provides pre-polarization switch-off B-field amplitude">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>getRampAmplitude
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> provides pre-polarization switch-off B-field amplitude</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function Bp = getRampAmplitude(t,param) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getRampAmplitude provides pre-polarization switch-off B-field amplitude
+
+ Syntax:
+       getRampAmplitude(t,param)
+
+ Inputs:
+       t - time [s]
+       param - struct containing extra settings:
+               ramp  - struct containing ramp shape: 'exp', 'linexp',
+                       'halfcos', 'lin'
+               gamma  - gyromagnetic ratio [rad/s/T]
+               B0     - Earth magnetic field amplitude [T]
+               Bmax   - maximum pre-polarization amplitude [T]
+               Bstar  - switch magnetic field between linear and
+                        exponential part of the 'linexp' ramp
+               Tramp  - switch-off ramp time [s]
+               Tslope - switch time between linear and
+                        exponential part of the 'linexp' ramp [s]
+
+ Outputs:
+       Bp - pre-polarization B-field amplitude
+
+ Example:
+       getRampAmplitude(t,param)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       getLinExpAmp
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="fcn_BLOCHUS_ode.html" class="code" title="function dM = fcn_BLOCHUS_ode(t,m,param)">fcn_BLOCHUS_ode</a>	 is the objective function for the ode-solver which solves</li><li><a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>	 updates all relevant switch-off ramp settings</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function Bp = getLinExpAmp(Bmax,Bstar,T,t)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function Bp = getRampAmplitude(t,param)</a>
+0002 <span class="comment">%getRampAmplitude provides pre-polarization switch-off B-field amplitude</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getRampAmplitude(t,param)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       t - time [s]</span>
+0009 <span class="comment">%       param - struct containing extra settings:</span>
+0010 <span class="comment">%               ramp  - struct containing ramp shape: 'exp', 'linexp',</span>
+0011 <span class="comment">%                       'halfcos', 'lin'</span>
+0012 <span class="comment">%               gamma  - gyromagnetic ratio [rad/s/T]</span>
+0013 <span class="comment">%               B0     - Earth magnetic field amplitude [T]</span>
+0014 <span class="comment">%               Bmax   - maximum pre-polarization amplitude [T]</span>
+0015 <span class="comment">%               Bstar  - switch magnetic field between linear and</span>
+0016 <span class="comment">%                        exponential part of the 'linexp' ramp</span>
+0017 <span class="comment">%               Tramp  - switch-off ramp time [s]</span>
+0018 <span class="comment">%               Tslope - switch time between linear and</span>
+0019 <span class="comment">%                        exponential part of the 'linexp' ramp [s]</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Outputs:</span>
+0022 <span class="comment">%       Bp - pre-polarization B-field amplitude</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% Example:</span>
+0025 <span class="comment">%       getRampAmplitude(t,param)</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% Other m-files required:</span>
+0028 <span class="comment">%       none</span>
+0029 <span class="comment">%</span>
+0030 <span class="comment">% Subfunctions:</span>
+0031 <span class="comment">%       getLinExpAmp</span>
+0032 <span class="comment">%</span>
+0033 <span class="comment">% MAT-files required:</span>
+0034 <span class="comment">%       none</span>
+0035 <span class="comment">%</span>
+0036 <span class="comment">% See also: BLOCHUS</span>
+0037 <span class="comment">% Author: Thomas Hiller</span>
+0038 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0039 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0040 
+0041 <span class="comment">%------------- BEGIN CODE --------------</span>
+0042 
+0043 <span class="comment">% get the different parameter</span>
+0044 ramp = param.ramp;
+0045 gamma = param.gamma;
+0046 B0 = param.B0;
+0047 Bmax = param.Bmax;
+0048 Bstar = param.Bstar;
+0049 Tramp = param.Tramp;
+0050 Tslope = param.Tslope;
+0051 
+0052 <span class="keyword">switch</span> ramp
+0053     <span class="keyword">case</span> <span class="string">'exp'</span> <span class="comment">% exponential</span>
+0054         Bp = Bmax .* exp(-t/Tslope);
+0055     <span class="keyword">case</span> <span class="string">'linexp'</span> <span class="comment">% linear + exponential</span>
+0056         Bp = <a href="#_sub1" class="code" title="subfunction Bp = getLinExpAmp(Bmax,Bstar,T,t)">getLinExpAmp</a>(Bmax,Bstar,Tslope,t);
+0057     <span class="keyword">case</span> <span class="string">'halfcos'</span> <span class="comment">% half cosine</span>
+0058         Bp = Bmax .* (0.5+(cos(pi*t./Tramp)./2));
+0059     <span class="keyword">case</span> <span class="string">'lin'</span> <span class="comment">% linear</span>
+0060         Bp = Bmax.*(1-t./Tramp);
+0061 <span class="keyword">end</span>
+0062 
+0063 <span class="keyword">return</span>
+0064 <span class="comment">% ---</span>
+0065 
+0066 <span class="comment">% ---</span>
+0067 <a name="_sub1" href="#_subfunctions" class="code">function Bp = getLinExpAmp(Bmax,Bstar,T,t)</a>
+0068 <span class="comment">% linear + exponential ramp after:</span>
+0069 <span class="comment">% Conradi et al., 2017, Journal of Magnetic Resonance 281, p.241-245</span>
+0070 <span class="comment">% https://doi.org/10.1016/j.jmr.2017.06.001</span>
+0071 
+0072 <span class="keyword">if</span> numel(t)&gt;1
+0073     <span class="comment">% linear part</span>
+0074     Bplin = (-Bmax/T)*t + Bmax;
+0075     <span class="comment">% exponential part</span>
+0076     Bpexp = exp(-t /(Bstar*T/Bmax));
+0077     <span class="comment">% find change</span>
+0078     index = find(abs(Bplin-Bstar)==min(abs(Bplin-Bstar)),1,<span class="string">'first'</span>);
+0079     <span class="comment">% merge the lin- and exp-part and scale the amplitude of the exp-part</span>
+0080     <span class="comment">% to that of the lin-part at the switch-over time t(index)</span>
+0081     scale_point = Bplin(index)/Bpexp(index);
+0082     <span class="comment">% in case something goes south due to very small numbers set the</span>
+0083     <span class="comment">% amplitude to 0</span>
+0084     <span class="keyword">if</span> isinf(scale_point) || isnan(scale_point)
+0085         scale_point = 0;
+0086     <span class="keyword">end</span>
+0087     <span class="comment">% the final amplitude vector</span>
+0088     Bp = [Bplin(1:index-1); scale_point * Bpexp(index:end)];
+0089 <span class="keyword">else</span>
+0090     <span class="comment">% linear part</span>
+0091     Bplin = (-Bmax/T)*t + Bmax;
+0092     <span class="comment">% exponential part</span>
+0093     Bpexp = exp(-t /(Bstar*T/Bmax));
+0094     <span class="comment">% Bstar time tstar</span>
+0095     tstar = (Bstar-Bmax)/(-Bmax/T);
+0096     <span class="comment">% amplitude at tstar for scaling</span>
+0097     Btstar = exp(-tstar /(Bstar*T/Bmax));
+0098     <span class="comment">% apply</span>
+0099     <span class="keyword">if</span> t&lt;tstar
+0100         Bp = Bplin;
+0101     <span class="keyword">else</span>
+0102         Bp = (Bstar/Btstar) * Bpexp;
+0103     <span class="keyword">end</span>
+0104 <span class="keyword">end</span>
+0105 
+0106 <span class="comment">% if due to division by &quot;0&quot; the value is NaN ... set it to 0</span>
+0107 Bp(isnan(Bp)) = 0;
+0108 
+0109 
+0110 <span class="keyword">return</span>
+0111 
+0112 <span class="comment">%------------- END OF CODE --------------</span>
+0113 
+0114 <span class="comment">%% License:</span>
+0115 <span class="comment">% GNU GPLv3</span>
+0116 <span class="comment">%</span>
+0117 <span class="comment">% BLOCHUS</span>
+0118 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0119 <span class="comment">%</span>
+0120 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0121 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0122 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0123 <span class="comment">% (at your option) any later version.</span>
+0124 <span class="comment">%</span>
+0125 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0126 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0127 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0128 <span class="comment">% GNU General Public License for more details.</span>
+0129 <span class="comment">%</span>
+0130 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0131 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

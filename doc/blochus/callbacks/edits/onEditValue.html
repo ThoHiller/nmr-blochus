@@ -1,0 +1,499 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onEditValue</title>
+  <meta name="keywords" content="onEditValue">
+  <meta name="description" content=" updates all edit field values, checks for wrong inputs and">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html edits -->
+<h1>onEditValue
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> updates all edit field values, checks for wrong inputs and</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onEditValue(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onEditValue updates all edit field values, checks for wrong inputs and
+restores a default value if necessary
+
+ Syntax:
+       onEditValue(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onEditValue(src)
+
+ Other m-files required:
+       getB0
+       getOmega0
+       getPulseParameters
+       getRampParameters
+       plotBpulse
+       plotRamp
+
+ Subfunctions:
+       createDataString
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>	 selects the pre-polarization switch-off ramp</li><li><a href="../../../blochus/functions/blochsim/getB0.html" class="code" title="function B = getB0(gamma,omega0)">getB0</a>	 calculates the magnetic field from a given angular frequency and</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>	 updates all relevant switch-off ramp settings</li><li><a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>	 plots different pulse parameter</li><li><a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>	 plots different pre-polarization switch-off ramp parameter</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelBasic.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)">BLOCHUS_createPanelBasic</a>	 creates "Basic" settings panel</li><li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPrePol.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPrePol(data,gui,myui)">BLOCHUS_createPanelPrePol</a>	 creates "Pre-polarization" settings panel</li><li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li><li><a href="onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupNucleus.html" class="code" title="function onPopupNucleus(src,~)">onPopupNucleus</a>	 selects the nucleus (proton) to use for the simulation</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function out = createDataString(tag)</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onEditValue(src,~)</a>
+0002 <span class="comment">%onEditValue updates all edit field values, checks for wrong inputs and</span>
+0003 <span class="comment">%restores a default value if necessary</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Syntax:</span>
+0006 <span class="comment">%       onEditValue(src)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Inputs:</span>
+0009 <span class="comment">%       src - handle of the calling object</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       none</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% Example:</span>
+0015 <span class="comment">%       onEditValue(src)</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Other m-files required:</span>
+0018 <span class="comment">%       getB0</span>
+0019 <span class="comment">%       getOmega0</span>
+0020 <span class="comment">%       getPulseParameters</span>
+0021 <span class="comment">%       getRampParameters</span>
+0022 <span class="comment">%       plotBpulse</span>
+0023 <span class="comment">%       plotRamp</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% Subfunctions:</span>
+0026 <span class="comment">%       createDataString</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% MAT-files required:</span>
+0029 <span class="comment">%       none</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% See also: BLOCHUS</span>
+0032 <span class="comment">% Author: Thomas Hiller</span>
+0033 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0034 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0035 
+0036 <span class="comment">%------------- BEGIN CODE --------------</span>
+0037 
+0038 <span class="comment">% get GUI handle</span>
+0039 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0040 
+0041 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0042     <span class="comment">% get GUI data</span>
+0043     gui = getappdata(fig,<span class="string">'gui'</span>);
+0044     data = getappdata(fig,<span class="string">'data'</span>);
+0045     
+0046     <span class="comment">% get the value of the field</span>
+0047     val = str2double(get(src,<span class="string">'String'</span>));
+0048     <span class="comment">% get the tag of the edit field</span>
+0049     tag = get(src,<span class="string">'Tag'</span>);
+0050     <span class="comment">% get the user data of the field</span>
+0051     ud = get(src,<span class="string">'UserData'</span>);
+0052     
+0053     <span class="keyword">if</span> isstruct(ud) <span class="comment">% for new fields</span>
+0054         <span class="comment">% get the default values [default min max]</span>
+0055         defaults = ud.defaults;
+0056         
+0057         <span class="comment">% check if the value is numeric</span>
+0058         <span class="comment">% if not reset to defaults stored in user data</span>
+0059         <span class="keyword">if</span> isnan(val)
+0060             set(src,<span class="string">'String'</span>,num2str(defaults(1)));
+0061             val = str2double(get(src,<span class="string">'String'</span>));
+0062         <span class="keyword">end</span>
+0063         <span class="comment">% check if the value is out of bounds</span>
+0064         <span class="comment">% if yes reset to default</span>
+0065         <span class="keyword">if</span> val &lt; defaults(2) || val &gt; defaults(3)
+0066             set(src,<span class="string">'String'</span>,num2str(defaults(1)));
+0067             val = str2double(get(src,<span class="string">'String'</span>)); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0068         <span class="keyword">end</span>
+0069         
+0070     <span class="keyword">else</span> <span class="comment">% old style (Needs to be removed after the refactoring)</span>
+0071         <span class="comment">% check if the value is numeric</span>
+0072         <span class="comment">% if not reset to defaults stored in user data</span>
+0073         <span class="keyword">if</span> isnan(val)
+0074             set(src,<span class="string">'String'</span>,num2str(ud(3)));
+0075             val = str2double(get(src,<span class="string">'String'</span>));
+0076         <span class="keyword">end</span>
+0077         <span class="comment">% check if the value is out of bounds</span>
+0078         <span class="comment">% if yes reset to default</span>
+0079         <span class="keyword">if</span> val &lt; ud(1) || val &gt; ud(2)
+0080             set(src,<span class="string">'String'</span>,num2str(ud(3)));
+0081             val = str2double(get(src,<span class="string">'String'</span>)); <span class="comment">%#ok&lt;*NASGU&gt;</span>
+0082         <span class="keyword">end</span>
+0083         disp([<span class="string">'there is still an old style edit field:'</span>,tag])
+0084     <span class="keyword">end</span>
+0085     
+0086     <span class="comment">% get the data field to update from the field tag</span>
+0087     out = <a href="#_sub1" class="code" title="subfunction out = createDataString(tag)">createDataString</a>(tag);
+0088     <span class="comment">% update the corresponding data field</span>
+0089     updstr = [out.updstr,<span class="string">'=val;'</span>];
+0090     eval(updstr);
+0091     
+0092     <span class="comment">% update the data inside the GUI</span>
+0093     setappdata(fig,<span class="string">'data'</span>,data);
+0094     
+0095     <span class="comment">% depending on the particular edit field, further actions are</span>
+0096     <span class="comment">% necessary</span>
+0097     <span class="keyword">switch</span> tag
+0098         <span class="comment">% -----------------------------------------------------------------</span>
+0099         <span class="comment">% --- BASICS ------------------------------------------------------</span>
+0100         <span class="comment">% -----------------------------------------------------------------</span>
+0101         <span class="keyword">case</span> <span class="string">'basic_B0'</span>
+0102             <span class="comment">% new Larmor frequency due to changed B0</span>
+0103             data.basic.Omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0)/2/pi;
+0104             <span class="comment">% update the GUI fields</span>
+0105             set(gui.edit_handles.Omega0,<span class="string">'String'</span>,sprintf(<span class="string">'%7.2f'</span>,data.basic.Omega0));
+0106             setappdata(fig,<span class="string">'data'</span>,data);
+0107             <span class="comment">% if &quot;Pulse&quot; is activated, update the pulse as if the</span>
+0108             <span class="comment">% pulse length (or number of periods) would have been changed</span>
+0109             <span class="comment">% manually</span>
+0110             <span class="keyword">if</span> get(gui.check_handles.Pulse,<span class="string">'Value'</span>) == 1
+0111                 <a href="onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>(gui.edit_handles.PulseTtau);
+0112                 data = getappdata(fig,<span class="string">'data'</span>);
+0113             <span class="keyword">end</span>
+0114             <span class="comment">% if &quot;PrePol&quot; is activated and the active ramp is &quot;melton1995&quot;</span>
+0115             <span class="comment">% update the switch-off ramp settings due to the changed Larmor</span>
+0116             <span class="comment">% frequency</span>
+0117             <span class="keyword">if</span> get(gui.check_handles.PrePol,<span class="string">'Value'</span>) == 1 &amp;&amp; <span class="keyword">...</span>
+0118                     get(gui.popup_handles.PrePolRamp,<span class="string">'Value'</span>) == 5
+0119                 setappdata(fig,<span class="string">'data'</span>,data);
+0120                 <a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>(gui.popup_handles.PrePolRamp);
+0121                 data = getappdata(fig,<span class="string">'data'</span>);
+0122             <span class="keyword">end</span>
+0123             <span class="keyword">if</span> get(gui.check_handles.PrePol,<span class="string">'Value'</span>) == 1
+0124                 setappdata(fig,<span class="string">'data'</span>,data);
+0125                 <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0126                 data = getappdata(fig,<span class="string">'data'</span>);
+0127             <span class="keyword">end</span>
+0128             
+0129         <span class="keyword">case</span> <span class="string">'basic_Omega0'</span>
+0130             <span class="comment">% fix sign if it is wrong</span>
+0131             <span class="keyword">if</span> (data.basic.gamma &gt; 0 &amp;&amp; data.basic.Omega0 &gt; 0) || <span class="keyword">...</span>
+0132                     (data.basic.gamma &lt; 0 &amp;&amp; data.basic.Omega0 &lt; 0)
+0133                 data.basic.Omega0 = -data.basic.Omega0;
+0134             <span class="keyword">end</span>
+0135             <span class="comment">% new B0 due to changed Larmor frequency</span>
+0136             data.basic.B0 = <a href="../../../blochus/functions/blochsim/getB0.html" class="code" title="function B = getB0(gamma,omega0)">getB0</a>(data.basic.gamma,data.basic.Omega0*2*pi);
+0137             <span class="comment">% update the GUI fields</span>
+0138             set(gui.edit_handles.Omega0,<span class="string">'String'</span>,sprintf(<span class="string">'%7.2f'</span>,data.basic.Omega0));
+0139             set(gui.edit_handles.B0,<span class="string">'String'</span>,sprintf(<span class="string">'%5.4e'</span>,data.basic.B0));
+0140             setappdata(fig,<span class="string">'data'</span>,data);
+0141             <span class="comment">% if &quot;Pulse&quot; is activated, update the pulse as if the</span>
+0142             <span class="comment">% pulse length (or number of periods) would have been changed</span>
+0143             <span class="comment">% manually</span>
+0144             <span class="keyword">if</span> get(gui.check_handles.Pulse,<span class="string">'Value'</span>) == 1
+0145                 <a href="onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>(gui.edit_handles.PulseTtau);
+0146                 data = getappdata(fig,<span class="string">'data'</span>);
+0147             <span class="keyword">end</span>
+0148             <span class="comment">% if &quot;PrePol&quot; is activated and the active ramp is &quot;melton1995&quot;</span>
+0149             <span class="comment">% update the switch-off ramp settings due to the changed Larmor</span>
+0150             <span class="comment">% frequency</span>
+0151             <span class="keyword">if</span> get(gui.check_handles.PrePol,<span class="string">'Value'</span>) == 1 &amp;&amp; <span class="keyword">...</span>
+0152                     get(gui.popup_handles.PrePolRamp,<span class="string">'Value'</span>) == 5
+0153                 setappdata(fig,<span class="string">'data'</span>,data);
+0154                 <a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>(gui.popup_handles.PrePolRamp);
+0155                 data = getappdata(fig,<span class="string">'data'</span>);
+0156             <span class="keyword">end</span>
+0157             <span class="keyword">if</span> get(gui.check_handles.PrePol,<span class="string">'Value'</span>) == 1
+0158                 setappdata(fig,<span class="string">'data'</span>,data);
+0159                 <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0160                 data = getappdata(fig,<span class="string">'data'</span>);
+0161             <span class="keyword">end</span>
+0162             
+0163         <span class="keyword">case</span> <span class="string">'basic_Minitx'</span>
+0164             <span class="comment">% x-component of init magnetization</span>
+0165             data.basic.Minit(1) = val;
+0166             
+0167         <span class="keyword">case</span> <span class="string">'basic_Minity'</span>
+0168             <span class="comment">% y-component of init magnetization</span>
+0169             data.basic.Minit(2) = val;
+0170             
+0171         <span class="keyword">case</span> <span class="string">'basic_Minitz'</span>
+0172             <span class="comment">% z-component of init magnetization</span>
+0173             data.basic.Minit(3) = val;
+0174             
+0175             <span class="comment">% -------------------------------------------------------------</span>
+0176             <span class="comment">% --- PRE-POLARIZATION ----------------------------------------</span>
+0177             <span class="comment">% -------------------------------------------------------------</span>
+0178         <span class="keyword">case</span> {<span class="string">'prepol_Factor'</span>,<span class="string">'prepol_SwitchFactor'</span>}
+0179             <span class="comment">% check if the ramp type is &quot;melton1995&quot;, if yes update the</span>
+0180             <span class="comment">% switch-off time to maintain the same switch-off rate</span>
+0181             <span class="keyword">if</span> get(gui.popup_handles.PrePolRamp,<span class="string">'Value'</span>) == 5
+0182                 <span class="comment">% k / rate</span>
+0183                 GAMMA = data.prepol.Factor/data.prepol.SwitchFactor;
+0184                 <span class="comment">% corresponding ramp time</span>
+0185                 Tramp = GAMMA/(data.basic.B0*data.basic.gamma)*1e3; <span class="comment">% [ms]</span>
+0186                 data.prepol.Tramp = Tramp;
+0187                 data.prepol.Tslope = Tramp;
+0188                 <span class="keyword">switch</span> data.basic.type
+0189                     <span class="keyword">case</span> <span class="string">'prepol'</span>
+0190                         data.basic.Tsim = Tramp;
+0191                         set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0192                     <span class="keyword">otherwise</span>
+0193                         <span class="comment">% nothing to do</span>
+0194                 <span class="keyword">end</span>
+0195                 setappdata(fig,<span class="string">'data'</span>,data);
+0196                 set(gui.edit_handles.PrePolTramp,<span class="string">'String'</span>,num2str(data.prepol.Tramp));
+0197                 set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0198             <span class="keyword">end</span>
+0199             <span class="comment">% update switch-off ramp settings</span>
+0200             <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0201             data = getappdata(fig,<span class="string">'data'</span>);
+0202             <a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>(fig);
+0203             
+0204         <span class="keyword">case</span> {<span class="string">'prepol_Theta'</span>,<span class="string">'prepol_Phi'</span>,<span class="string">'prepol_Tslope'</span>}
+0205             <span class="comment">% update switch-off ramp settings</span>
+0206             <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0207             data = getappdata(fig,<span class="string">'data'</span>);
+0208             <a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>(fig);
+0209             
+0210         <span class="keyword">case</span> <span class="string">'prepol_Tramp'</span>
+0211             <span class="comment">% for &quot;linear&quot; and &quot;half cosine&quot; ramp set the Tslope value,</span>
+0212             <span class="comment">% which is not need here equal to Tramp</span>
+0213             <span class="keyword">if</span> strcmp(data.prepol.Ramp,<span class="string">'lin'</span>) || strcmp(data.prepol.Ramp,<span class="string">'halfcos'</span>)
+0214                 data.prepol.Tslope = data.prepol.Tramp;
+0215                 set(gui.edit_handles.PrePolTslope,<span class="string">'String'</span>,num2str(data.prepol.Tslope));
+0216             <span class="keyword">end</span>
+0217             <span class="comment">% in case of pure &quot;PrePol&quot; update the total simulation time</span>
+0218             <span class="keyword">switch</span> data.basic.type
+0219                 <span class="keyword">case</span> <span class="string">'prepol'</span>
+0220                     data.basic.Tsim = data.prepol.Tramp;
+0221                     set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0222                 <span class="keyword">otherwise</span>
+0223                     <span class="comment">% nothing to do</span>
+0224             <span class="keyword">end</span>
+0225             setappdata(fig,<span class="string">'data'</span>,data);
+0226             <span class="comment">% update switch-off ramp settings</span>
+0227             <a href="../../../blochus/functions/interface/getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>(fig);
+0228             data = getappdata(fig,<span class="string">'data'</span>);
+0229             <a href="../../../blochus/functions/interface/plotRamp.html" class="code" title="function plotRamp(fig)">plotRamp</a>(fig);
+0230             
+0231             <span class="comment">% -------------------------------------------------------------</span>
+0232             <span class="comment">% --- PULSE ---------------------------------------------------</span>
+0233             <span class="comment">% -------------------------------------------------------------</span>
+0234         <span class="keyword">case</span> <span class="string">'pulse_B1Factor'</span>
+0235             <span class="comment">% if the pulse amplitude changes some settings have to be</span>
+0236             <span class="comment">% adjusted, depending on the chosen pulse type</span>
+0237             <span class="keyword">switch</span> data.pulse.Type
+0238                 <span class="keyword">case</span> {<span class="string">'pi_half'</span>,<span class="string">'pi'</span>}
+0239                     <span class="keyword">switch</span> data.pulse.Type
+0240                         <span class="keyword">case</span> <span class="string">'pi_half'</span>
+0241                             <span class="comment">% in case of &quot;pi_half&quot; the pulse length gets updated</span>
+0242                             data.pulse.Ttau = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.B1Factor)));
+0243                         <span class="keyword">case</span> <span class="string">'pi'</span>
+0244                             <span class="comment">% in case of &quot;pi&quot; the pulse length gets updated</span>
+0245                             data.pulse.Ttau = abs(1e3*(pi/(data.basic.gamma*data.basic.B0*data.pulse.B1Factor)));
+0246                     <span class="keyword">end</span>
+0247                     set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.Ttau));
+0248                     <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0249                     <span class="keyword">switch</span> data.basic.type
+0250                         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0251                             data.basic.Tsim = data.pulse.Ttau;
+0252                             set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0253                         <span class="keyword">otherwise</span>
+0254                             <span class="comment">% nothing to do</span>
+0255                     <span class="keyword">end</span>
+0256                     setappdata(fig,<span class="string">'data'</span>,data);
+0257                     <span class="comment">% update pulse settings</span>
+0258                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0259                     data = getappdata(fig,<span class="string">'data'</span>);
+0260                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0261                     
+0262                 <span class="keyword">otherwise</span>
+0263                     <span class="comment">% update pulse settings</span>
+0264                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0265                     data = getappdata(fig,<span class="string">'data'</span>);
+0266                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0267             <span class="keyword">end</span>
+0268             
+0269         <span class="keyword">case</span> <span class="string">'pulse_Ttau'</span>
+0270             <span class="comment">% if the pulse length changes some settings have to be</span>
+0271             <span class="comment">% adjusted, depending on the chosen pulse type</span>
+0272             <span class="keyword">switch</span> data.pulse.Type
+0273                 <span class="keyword">case</span> {<span class="string">'pi_half'</span>,<span class="string">'pi'</span>}
+0274                     <span class="keyword">switch</span> data.pulse.Type
+0275                         <span class="keyword">case</span> <span class="string">'pi_half'</span>
+0276                             <span class="comment">% in case of &quot;pi_half&quot; the pulse amplitude gets updated</span>
+0277                             data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+0278                         <span class="keyword">case</span> <span class="string">'pi'</span>
+0279                             <span class="comment">% in case of &quot;pi&quot; the pulse amplitude gets updated</span>
+0280                             data.pulse.B1Factor = abs(1e3*(pi/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+0281                     <span class="keyword">end</span>
+0282                     set(gui.edit_handles.PulseB1Factor,<span class="string">'String'</span>,num2str(data.pulse.B1Factor));
+0283                     <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0284                     <span class="keyword">switch</span> data.basic.type
+0285                         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0286                             data.basic.Tsim = data.pulse.Ttau;
+0287                             set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0288                         <span class="keyword">otherwise</span>
+0289                             <span class="comment">% nothing to do</span>
+0290                     <span class="keyword">end</span>
+0291                     setappdata(fig,<span class="string">'data'</span>,data);
+0292                     <span class="comment">% update pulse settings</span>
+0293                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0294                     data = getappdata(fig,<span class="string">'data'</span>);
+0295                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0296                     
+0297                 <span class="keyword">case</span> <span class="string">'MIDI_OR'</span>
+0298                     <span class="comment">% in case of &quot;MIDI_OR&quot; the PulseTtau-field holds the</span>
+0299                     <span class="comment">% number of periods</span>
+0300                     data.pulse.MIDINP = val;
+0301                     <span class="comment">% update pulse length</span>
+0302                     data.pulse.Ttau = abs(data.pulse.MIDINP/data.basic.Omega0)*1e3;
+0303                     <span class="comment">% update pulse amplitude to pi/2 value</span>
+0304                     data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+0305                     set(gui.edit_handles.PulseB1Factor,<span class="string">'String'</span>,num2str(data.pulse.B1Factor));
+0306                     <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0307                     <span class="keyword">switch</span> data.basic.type
+0308                         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0309                             data.basic.Tsim = data.pulse.Ttau;
+0310                             set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0311                         <span class="keyword">otherwise</span>
+0312                             <span class="comment">% nothing to do</span>
+0313                     <span class="keyword">end</span>
+0314                     setappdata(fig,<span class="string">'data'</span>,data);
+0315                     <span class="comment">% update pulse settings</span>
+0316                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0317                     data = getappdata(fig,<span class="string">'data'</span>);
+0318                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0319                     
+0320                 <span class="keyword">case</span> <span class="string">'MIDI_AP'</span>
+0321                     <span class="comment">% in case of &quot;MIDI_AP&quot; the PulseTtau-field holds the</span>
+0322                     <span class="comment">% number of periods</span>
+0323                     data.pulse.MIDINP = val;
+0324                     <span class="comment">% update pulse length assuming a constant frequency</span>
+0325                     data.pulse.Ttau = abs(data.pulse.MIDINP/data.basic.Omega0)*1e3;
+0326                     <span class="comment">% now calculate the actual pulse settings</span>
+0327                     setappdata(fig,<span class="string">'data'</span>,data);
+0328                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0329                     data = getappdata(fig,<span class="string">'data'</span>);
+0330                     <span class="comment">% adjust the pulse length to the actual value</span>
+0331                     data.pulse.Ttau = data.pulse_MIDI.t(end)*1e3;
+0332                     <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0333                     <span class="keyword">switch</span> data.basic.type
+0334                         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0335                             data.basic.Tsim = data.pulse.Ttau;
+0336                             set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0337                         <span class="keyword">otherwise</span>
+0338                             <span class="comment">% nothing to do</span>
+0339                     <span class="keyword">end</span>
+0340                     setappdata(fig,<span class="string">'data'</span>,data);
+0341                     <span class="comment">% update pulse plot</span>
+0342                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0343                     
+0344                 <span class="keyword">otherwise</span>
+0345                     <span class="comment">% for all other pulse types (&quot;free&quot; &amp; &quot;AHP&quot;)</span>
+0346                     <span class="comment">% in case of pure &quot;Pulse&quot; update the total simulation time</span>
+0347                     <span class="keyword">switch</span> data.basic.type
+0348                         <span class="keyword">case</span> <span class="string">'pulse'</span>
+0349                             data.basic.Tsim = data.pulse.Ttau;
+0350                             set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0351                         <span class="keyword">otherwise</span>
+0352                             <span class="comment">% nothing to do</span>
+0353                     <span class="keyword">end</span>
+0354                     <span class="comment">% update GUI data</span>
+0355                     setappdata(fig,<span class="string">'data'</span>,data);
+0356                     <span class="comment">% update pulse settings</span>
+0357                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0358                     data = getappdata(fig,<span class="string">'data'</span>);
+0359                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0360             <span class="keyword">end</span>
+0361             
+0362         <span class="keyword">otherwise</span>
+0363             <span class="keyword">switch</span> data.basic.type
+0364                 <span class="comment">% update all changes related to the pulse modulation</span>
+0365                 <span class="keyword">case</span> {<span class="string">'pulse'</span>,<span class="string">'prepolpulse'</span>}
+0366                     setappdata(fig,<span class="string">'data'</span>,data);
+0367                     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0368                     data = getappdata(fig,<span class="string">'data'</span>);
+0369                     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0370                     
+0371                 <span class="keyword">otherwise</span>
+0372                     <span class="comment">% nothing to do for all other fields e.g. T1, T2, Tsim</span>
+0373             <span class="keyword">end</span>
+0374     <span class="keyword">end</span>
+0375     
+0376     <span class="comment">% update GUI data</span>
+0377     setappdata(fig,<span class="string">'data'</span>,data);
+0378 <span class="keyword">else</span>
+0379     warndlg({<span class="string">'onEditValue:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0380         <span class="string">'BLOCHUS error'</span>);
+0381 <span class="keyword">end</span>
+0382 
+0383 <span class="keyword">end</span>
+0384 
+0385 <span class="comment">%% helper function to create the update string</span>
+0386 <a name="_sub1" href="#_subfunctions" class="code">function out = createDataString(tag)</a>
+0387 <span class="comment">% find the underscore</span>
+0388 ind = strfind(tag,<span class="string">'_'</span>);
+0389 <span class="comment">% the panel name is before the underscore</span>
+0390 out.panel = tag(1:ind(1)-1);
+0391 <span class="comment">% the field name afterwards</span>
+0392 out.field = tag(ind(1)+1:end);
+0393 <span class="comment">% replace the underscore with a dot</span>
+0394 tag(ind) = <span class="string">'.'</span>;
+0395 <span class="comment">% create the update string</span>
+0396 out.updstr = [<span class="string">'data.'</span>,tag];
+0397 
+0398 <span class="keyword">end</span>
+0399 
+0400 <span class="comment">%------------- END OF CODE --------------</span>
+0401 
+0402 <span class="comment">%% License:</span>
+0403 <span class="comment">% GNU GPLv3</span>
+0404 <span class="comment">%</span>
+0405 <span class="comment">% BLOCHUS</span>
+0406 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0407 <span class="comment">%</span>
+0408 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0409 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0410 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0411 <span class="comment">% (at your option) any later version.</span>
+0412 <span class="comment">%</span>
+0413 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0414 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0415 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0416 <span class="comment">% GNU General Public License for more details.</span>
+0417 <span class="comment">%</span>
+0418 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0419 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

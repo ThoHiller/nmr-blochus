@@ -1,0 +1,218 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onMenuHelp</title>
+  <meta name="keywords" content="onMenuHelp">
+  <meta name="description" content=" shows the Help Information">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html menus -->
+<h1>onMenuHelp
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> shows the Help Information</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onMenuHelp(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onMenuHelp shows the Help Information
+
+ Syntax:
+       onMenuHelp(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onMenuHelp(src)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createMenus.html" class="code" title="function gui = BLOCHUS_createMenus(gui)">BLOCHUS_createMenus</a>	 creates all GUI menus</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onMenuHelp(src,~)</a>
+0002 <span class="comment">%onMenuHelp shows the Help Information</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       onMenuHelp(src)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       src - handle of the calling object</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       onMenuHelp(src)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       none</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       none</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% See also: BLOCHUS</span>
+0026 <span class="comment">% Author: Thomas Hiller</span>
+0027 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0028 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0029 
+0030 <span class="comment">%------------- BEGIN CODE --------------</span>
+0031 
+0032 <span class="comment">% get GUI handle</span>
+0033 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0034 
+0035 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0036     <span class="comment">% get GUI data</span>
+0037     gui = getappdata(fig,<span class="string">'gui'</span>);
+0038     
+0039     
+0040     <span class="comment">% BLOCHUS logo</span>
+0041     load(<span class="string">'BLOCHUS_logo.mat'</span>,<span class="string">'logo'</span>);
+0042     
+0043     <span class="comment">% header info</span>
+0044     header{1,1}  = <span class="string">'BLOCHUS:'</span>;
+0045     header{end+1,1}  = <span class="string">' '</span>;
+0046     header{end+1,1}  = [<span class="string">'author: '</span>,gui.myui.author];
+0047     header{end+1,1}  = <span class="string">' '</span>;
+0048     header{end+1,1}  = [<span class="string">'version: '</span>,gui.myui.version];
+0049     header{end+1,1}  = <span class="string">' '</span>;
+0050     header{end+1,1}  = [<span class="string">'date: '</span>,gui.myui.date];
+0051     header{end+1,1}  = <span class="string">' '</span>;
+0052     
+0053     <span class="comment">% info text</span>
+0054     info{1,1} = [<span class="string">'BLOCHUS is a set of MATLAB tools, that allow some basic'</span>,<span class="keyword">...</span>
+0055         <span class="string">' simulations of (S)NMR spin dynamics based on the Bloch equations.'</span>,<span class="keyword">...</span>
+0056         <span class="string">' The Bloch equations are solved in the laboratory frame of reference'</span>,<span class="keyword">...</span>
+0057         <span class="string">' with MATLABs built-in ode45 solver.'</span>,<span class="keyword">...</span>
+0058         <span class="string">' Because it was developed within the scope of a near surface SNMR project,'</span>,<span class="keyword">...</span>
+0059         <span class="string">' its main features are the simulation of'</span>,<span class="keyword">...</span>
+0060         <span class="string">' (1) pre-polarization switch-off ramps and (2) excitation pulses.'</span>,<span class="keyword">...</span>
+0061         <span class="string">' The main front-end to the underlying simulation tools is a'</span>,<span class="keyword">...</span>
+0062         <span class="string">' graphical user interface (GUI)'</span>,<span class="keyword">...</span>
+0063         <span class="string">' that allows playing around with the different features and helps'</span>,<span class="keyword">...</span>
+0064         <span class="string">' to understand the basic concepts of (S)NMR spin dynamics.'</span>];
+0065     info{end+1,1} = <span class="string">' '</span>;
+0066     info{end+1,1} = <span class="string">'Have Fun!'</span>;
+0067     
+0068     <span class="comment">% get BLOCHUS GUI position</span>
+0069     posf = get(fig,<span class="string">'Position'</span>);
+0070     <span class="comment">% default widht and height of About Figure</span>
+0071     ww = 560; hh = 420;
+0072     xp = posf(1) + (posf(3)-ww)/2;
+0073     yp = posf(2) + (posf(4)-hh)/2;
+0074     <span class="comment">% create Figure</span>
+0075     hf = figure(<span class="string">'Name'</span>,<span class="string">'About BLOCHUS'</span>,<span class="keyword">...</span>
+0076         <span class="string">'NumberTitle'</span>,<span class="string">'off'</span>,<span class="string">'Tag'</span>,<span class="string">'Help'</span>,<span class="string">'ToolBar'</span>,<span class="string">'none'</span>,<span class="string">'MenuBar'</span>,<span class="string">'none'</span>,<span class="keyword">...</span>
+0077         <span class="string">'Resize'</span>,<span class="string">'off'</span>,<span class="string">'Position'</span>,[xp yp ww hh]);
+0078     v1 = uix.VBox(<span class="string">'Parent'</span>,hf,<span class="string">'Padding'</span>,10,<span class="string">'Spacing'</span>,10);
+0079     
+0080     <span class="comment">% text area</span>
+0081     h1 = uix.VBox(<span class="string">'Parent'</span>,v1);
+0082     <span class="comment">% button area</span>
+0083     h2 = uix.HBox(<span class="string">'Parent'</span>,v1);
+0084     set(v1,<span class="string">'Heights'</span>,[-1 30]);
+0085     
+0086     <span class="comment">% text area</span>
+0087     h3 = uix.HBox(<span class="string">'Parent'</span>,h1);
+0088     <span class="comment">% logo area</span>
+0089     h4 = uix.HBox(<span class="string">'Parent'</span>,h1);
+0090     set(h1,<span class="string">'Heights'</span>,[-1 -1]);
+0091     
+0092     <span class="comment">% close button at the bottom</span>
+0093     uix.Empty(<span class="string">'Parent'</span>,h2);
+0094     p1 = uicontrol(<span class="string">'Style'</span>,<span class="string">'pushbutton'</span>,<span class="string">'Parent'</span>,h2,<span class="string">'String'</span>,<span class="string">'OK'</span>,<span class="keyword">...</span>
+0095         <span class="string">'FontSize'</span>,10,<span class="string">'Callback'</span>,<span class="string">'closereq()'</span>);
+0096     uix.Empty(<span class="string">'Parent'</span>,h2);
+0097     set(h2,<span class="string">'Widths'</span>,[-1 50 -1])
+0098     
+0099     <span class="comment">% header</span>
+0100     uix.Empty(<span class="string">'Parent'</span>,h3);
+0101     t1 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="string">'Parent'</span>,h3,<span class="string">'String'</span>,header,<span class="keyword">...</span>
+0102         <span class="string">'FontSize'</span>,10,<span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>);
+0103     <span class="comment">% logo</span>
+0104     c1 = uicontainer(<span class="string">'Parent'</span>,h3);
+0105     ax1 = axes(<span class="string">'Parent'</span>,c1);
+0106     imshow(logo,<span class="string">'Parent'</span>,ax1);
+0107     set(h3,<span class="string">'Widths'</span>,[50 -1 -1]);
+0108     
+0109     <span class="comment">% info text</span>
+0110     uix.Empty(<span class="string">'Parent'</span>,h4);
+0111     t2 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="string">'Parent'</span>,h4,<span class="string">'String'</span>,info,<span class="keyword">...</span>
+0112         <span class="string">'FontSize'</span>,10,<span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>);
+0113     uix.Empty(<span class="string">'Parent'</span>,h4);
+0114     set(h4,<span class="string">'Widths'</span>,[20 -1 20])
+0115     
+0116     <span class="comment">% text hack</span>
+0117     jh = findjobj(t1);
+0118     jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0119     
+0120 <span class="keyword">else</span>
+0121     warndlg({<span class="string">'onMenuHelp:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0122         <span class="string">'BLOCHUS error'</span>);
+0123 <span class="keyword">end</span>
+0124 
+0125 <span class="keyword">end</span>
+0126 
+0127 <span class="comment">%------------- END OF CODE --------------</span>
+0128 
+0129 <span class="comment">%% License:</span>
+0130 <span class="comment">% GNU GPLv3</span>
+0131 <span class="comment">%</span>
+0132 <span class="comment">% BLOCHUS</span>
+0133 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0134 <span class="comment">%</span>
+0135 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0136 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0137 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0138 <span class="comment">% (at your option) any later version.</span>
+0139 <span class="comment">%</span>
+0140 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0141 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0142 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0143 <span class="comment">% GNU General Public License for more details.</span>
+0144 <span class="comment">%</span>
+0145 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0146 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

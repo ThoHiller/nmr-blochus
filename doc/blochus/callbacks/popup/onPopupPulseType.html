@@ -1,0 +1,331 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onPopupPulseType</title>
+  <meta name="keywords" content="onPopupPulseType">
+  <meta name="description" content=" selects the pulse type">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html popup -->
+<h1>onPopupPulseType
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> selects the pulse type</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onPopupPulseType(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onPopupPulseType selects the pulse type
+
+ Syntax:
+       onPopupPulseType(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onPopupPulseType(src)
+
+ Other m-files required:
+       getPulseParameters;
+       plotPulse;
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>	 plots different pulse parameter</li><li><a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>	 updates all fields inside the bottom status bar</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li><li><a href="../../../blochus/callbacks/checkbox/onCheckPrePolPulse.html" class="code" title="function onCheckPrePolPulse(src,~)">onCheckPrePolPulse</a>	 activates / deactivates all control elements needed for</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onPopupPulseType(src,~)</a>
+0002 <span class="comment">%onPopupPulseType selects the pulse type</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       onPopupPulseType(src)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       src - handle of the calling object</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       onPopupPulseType(src)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       getPulseParameters;</span>
+0018 <span class="comment">%       plotPulse;</span>
+0019 <span class="comment">%</span>
+0020 <span class="comment">% Subfunctions:</span>
+0021 <span class="comment">%       none</span>
+0022 <span class="comment">%</span>
+0023 <span class="comment">% MAT-files required:</span>
+0024 <span class="comment">%       none</span>
+0025 <span class="comment">%</span>
+0026 <span class="comment">% See also BLOCHUS</span>
+0027 <span class="comment">% Author: Thomas Hiller</span>
+0028 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0029 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0030 
+0031 <span class="comment">%------------- BEGIN CODE --------------</span>
+0032 
+0033 <span class="comment">% get GUI handle</span>
+0034 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0035 
+0036 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0037     <span class="comment">% get GUI data</span>
+0038     gui  = getappdata(fig,<span class="string">'gui'</span>);
+0039     data = getappdata(fig,<span class="string">'data'</span>);
+0040     
+0041     <span class="comment">% get the popup menu entry</span>
+0042     val = get(src,<span class="string">'Value'</span>);
+0043     
+0044     <span class="comment">% set the corresponding pulse type</span>
+0045     <span class="keyword">switch</span> val
+0046         <span class="keyword">case</span> 1 <span class="comment">% pi/2</span>
+0047             data.pulse.Type = <span class="string">'pi_half'</span>;
+0048             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,[<span class="string">'Pulse length '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' [ms]'</span>]);
+0049             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.Ttau));
+0050             <span class="comment">% adjust B1 amplitude</span>
+0051             data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+0052             set(gui.edit_handles.PulseB1Factor,<span class="string">'String'</span>,num2str(data.pulse.B1Factor));
+0053             <span class="comment">% set offset frequency</span>
+0054             data.pulse.DFstart = 0;
+0055             data.pulse.DFend = 0;
+0056             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'Offset [Hz]'</span>);
+0057             set(gui.edit_handles.PulseDFstart,<span class="string">'String'</span>,num2str(data.pulse.DFstart),<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0058             set(gui.edit_handles.PulseDFend,<span class="string">'String'</span>,num2str(data.pulse.DFend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0059             <span class="comment">% disable all other frequency stuff</span>
+0060             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0061             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0062             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0063             <span class="comment">% set current</span>
+0064             data.pulse.Istart = 1;
+0065             data.pulse.Iend = 1;
+0066             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0067             set(gui.edit_handles.PulseIend,<span class="string">'String'</span>,num2str(data.pulse.Iend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0068             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0069             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0070             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0071             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0072             
+0073         <span class="keyword">case</span> 2 <span class="comment">% pi</span>
+0074             data.pulse.Type = <span class="string">'pi'</span>;
+0075             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,[<span class="string">'Pulse length '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' [ms]'</span>]);
+0076             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.Ttau));
+0077             <span class="comment">% adjust B1 amplitude</span>
+0078             data.pulse.B1Factor = abs(1e3*(pi/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+0079             set(gui.edit_handles.PulseB1Factor,<span class="string">'String'</span>,num2str(data.pulse.B1Factor));
+0080             <span class="comment">% set offset frequency</span>
+0081             data.pulse.DFstart = 0;
+0082             data.pulse.DFend = 0;
+0083             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'Offset [Hz]'</span>);
+0084             set(gui.edit_handles.PulseDFstart,<span class="string">'String'</span>,num2str(data.pulse.DFstart),<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0085             set(gui.edit_handles.PulseDFend,<span class="string">'String'</span>,num2str(data.pulse.DFend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0086             <span class="comment">% disable all other frequency stuff</span>
+0087             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0088             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0089             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0090             <span class="comment">% set current</span>
+0091             data.pulse.Istart = 1;
+0092             data.pulse.Iend = 1;
+0093             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0094             set(gui.edit_handles.PulseIend,<span class="string">'String'</span>,num2str(data.pulse.Iend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0095             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0096             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0097             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0098             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0099             
+0100         <span class="keyword">case</span> 3 <span class="comment">% free</span>
+0101             data.pulse.Type = <span class="string">'free'</span>;
+0102             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,[<span class="string">'Pulse length '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' [ms]'</span>]);
+0103             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.Ttau));
+0104             <span class="comment">% set offset frequency</span>
+0105             data.pulse.DFstart = 0;
+0106             data.pulse.DFend = 0;
+0107             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'Offset [Hz]'</span>);
+0108             set(gui.edit_handles.PulseDFstart,<span class="string">'String'</span>,num2str(data.pulse.DFstart),<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0109             set(gui.edit_handles.PulseDFend,<span class="string">'String'</span>,num2str(data.pulse.DFend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0110             <span class="comment">% disable all other frequency stuff</span>
+0111             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0112             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0113             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0114             <span class="comment">% set current</span>
+0115             data.pulse.Istart = 1;
+0116             data.pulse.Iend = 1;
+0117             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0118             set(gui.edit_handles.PulseIend,<span class="string">'String'</span>,num2str(data.pulse.Iend),<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0119             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0120             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0121             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0122             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0123             
+0124         <span class="keyword">case</span> 4 <span class="comment">% AHP</span>
+0125             data.pulse.Type = <span class="string">'AHP'</span>;
+0126             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,[<span class="string">'Pulse length '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' [ms]'</span>]);
+0127             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.Ttau));
+0128             
+0129             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'start [Hz] end [Hz] A B'</span>);
+0130             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0131             set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0132             set(gui.edit_handles.PulseDFend,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0133             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0134             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0135             
+0136             data.pulse.Istart = 0;
+0137             data.pulse.Iend = 1;
+0138             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0139             set(gui.edit_handles.PulseIstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.Istart));
+0140             set(gui.edit_handles.PulseIend,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.Iend));
+0141             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0142             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0143             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0144             
+0145             setappdata(fig,<span class="string">'data'</span>,data);
+0146             <a href="onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>(gui.popup_handles.PulseDFmode);
+0147             data = getappdata(fig,<span class="string">'data'</span>);
+0148             setappdata(fig,<span class="string">'data'</span>,data);
+0149             <a href="onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>(gui.popup_handles.PulseImode);
+0150             data = getappdata(fig,<span class="string">'data'</span>);
+0151   
+0152         <span class="keyword">case</span> 5 <span class="comment">% MIDI OR</span>
+0153             data.pulse.Type = <span class="string">'MIDI_OR'</span>;
+0154             <span class="comment">% calculate number of periods based on current pulse time and fL</span>
+0155             data.pulse.MIDINP = ceil(abs(data.pulse.Ttau/1000 * data.basic.Omega0));
+0156             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.MIDINP));
+0157             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,<span class="string">'Number of periods'</span>);         
+0158             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'Offset [Hz]'</span>);
+0159             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0160             data.pulse.DFstart = 0;
+0161             data.pulse.DFend = 0;
+0162             set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFstart));
+0163             set(gui.edit_handles.PulseDFend,<span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFend));
+0164             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0165             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0166             
+0167             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0168             set(gui.edit_handles.PulseIstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0169             data.pulse.Istart = 0.6;
+0170             data.pulse.Iend = 0.6;
+0171             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart));
+0172             set(gui.edit_handles.PulseIend,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0173             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0174             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0175             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0176             
+0177             <span class="comment">% update the GUI as if the number of periods would have been</span>
+0178             <span class="comment">% changed manually</span>
+0179             setappdata(fig,<span class="string">'data'</span>,data);
+0180             <a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>(gui.edit_handles.PulseTtau);
+0181             data = getappdata(fig,<span class="string">'data'</span>);
+0182             
+0183         <span class="keyword">case</span> 6 <span class="comment">% MIDI AP</span>
+0184             data.pulse.Type = <span class="string">'MIDI_AP'</span>;
+0185             <span class="comment">% calculate number of periods based on current pulse time and fL</span>
+0186             data.pulse.MIDINP = ceil(abs(data.pulse.Ttau/1000 * data.basic.Omega0));
+0187             set(gui.edit_handles.PulseTtau,<span class="string">'String'</span>,num2str(data.pulse.MIDINP));
+0188             set(gui.text_handles.PulseTtau,<span class="string">'String'</span>,<span class="string">'Number of periods'</span>);         
+0189             set(gui.text_handles.PulseDF,<span class="string">'String'</span>,<span class="string">'start [Hz] end [Hz] A B'</span>);
+0190             data.pulse.DFmode = <span class="string">'tanhMIDI'</span>;
+0191             set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'Value'</span>,2);
+0192             data.pulse.DFstart = -200;
+0193             data.pulse.DFend = 0;
+0194             set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFstart));
+0195             set(gui.edit_handles.PulseDFend,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFend));
+0196             data.pulse.DFA = 0.7;
+0197             data.pulse.DFB = 0;
+0198             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFA));
+0199             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.DFB));
+0200             
+0201             data.pulse.Imode = <span class="string">'tanhMIDI'</span>;
+0202             set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'Value'</span>,2);
+0203             data.pulse.Istart = 0.15;
+0204             data.pulse.Iend = 0.6;
+0205             set(gui.edit_handles.PulseIstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.Istart));
+0206             set(gui.edit_handles.PulseIend,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.Iend));
+0207             data.pulse.IA = 0.5;
+0208             data.pulse.IB = 1;
+0209             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.IA));
+0210             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'on'</span>,<span class="string">'String'</span>,num2str(data.pulse.IB));
+0211             set(gui.check_handles.PulseQ,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0212             
+0213             <span class="comment">% update the GUI as if the number of periods would have been</span>
+0214             <span class="comment">% changed manually</span>
+0215             setappdata(fig,<span class="string">'data'</span>,data);
+0216             <a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>(gui.edit_handles.PulseTtau);
+0217             data = getappdata(fig,<span class="string">'data'</span>);
+0218     <span class="keyword">end</span>
+0219     
+0220     <span class="comment">% update GUI data</span>
+0221     setappdata(fig,<span class="string">'data'</span>,data);
+0222     <span class="comment">% update pulse settings</span>
+0223     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(fig);
+0224     <span class="comment">% get GUI data</span>
+0225     data = getappdata(fig,<span class="string">'data'</span>);
+0226     <span class="comment">% update GUI data</span>
+0227     setappdata(fig,<span class="string">'data'</span>,data);
+0228     <span class="comment">% plot pulse</span>
+0229     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(fig);
+0230     <span class="comment">% update status bar</span>
+0231     <a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>(fig);
+0232 <span class="keyword">else</span>
+0233     warndlg({<span class="string">'onPopupPulseType:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0234         <span class="string">'BLOCHUS error'</span>);
+0235 <span class="keyword">end</span>
+0236 
+0237 <span class="keyword">end</span>
+0238 
+0239 <span class="comment">%------------- END OF CODE --------------</span>
+0240 
+0241 <span class="comment">%% License:</span>
+0242 <span class="comment">% GNU GPLv3</span>
+0243 <span class="comment">%</span>
+0244 <span class="comment">% BLOCHUS</span>
+0245 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0246 <span class="comment">%</span>
+0247 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0248 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0249 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0250 <span class="comment">% (at your option) any later version.</span>
+0251 <span class="comment">%</span>
+0252 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0253 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0254 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0255 <span class="comment">% GNU General Public License for more details.</span>
+0256 <span class="comment">%</span>
+0257 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0258 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

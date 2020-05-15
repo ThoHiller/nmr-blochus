@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onPushAnimate</title>
+  <meta name="keywords" content="onPushAnimate">
+  <meta name="description" content="">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html push -->
+<h1>onPushAnimate
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong></strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onPushAnimate(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment"></pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/interface/plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>	 plots a (Bloch)-Sphere (basically a unit sphere) with</li><li><a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>	 plots results depending on the chosen settings</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelControl.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelControl(gui,myui)">BLOCHUS_createPanelControl</a>	 creates "Control" panel</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onPushAnimate(src,~)</a>
+0002 fig  = findobj(<span class="string">'Tag'</span>,<span class="string">'BLOCHUS'</span>);
+0003 gui  = getappdata(fig,<span class="string">'gui'</span>);
+0004 data = getappdata(fig,<span class="string">'data'</span>);
+0005 
+0006 <span class="comment">% change the pushbutton color to indicate that an animation is running</span>
+0007 set(src,<span class="string">'BackGroundColor'</span>,<span class="string">'r'</span>);
+0008 pause(0.01);
+0009 
+0010 NoFrames = 100;
+0011 FPS = 24;
+0012 
+0013 newblue = [0 0.4470 0.7410];
+0014 neworange = [0.8500 0.3250 0.0980];
+0015 
+0016 <span class="keyword">switch</span> data.basic.type
+0017     
+0018     <span class="keyword">case</span> <span class="string">'std'</span>
+0019         set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Animation running ...'</span>);
+0020         pause(0.01);
+0021         Mamp = zeros(numel(data.TT),1);
+0022         <span class="keyword">for</span> i=1:numel(data.TT)
+0023             Mamp(i,1) = norm(data.MM(i,:)); <span class="comment">% amplitude of M</span>
+0024         <span class="keyword">end</span>
+0025         
+0026         dt = data.TT(end)/NoFrames;
+0027         time = 0:dt:data.TT(end);
+0028         
+0029         axes(gui.axes_handles.MagL);
+0030         cla(gui.axes_handles.MagL);
+0031         h1 = animatedline(<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0032         h2 = animatedline(<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0033         h3 = animatedline(<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0034         h4 = animatedline(<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'Parent'</span>,gui.axXYZL);
+0035         
+0036         axes(gui.axes_handles.MagR);
+0037         cla(gui.axes_handles.MagR);
+0038         h7 = animatedline(<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZR);
+0039         h8 = animatedline(<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZR);
+0040         h9 = animatedline(<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZR);
+0041         h10 = animatedline(<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'Parent'</span>,gui.axXYZR);
+0042         
+0043         axes(gui.axSphereL);
+0044         cla(gui.axSphereL);
+0045         hold(gui.axSphereL,<span class="string">'on'</span>);
+0046         <a href="../../../blochus/functions/interface/plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>(18,18,gui.axSphereL);
+0047         h5 = animatedline(<span class="string">'Color'</span>,myui.color.basic,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axSphereL);
+0048         
+0049         axes(gui.axSphereR);
+0050         cla(gui.axSphereR);
+0051         hold(gui.axSphereR,<span class="string">'on'</span>);
+0052         <a href="../../../blochus/functions/interface/plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>(18,18,gui.axSphereR); 
+0053         h6 = animatedline(<span class="string">'Color'</span>,myui.color.basic,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axSphereR);
+0054         
+0055         <span class="keyword">for</span> nf = 1:NoFrames-1
+0056             
+0057             x1 = data.TT(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1)).*1e3;
+0058             y1 = data.MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),1);
+0059             y2 = data.MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),2);
+0060             y3 = data.MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),3);
+0061             y1R = data.MMrot(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),1);
+0062             y2R = data.MMrot(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),2);
+0063             y3R = data.MMrot(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),3);
+0064             y4 = Mamp(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1))./Mamp(1);
+0065             addpoints(h1,x1,y1);
+0066             addpoints(h2,x1,y2);
+0067             addpoints(h3,x1,y3);
+0068             addpoints(h4,x1,y4);
+0069             
+0070             legend(gui.axes_handles.MagL,<span class="string">'M_x'</span>,<span class="string">'M_y'</span>,<span class="string">'M_z'</span>,<span class="string">'Location'</span>,<span class="string">'SouthEast'</span>);
+0071             set(gui.axes_handles.MagL,<span class="string">'XLim'</span>,[min(data.TT.*1e3) max(data.TT.*1e3)],<span class="keyword">...</span>
+0072                 <span class="string">'XTick'</span>,linspace(min(data.TT.*1e3),max(data.TT.*1e3),5))
+0073             set(get(gui.axes_handles.MagL,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0074             set(get(gui.axes_handles.MagL,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'M'</span>);
+0075             set(get(gui.axes_handles.MagL,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'magnetization components - lab frame'</span>);
+0076             
+0077             
+0078             addpoints(h7,x1,y1R);
+0079             addpoints(h8,x1,y2R);
+0080             addpoints(h9,x1,y3R);
+0081             addpoints(h10,x1,y4);
+0082             
+0083             legend(gui.axes_handles.MagR,<span class="string">'M_x'</span>,<span class="string">'M_y'</span>,<span class="string">'M_z'</span>,<span class="string">'Location'</span>,<span class="string">'SouthEast'</span>);
+0084             set(gui.axXYZR,<span class="string">'XLim'</span>,[min(data.TT.*1e3) max(data.TT.*1e3)],<span class="keyword">...</span>
+0085                 <span class="string">'XTick'</span>,linspace(min(data.TT.*1e3),max(data.TT.*1e3),5))
+0086             set(get(gui.axes_handles.MagR,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0087             set(get(gui.axes_handles.MagR,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'M'</span>);
+0088             set(get(gui.axes_handles.MagR,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'magnetization components - rot frame'</span>);
+0089             
+0090             addpoints(h5,y1,y2,y3);
+0091             view([134 30]);
+0092             set(gui.axSphereL,<span class="string">'Color'</span>,<span class="string">'w'</span>,<span class="string">'XColor'</span>,<span class="string">'none'</span>,<span class="string">'YColor'</span>,<span class="string">'none'</span>,<span class="string">'ZColor'</span>,<span class="string">'none'</span>);
+0093             axis equal tight
+0094             
+0095             addpoints(h6,y1R,y2R,y3R);
+0096             set(gui.axSphereR,<span class="string">'Color'</span>,<span class="string">'w'</span>,<span class="string">'XColor'</span>,<span class="string">'none'</span>,<span class="string">'YColor'</span>,<span class="string">'none'</span>,<span class="string">'ZColor'</span>,<span class="string">'none'</span>);
+0097             axis equal tight
+0098             
+0099             pause(1/FPS);
+0100         <span class="keyword">end</span>
+0101         hold(gui.axes_handles.MagL,<span class="string">'off'</span>);
+0102         hold(gui.axes_handles.MagR,<span class="string">'off'</span>);
+0103         hold(gui.axSphereL,<span class="string">'off'</span>);
+0104         hold(gui.axSphereR,<span class="string">'off'</span>);
+0105         set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Animation running ... done.'</span>);
+0106         pause(0.01);
+0107         
+0108     <span class="keyword">case</span> <span class="string">'prepol'</span>
+0109         set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Animation running ...'</span>);
+0110         pause(0.01);
+0111         Mamp = zeros(numel(data.TT),1);
+0112         MM = zeros(numel(data.TT),3);
+0113         <span class="keyword">for</span> i=1:numel(data.TT)
+0114             Mamp(i,1) = norm(data.MM(i,:)); <span class="comment">% amplitude of M</span>
+0115             MM(i,:) = data.MM(i,:)./Mamp(1); <span class="comment">% normalize to initial M</span>
+0116         <span class="keyword">end</span>
+0117         Beffn = zeros(numel(data.results.prepol.t),3);
+0118         <span class="keyword">for</span> i=1:numel(data.results.prepol.t)
+0119             Beffn(i,:) = data.results.prepol.Beff(i,:)./norm(data.results.prepol.Beff(i,:));
+0120         <span class="keyword">end</span>
+0121         
+0122         dt = data.TT(end)/NoFrames;
+0123         time = 0:dt:data.TT(end);
+0124         
+0125         cla(gui.axXYZL);
+0126         axes(gui.axXYZL);
+0127         h1 = animatedline(<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0128         h2 = animatedline(<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0129         h3 = animatedline(<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axXYZL);
+0130         h4 = animatedline(<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,2,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'Parent'</span>,gui.axXYZL);
+0131         <span class="keyword">if</span> data.prepol.Tramp &lt; data.basic.Tsim
+0132             h11 = animatedline(<span class="string">'Color'</span>,[0.8 0.8 0.8],<span class="string">'LineWidth'</span>,1,<span class="string">'Parent'</span>,gui.axXYZL);
+0133         <span class="keyword">end</span>
+0134         
+0135         cla(gui.axSphereL);
+0136         axes(gui.axSphereL);
+0137         plotBlochSphere(30,30); hold on;
+0138         h5a = animatedline(<span class="string">'Color'</span>,myui.color.prepol,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axSphereL);
+0139         h5b = animatedline(<span class="string">'Color'</span>,myui.color.basic,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axSphereL);
+0140         h6 = animatedline(<span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axSphereL);
+0141         
+0142         cla(gui.axBpre);
+0143         axes(gui.axBpre);
+0144         h10 = animatedline(<span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axBpre);
+0145         y10a = data.results.prepol.Bp./data.basic.B0;
+0146         
+0147         cla(gui.axalpha);
+0148         axes(gui.axalpha);
+0149         h7 = animatedline(<span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axalpha);
+0150         
+0151         cla(gui.axes_handles.dadt);
+0152         axes(gui.axes_handles.dadt);
+0153         h8 = animatedline(<span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axes_handles.dadt);
+0154         y8a = data.results.prepol.dadt;
+0155         tt = data.results.prepol.t(1:end-1);
+0156         
+0157         cla(gui.axes_handles.wda);
+0158         axes(gui.axes_handles.wda);
+0159         h9 = animatedline(<span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'LineWidth'</span>,2,<span class="string">'Parent'</span>,gui.axes_handles.wda);
+0160         y9a = data.results.prepol.omega(1:numel(data.results.prepol.dadt))./data.results.prepol.dadt;
+0161         
+0162         <span class="keyword">for</span> nf = 1:NoFrames-1
+0163             
+0164             x1 = data.TT(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1)).*1e3;
+0165             y1 = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),1);
+0166             y2 = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),2);
+0167             y3 = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),3);
+0168             
+0169             <span class="keyword">if</span> time(nf)&lt;data.prepol.Tramp/1e3
+0170                 y1a = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),1);
+0171                 y2a = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),2);
+0172                 y3a = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),3);
+0173             <span class="keyword">else</span>
+0174                 y1b = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),1);
+0175                 y2b = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),2);
+0176                 y3b = MM(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1),3);
+0177             <span class="keyword">end</span>
+0178             
+0179             y4 = Mamp(data.TT&gt;=time(nf) &amp; data.TT&lt;time(nf+1))./Mamp(1);
+0180             addpoints(h1,x1,y1);
+0181             addpoints(h2,x1,y2);
+0182             addpoints(h3,x1,y3);
+0183             addpoints(h4,x1,y4);
+0184             <span class="keyword">if</span> data.prepol.Tramp &lt; data.basic.Tsim
+0185                 addpoints(h11,[data.prepol.Tramp data.prepol.Tramp],[min(min(MM)) max(max(MM))]);
+0186             <span class="keyword">end</span>
+0187             
+0188             legend(gui.axXYZL,<span class="string">'M_x'</span>,<span class="string">'M_y'</span>,<span class="string">'M_z'</span>,<span class="string">'Location'</span>,<span class="string">'SouthEast'</span>);
+0189             set(gui.axXYZL,<span class="string">'XLim'</span>,[min(data.TT.*1e3) max(data.TT.*1e3)],<span class="keyword">...</span>
+0190                 <span class="string">'XTick'</span>,linspace(min(data.TT.*1e3),max(data.TT.*1e3),5),<span class="keyword">...</span>
+0191                 <span class="string">'YLim'</span>,[min(min(MM)) max(max(MM))])
+0192             set(get(gui.axXYZL,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0193             set(get(gui.axXYZL,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'M'</span>);
+0194             set(get(gui.axXYZL,<span class="string">'Title'</span>),<span class="string">'String'</span>,[<span class="string">'projection M \rightarrow B_0 p = '</span>,sprintf(<span class="string">'%4.3f'</span>,data.results.prepol.p)]);
+0195             
+0196             y6(:,1) = Beffn(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1),1);
+0197             y6(:,2) = Beffn(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1),2);
+0198             y6(:,3) = Beffn(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1),3);
+0199             <span class="keyword">if</span> time(nf)&lt;data.prepol.Tramp/1e3
+0200                 addpoints(h5a,y1a,y2a,y3a);
+0201             <span class="keyword">else</span>
+0202                 addpoints(h5b,y1b,y2b,y3b);
+0203             <span class="keyword">end</span>
+0204             addpoints(h6,y6(:,1),y6(:,2),y6(:,3));
+0205             set(gui.axSphereL,<span class="string">'XGrid'</span>,<span class="string">'on'</span>,<span class="string">'YGrid'</span>,<span class="string">'on'</span>,<span class="string">'ZGrid'</span>,<span class="string">'on'</span>,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0206             axis(gui.axSphereL,<span class="string">'equal'</span>,<span class="string">'tight'</span>); view(3);
+0207             set(get(gui.axSphereL,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'X'</span>);
+0208             set(get(gui.axSphereL,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'Y'</span>);
+0209             set(get(gui.axSphereL,<span class="string">'ZLabel'</span>),<span class="string">'String'</span>,<span class="string">'Z'</span>);
+0210             set(get(gui.axSphereL,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'&quot;Bloch sphere&quot;'</span>);
+0211             
+0212             <span class="keyword">if</span> data.results.prepol.t(end)/1e3 &gt;= time(nf)
+0213                 x2 = data.results.prepol.t(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1));
+0214                 x3 = tt(tt./1e3&gt;=time(nf) &amp; tt./1e3&lt;time(nf+1));
+0215                 
+0216                 y10 = y10a(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1));
+0217                 addpoints(h10,x2,y10);
+0218                 set(gui.axBpre,<span class="string">'XLim'</span>,[min(data.results.prepol.t) max(data.results.prepol.t)],<span class="string">'YLim'</span>,[0 data.prepol.Factor]);
+0219                 set(get(gui.axBpre,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0220                 set(get(gui.axBpre,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'B_{pre} [B_0]'</span>);
+0221                 set(get(gui.axBpre,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'B_{pre} switch-off ramp'</span>);
+0222                 
+0223                 y7 = data.results.prepol.alpha(data.results.prepol.t./1e3&gt;=time(nf) &amp; data.results.prepol.t./1e3&lt;time(nf+1));
+0224                 addpoints(h7,x2,y7);
+0225                 set(gui.axalpha,<span class="string">'XLim'</span>,[min(data.results.prepol.t) max(data.results.prepol.t)],<span class="string">'YLim'</span>,[min(data.results.prepol.alpha) max(data.results.prepol.alpha)]);
+0226                 set(get(gui.axalpha,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0227                 set(get(gui.axalpha,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'\alpha [deg]'</span>);
+0228                 set(get(gui.axalpha,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'angle \alpha between B_0 and B_{eff}'</span>);
+0229                 
+0230                 y8 = y8a(tt./1e3&gt;=time(nf) &amp; tt./1e3&lt;time(nf+1));
+0231                 addpoints(h8,x3,y8);
+0232                 set(gui.axes_handles.dadt,<span class="string">'XLim'</span>,[min(data.results.prepol.t) max(data.results.prepol.t)],<span class="string">'YLim'</span>,[min(data.results.prepol.dadt) max(data.results.prepol.dadt)]);
+0233                 set(get(gui.axes_handles.dadt,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0234                 set(get(gui.axes_handles.dadt,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'d\alpha / dt'</span>);
+0235                 set(get(gui.axes_handles.dadt,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'time derivative of \alpha'</span>);
+0236                 
+0237                 y9 = y9a(tt./1e3&gt;=time(nf) &amp; tt./1e3&lt;time(nf+1));
+0238                 addpoints(h9,x3,y9);
+0239                 set(gui.axes_handles.wda,<span class="string">'XLim'</span>,[min(data.results.prepol.t) max(data.results.prepol.t)],<span class="string">'YScale'</span>,<span class="string">'log'</span>,<span class="string">'YLim'</span>,[min(y9a) max(y9a)]);
+0240                 set(get(gui.axes_handles.wda,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0241                 set(get(gui.axes_handles.wda,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'\omega / d\alpha'</span>);
+0242                 set(get(gui.axes_handles.wda,<span class="string">'Title'</span>),<span class="string">'String'</span>,<span class="string">'adiabatic criterion(?)'</span>);
+0243             <span class="keyword">end</span>
+0244             clear y1 y2 y3 y4 y6 y7 y8 y9
+0245             pause(1/FPS);
+0246         <span class="keyword">end</span>
+0247         hold(gui.axXYZL,<span class="string">'off'</span>);
+0248         hold(gui.axSphereL,<span class="string">'off'</span>);
+0249         set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Animation running ... done.'</span>);
+0250         pause(0.01);
+0251         
+0252     <span class="keyword">case</span> <span class="string">'pulse'</span>
+0253         mgh = msgbox(<span class="string">'Not yet implemented.'</span>,<span class="string">'BLOCHUS info'</span>);
+0254         
+0255     <span class="keyword">case</span> <span class="string">'prepolpulse'</span>
+0256         mgh = msgbox(<span class="string">'Not yet implemented.'</span>,<span class="string">'BLOCHUS info'</span>);
+0257 <span class="keyword">end</span>
+0258 
+0259 
+0260 <span class="comment">% change the pushbutton color back to green</span>
+0261 <span class="comment">% set(src,'BackGroundColor','g');</span>
+0262 set(src,<span class="string">'BackGroundColor'</span>,[.94 .94 .94]);
+0263 <a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>(fig);
+0264 <span class="keyword">end</span> <span class="comment">% onPushAnimate</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

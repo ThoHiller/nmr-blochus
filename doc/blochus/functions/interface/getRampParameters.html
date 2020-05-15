@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getRampParameters</title>
+  <meta name="keywords" content="getRampParameters">
+  <meta name="description" content=" updates all relevant switch-off ramp settings">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>getRampParameters
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> updates all relevant switch-off ramp settings</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function getRampParameters(fig) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getRampParameters updates all relevant switch-off ramp settings
+
+ Syntax:
+       getRampParameters(fig)
+
+ Inputs:
+       fig - figure handle
+
+ Outputs:
+       none
+
+ Example:
+       getRampParameters(gui.figh)
+
+ Other m-files required:
+       getAngleBetweenVectors
+       getRampAmplitude
+       getRotationMatrixFromAngleandAxis
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/functions/blochsim/getRampAmplitude.html" class="code" title="function Bp = getRampAmplitude(t,param)">getRampAmplitude</a>	 provides pre-polarization switch-off B-field amplitude</li><li><a href="../../../blochus/functions/blochsim/getRotationMatrixFromAngleandAxis.html" class="code" title="function R = getRotationMatrixFromAngleandAxis(phi,n)">getRotationMatrixFromAngleandAxis</a>	 calculates rotation matrix R to rotate about</li><li><a href="getAngleBetweenVectors.html" class="code" title="function [theta,sgn] = getAngleBetweenVectors(x,y)">getAngleBetweenVectors</a>	 calculates the angle theta between two vectors 'x' and 'y'</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>	 selects the pre-polarization switch-off ramp</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function getRampParameters(fig)</a>
+0002 <span class="comment">%getRampParameters updates all relevant switch-off ramp settings</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getRampParameters(fig)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       fig - figure handle</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       none</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       getRampParameters(gui.figh)</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       getAngleBetweenVectors</span>
+0018 <span class="comment">%       getRampAmplitude</span>
+0019 <span class="comment">%       getRotationMatrixFromAngleandAxis</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% get GUI data</span>
+0035 gui  = getappdata(fig,<span class="string">'gui'</span>);
+0036 data = getappdata(fig,<span class="string">'data'</span>);
+0037 
+0038 <span class="comment">% z-axis unit vector</span>
+0039 zunit = [0 0 1]';
+0040 
+0041 <span class="comment">% --- switch-off ramp settings ---</span>
+0042 <span class="comment">% switch-off ramp type [string]</span>
+0043 rampparam.ramp = data.prepol.Ramp;
+0044 <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0045 rampparam.gamma = data.basic.gamma;
+0046 <span class="comment">% primary (Earth's) magnetic field amplitude B0 [T]</span>
+0047 rampparam.B0 = data.basic.B0;
+0048 <span class="comment">% maximum pre-polarization amplitude (factor*B0) [T]</span>
+0049 rampparam.Bmax = data.basic.B0*data.prepol.Factor;
+0050 <span class="comment">% switch-over amplitude for the &quot;linexp&quot; ramp (factor*B0) [T]</span>
+0051 rampparam.Bstar = data.basic.B0*data.prepol.SwitchFactor;
+0052 <span class="comment">% switch-off ramp time [s]</span>
+0053 rampparam.Tramp = data.prepol.Tramp/1e3;
+0054 <span class="comment">% switch-over time for the &quot;linexp&quot; ramp [s]</span>
+0055 rampparam.Tslope = data.prepol.Tslope/1e3;
+0056 <span class="comment">% switch-off ramp time vector [s] discretized with 500kHz</span>
+0057 t = (0:1/500000:rampparam.Tramp)';
+0058 <span class="comment">% get the amplitude of the pre-polarization field [T]</span>
+0059 <span class="comment">% this amplitude decreases over time due to the particular switch-off ramp</span>
+0060 Bp = <a href="../../../blochus/functions/blochsim/getRampAmplitude.html" class="code" title="function Bp = getRampAmplitude(t,param)">getRampAmplitude</a>(t,rampparam);
+0061 
+0062 <span class="comment">% now adjust the direction of the pre-polarization field</span>
+0063 <span class="comment">% 1.) rotation by angle theta [deg] around y-axis for the z-unit vector</span>
+0064 <span class="comment">% this means an angle of 90° around the y-axis will turn the z-unit into</span>
+0065 <span class="comment">% the x-unit vector</span>
+0066 RM = <a href="../../../blochus/functions/blochsim/getRotationMatrixFromAngleandAxis.html" class="code" title="function R = getRotationMatrixFromAngleandAxis(phi,n)">getRotationMatrixFromAngleandAxis</a>(deg2rad(data.prepol.Theta),[0 1 0]);
+0067 orient = RM * zunit;
+0068 <span class="comment">% now this new orientation vector gets rotated by  angle phi [deg] around</span>
+0069 <span class="comment">% the z-axis for the x-unit vector</span>
+0070 <span class="comment">% this means an angle of 90° around the z-axis will turn the x-unit into</span>
+0071 <span class="comment">% the y-unit vector</span>
+0072 RM = <a href="../../../blochus/functions/blochsim/getRotationMatrixFromAngleandAxis.html" class="code" title="function R = getRotationMatrixFromAngleandAxis(phi,n)">getRotationMatrixFromAngleandAxis</a>(deg2rad(data.prepol.Phi),[0 0 1]);
+0073 orient = RM * orient;
+0074 
+0075 <span class="comment">% primary (Earth's) magnetic field vector [T]</span>
+0076 Be = rampparam.B0.*zunit;
+0077 <span class="comment">% pre-polarization field vector oriented into the correct direction [T]</span>
+0078 Bpre = Bp.*repmat(orient',[numel(Bp) 1]);
+0079 <span class="comment">% the effective B-field vector as a combination of primary and</span>
+0080 <span class="comment">% pre-polarization field [T]</span>
+0081 Beff = Be' + Bpre;
+0082 
+0083 <span class="comment">% angle between primary and pre-polarization field [rad]</span>
+0084 alpha = <a href="getAngleBetweenVectors.html" class="code" title="function [theta,sgn] = getAngleBetweenVectors(x,y)">getAngleBetweenVectors</a>(repmat(Be',[size(Beff,1) 1]),Beff);
+0085 <span class="comment">% amplitude of the effective B-field [T]</span>
+0086 Beffn = sqrt(Beff(:,1).^2+Beff(:,2).^2+Beff(:,3).^2);
+0087 <span class="comment">% angular frequency of the effective B-field [rad/s]</span>
+0088 omega = rampparam.gamma.*Beffn;
+0089 <span class="comment">% rate of change of the angle alpha [rad/s]</span>
+0090 dt = t(2)-t(1);
+0091 dadt = abs(diff(alpha)./dt);
+0092 
+0093 <span class="comment">% save data</span>
+0094 data.results.prepol.orient = orient;
+0095 data.results.prepol.t = t;
+0096 data.results.prepol.Bmax = rampparam.Bmax;
+0097 data.results.prepol.Bstar = rampparam.Bstar;
+0098 data.results.prepol.Bp = Bp;
+0099 data.results.prepol.Beff = Beff;
+0100 data.results.prepol.alpha = alpha;
+0101 data.results.prepol.omega = omega;
+0102 data.results.prepol.dadt = dadt;
+0103 
+0104 
+0105 <span class="comment">% update GUI data</span>
+0106 setappdata(fig,<span class="string">'data'</span>,data);
+0107 <span class="keyword">end</span>
+0108 
+0109 <span class="comment">%------------- END OF CODE --------------</span>
+0110 
+0111 <span class="comment">%% License:</span>
+0112 <span class="comment">% GNU GPLv3</span>
+0113 <span class="comment">%</span>
+0114 <span class="comment">% BLOCHUS</span>
+0115 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0116 <span class="comment">%</span>
+0117 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0118 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0119 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0120 <span class="comment">% (at your option) any later version.</span>
+0121 <span class="comment">%</span>
+0122 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0123 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0124 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0125 <span class="comment">% GNU General Public License for more details.</span>
+0126 <span class="comment">%</span>
+0127 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0128 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

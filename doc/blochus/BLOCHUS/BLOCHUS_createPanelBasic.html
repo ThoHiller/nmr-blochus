@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createPanelBasic</title>
+  <meta name="keywords" content="BLOCHUS_createPanelBasic">
+  <meta name="description" content=" creates &quot;Basic&quot; settings panel">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createPanelBasic
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> creates &quot;Basic&quot; settings panel</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createPanelBasic creates &quot;Basic&quot; settings panel
+
+ Syntax:
+       [gui,myui] = BLOCHUS_createPanelBasic(gui,myui,data)
+
+ Inputs:
+       data - figure data structure
+       gui - figure gui elements structure
+       myui - individual GUI settings structure
+
+ Outputs:
+       gui
+       myui
+
+ Example:
+       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)
+
+ Other m-files required:
+       findjobj.m
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../blochus/callbacks/popup/onPopupNucleus.html" class="code" title="function onPopupNucleus(src,~)">onPopupNucleus</a>	 selects the nucleus (proton) to use for the simulation</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGUI.html" class="code" title="function BLOCHUS_createGUI(h,wbon)">BLOCHUS_createGUI</a>	 controls the creation of all GUI elements</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)</a>
+0002 <span class="comment">%BLOCHUS_createPanelBasic creates &quot;Basic&quot; settings panel</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelBasic(gui,myui,data)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       data - figure data structure</span>
+0009 <span class="comment">%       gui - figure gui elements structure</span>
+0010 <span class="comment">%       myui - individual GUI settings structure</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% Outputs:</span>
+0013 <span class="comment">%       gui</span>
+0014 <span class="comment">%       myui</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Example:</span>
+0017 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Other m-files required:</span>
+0020 <span class="comment">%       findjobj.m</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Subfunctions:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% MAT-files required:</span>
+0026 <span class="comment">%       none</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% See also: BLOCHUS</span>
+0029 <span class="comment">% Author: Thomas Hiller</span>
+0030 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0031 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0032 
+0033 <span class="comment">%------------- BEGIN CODE --------------</span>
+0034 
+0035 <span class="comment">%% create all boxes</span>
+0036 gui.panels.Basic.VBox = uix.VBox(<span class="string">'Parent'</span>, gui.panels.Basic.main,<span class="keyword">...</span>
+0037     <span class="string">'Spacing'</span>,3,<span class="string">'Padding'</span>,3);
+0038 
+0039 setNuc = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0040 setB0 = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0041 setT1relax = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0042 setT2relax = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0043 setTsim = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0044 setM0 = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0045 setMinit = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Basic.VBox,<span class="string">'Spacing'</span>,3);
+0046 
+0047 <span class="comment">%% Nucleus &amp; gyromagnetic ratio</span>
+0048 gui.text_handles.Nuc = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0049     <span class="string">'Parent'</span>,setNuc,<span class="keyword">...</span>
+0050     <span class="string">'String'</span>,[<span class="string">'Nucleus | '</span>,char(hex2dec(<span class="string">'3B3'</span>)),<span class="string">' [rad/s/T]'</span>],<span class="keyword">...</span>
+0051     <span class="string">'FontSize'</span>,myui.fontsize);
+0052 uix.Empty(<span class="string">'Parent'</span>,setNuc);
+0053 tstr = <span class="string">'Proton for spin simulation.'</span>;
+0054 gui.popup_handles.Nuc = uicontrol(<span class="string">'Style'</span>, <span class="string">'Popup'</span>,<span class="keyword">...</span>
+0055     <span class="string">'Parent'</span>,setNuc,<span class="keyword">...</span>
+0056     <span class="string">'String'</span>,{<span class="string">'1H'</span>,<span class="string">'2H'</span>,<span class="string">'3He'</span>,<span class="string">'7Li'</span>,<span class="string">'13C'</span>,<span class="string">'14N'</span>,<span class="string">'15N'</span>,<span class="string">'17O'</span>,<span class="string">'19F'</span>,<span class="keyword">...</span>
+0057     <span class="string">'23Na'</span>,<span class="string">'27Al'</span>,<span class="string">'29Si'</span>,<span class="string">'31P'</span>,<span class="string">'57Fe'</span>,<span class="string">'63Cu'</span>,<span class="string">'67Zn'</span>,<span class="string">'129Xe'</span>},<span class="keyword">...</span>
+0058     <span class="string">'Tag'</span>,<span class="string">'Nuc'</span>,<span class="keyword">...</span>
+0059     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0060     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0061     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0062     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupNucleus.html" class="code" title="function onPopupNucleus(src,~)">onPopupNucleus</a>);
+0063 gui.edit_handles.Gyro = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0064     <span class="string">'Parent'</span>,setNuc,<span class="keyword">...</span>
+0065     <span class="string">'String'</span>,sprintf(<span class="string">'%5.4e'</span>,data.basic.gamma),<span class="keyword">...</span>
+0066     <span class="string">'Tag'</span>,<span class="string">'Gyro'</span>,<span class="keyword">...</span>
+0067     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0068     <span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0069 set(setNuc,<span class="string">'Widths'</span>,[120 30 -1 -1]);
+0070 
+0071 <span class="comment">%% B0 &amp; omega0</span>
+0072 gui.text_handles.B0 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0073     <span class="string">'Parent'</span>,setB0,<span class="keyword">...</span>
+0074     <span class="string">'String'</span>,[<span class="string">'B0 [T] | '</span>,char(hex2dec(<span class="string">'3C9'</span>)),<span class="string">'0 [Hz]'</span>],<span class="keyword">...</span>
+0075     <span class="string">'FontSize'</span>,myui.fontsize);
+0076 uix.Empty(<span class="string">'Parent'</span>,setB0);
+0077 tstr = <span class="string">'&lt;HTML&gt;&lt;b&gt;B&lt;/b&gt;&lt;sub&gt;0&lt;/sub&gt; field strength in [T].&lt;br&gt;'</span>;
+0078 gui.edit_handles.B0 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0079     <span class="string">'Parent'</span>, setB0,<span class="keyword">...</span>
+0080     <span class="string">'String'</span>,num2str(data.init.B0(1)),<span class="keyword">...</span>
+0081     <span class="string">'Tag'</span>,<span class="string">'basic_B0'</span>,<span class="keyword">...</span>
+0082     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0083     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0084     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.B0),<span class="keyword">...</span><span class="comment">    </span>
+0085     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0086 tstr = <span class="string">'&lt;HTML&gt;&lt;b&gt;Omega&lt;/b&gt;&lt;sub&gt;0&lt;/sub&gt; frequency in [Hz].&lt;br&gt;'</span>;
+0087 gui.edit_handles.Omega0 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0088     <span class="string">'Parent'</span>,setB0,<span class="keyword">...</span>
+0089     <span class="string">'String'</span>,sprintf(<span class="string">'%7.2f'</span>,data.init.Omega0(1)),<span class="keyword">...</span>
+0090     <span class="string">'Tag'</span>,<span class="string">'basic_Omega0'</span>,<span class="keyword">...</span>
+0091     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0092     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0093     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.Omega0),<span class="keyword">...</span><span class="comment"> </span>
+0094     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0095 set(setB0,<span class="string">'Widths'</span>,[120 30 -1 -1]);
+0096 
+0097 <span class="comment">%% T1 relaxation time</span>
+0098 gui.text_handles.T1relax = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0099     <span class="string">'Parent'</span>,setT1relax,<span class="keyword">...</span>
+0100     <span class="string">'String'</span>,<span class="string">'T1 [ms]'</span>,<span class="keyword">...</span>
+0101     <span class="string">'FontSize'</span>,myui.fontsize);
+0102 uix.Empty(<span class="string">'Parent'</span>,setT1relax);
+0103 tstr = <span class="string">'&lt;HTML&gt;Longitudinal relaxation time T&lt;sub&gt;1&lt;/sub&gt; in [ms].&lt;br&gt;'</span>;
+0104 gui.edit_handles.T1relax = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0105     <span class="string">'Parent'</span>,setT1relax,<span class="keyword">...</span>
+0106     <span class="string">'String'</span>,num2str(data.init.T1relax(1)),<span class="keyword">...</span>
+0107     <span class="string">'Tag'</span>,<span class="string">'basic_T1relax'</span>,<span class="keyword">...</span>
+0108     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0109     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0110     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.T1relax),<span class="keyword">...</span><span class="comment"> </span>
+0111     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0112 set(setT1relax,<span class="string">'Widths'</span>,[120 30 -1]);
+0113 
+0114 <span class="comment">%% T2 relaxation time</span>
+0115 gui.text_handles.T2relax = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0116     <span class="string">'Parent'</span>,setT2relax,<span class="keyword">...</span>
+0117     <span class="string">'String'</span>,<span class="string">'T2 [ms]'</span>,<span class="keyword">...</span>
+0118     <span class="string">'FontSize'</span>,myui.fontsize);
+0119 uix.Empty(<span class="string">'Parent'</span>,setT2relax);
+0120 tstr = <span class="string">'&lt;HTML&gt;Transversal relaxation time T&lt;sub&gt;2&lt;/sub&gt; in [ms].&lt;br&gt;'</span>;
+0121 gui.edit_handles.T2relax = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0122     <span class="string">'Parent'</span>,setT2relax,<span class="keyword">...</span>
+0123     <span class="string">'String'</span>,num2str(data.init.T2relax(1)),<span class="keyword">...</span>
+0124     <span class="string">'Tag'</span>,<span class="string">'basic_T2relax'</span>,<span class="keyword">...</span>
+0125     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0126     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0127     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.T2relax),<span class="keyword">...</span><span class="comment"> </span>
+0128     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0129 set(setT2relax,<span class="string">'Widths'</span>,[120 30 -1]);
+0130 
+0131 <span class="comment">%% maximum simulation time</span>
+0132 gui.text_handles.Tsim = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0133     <span class="string">'Parent'</span>,setTsim,<span class="keyword">...</span>
+0134     <span class="string">'String'</span>,<span class="string">'T sim. [ms]'</span>,<span class="keyword">...</span>
+0135     <span class="string">'FontSize'</span>,myui.fontsize);
+0136 uix.Empty(<span class="string">'Parent'</span>,setTsim);
+0137 tstr = <span class="string">'&lt;HTML&gt;Total simulation time T&lt;sub&gt;sim&lt;/sub&gt; in [ms].&lt;br&gt;'</span>;
+0138 gui.edit_handles.Tsim = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0139     <span class="string">'Parent'</span>,setTsim,<span class="keyword">...</span>
+0140     <span class="string">'String'</span>,num2str(data.init.Tsim(1)),<span class="keyword">...</span>
+0141     <span class="string">'Tag'</span>,<span class="string">'basic_Tsim'</span>,<span class="keyword">...</span>
+0142     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0143     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0144     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.Tsim),<span class="keyword">...</span><span class="comment"> </span>
+0145     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0146 set(setTsim,<span class="string">'Widths'</span>,[120 30 -1]);
+0147 
+0148 <span class="comment">%% equilibrium magnetization M0</span>
+0149 gui.text_handles.M0 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0150     <span class="string">'Parent'</span>,setM0,<span class="keyword">...</span>
+0151     <span class="string">'String'</span>,<span class="string">'M0 [A/m]'</span>,<span class="keyword">...</span>
+0152     <span class="string">'FontSize'</span>,myui.fontsize);
+0153 uix.Empty(<span class="string">'Parent'</span>,setM0);
+0154 gui.edit_handles.M0x = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0155     <span class="string">'Parent'</span>,setM0,<span class="keyword">...</span>
+0156     <span class="string">'String'</span>,num2str(data.basic.M0(1)),<span class="keyword">...</span>
+0157     <span class="string">'Tag'</span>,<span class="string">'basic_M0x'</span>,<span class="keyword">...</span>
+0158     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span><span class="comment">.</span>
+0159     <span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0160 gui.edit_handles.M0y = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0161     <span class="string">'Parent'</span>,setM0,<span class="keyword">...</span>
+0162     <span class="string">'String'</span>,num2str(data.basic.M0(2)),<span class="keyword">...</span>
+0163     <span class="string">'Tag'</span>,<span class="string">'basic_M0y'</span>,<span class="keyword">...</span>
+0164     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0165     <span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0166 gui.edit_handles.M0z = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0167     <span class="string">'Parent'</span>,setM0,<span class="keyword">...</span>
+0168     <span class="string">'String'</span>,num2str(data.basic.M0(3)),<span class="keyword">...</span>
+0169     <span class="string">'Tag'</span>,<span class="string">'basic_M0z'</span>,<span class="keyword">...</span>
+0170     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0171     <span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0172 set(setM0,<span class="string">'Widths'</span>,[120 30 -1 -1 -1]);
+0173 
+0174 <span class="comment">%% initial magnetization Minit</span>
+0175 gui.text_handles.Minit = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0176     <span class="string">'Parent'</span>,setMinit,<span class="keyword">...</span>
+0177     <span class="string">'String'</span>,<span class="string">'Minit [A/m]'</span>,<span class="keyword">...</span>
+0178     <span class="string">'FontSize'</span>,myui.fontsize);
+0179 uix.Empty(<span class="string">'Parent'</span>,setMinit);
+0180 tstr = <span class="string">'X-comp. of initial magnetization M in [A/m]'</span>;
+0181 gui.edit_handles.Minitx = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0182     <span class="string">'Parent'</span>,setMinit,<span class="keyword">...</span>
+0183     <span class="string">'String'</span>,num2str(data.basic.Minit(1)),<span class="keyword">...</span>
+0184     <span class="string">'Tag'</span>,<span class="string">'basic_Minitx'</span>,<span class="keyword">...</span>
+0185     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0186     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0187     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,[data.basic.Minit(1) -1e6 1e6]),<span class="keyword">...</span>
+0188     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0189 tstr = <span class="string">'Y-comp. of initial magnetization M in [A/m]'</span>;
+0190 gui.edit_handles.Minity = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0191     <span class="string">'Parent'</span>,setMinit,<span class="keyword">...</span>
+0192     <span class="string">'String'</span>,num2str(data.basic.Minit(2)),<span class="keyword">...</span>
+0193     <span class="string">'Tag'</span>,<span class="string">'basic_Minity'</span>,<span class="keyword">...</span>
+0194     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0195     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0196     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,[data.basic.Minit(2) -1e6 1e6]),<span class="keyword">...</span>
+0197     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0198 tstr = <span class="string">'Z-comp. of initial magnetization M in [A/m]'</span>;
+0199 gui.edit_handles.Minitz = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0200     <span class="string">'Parent'</span>,setMinit,<span class="keyword">...</span>
+0201     <span class="string">'String'</span>,num2str(data.basic.Minit(3)),<span class="keyword">...</span>
+0202     <span class="string">'Tag'</span>,<span class="string">'basic_Minitz'</span>,<span class="keyword">...</span>
+0203     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0204     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0205     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,[data.basic.Minit(3) -1e6 1e6]),<span class="keyword">...</span>
+0206     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0207 set(setMinit,<span class="string">'Widths'</span>,[120 30 -1 -1 -1]);
+0208 
+0209 <span class="comment">% Java Hack to adjust the text fields vertical alignment</span>
+0210 jh = findjobj(gui.text_handles.Nuc);
+0211 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0212 jh = findjobj(gui.text_handles.B0);
+0213 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0214 jh = findjobj(gui.text_handles.T1relax);
+0215 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0216 jh = findjobj(gui.text_handles.T2relax);
+0217 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0218 jh = findjobj(gui.text_handles.Tsim);
+0219 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0220 jh = findjobj(gui.text_handles.M0);
+0221 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0222 jh = findjobj(gui.text_handles.Minit);
+0223 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0224 
+0225 <span class="keyword">return</span>
+0226 
+0227 <span class="comment">%------------- END OF CODE --------------</span>
+0228 
+0229 <span class="comment">%% License:</span>
+0230 <span class="comment">% GNU GPLv3</span>
+0231 <span class="comment">%</span>
+0232 <span class="comment">% BLOCHUS</span>
+0233 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0234 <span class="comment">%</span>
+0235 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0236 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0237 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0238 <span class="comment">% (at your option) any later version.</span>
+0239 <span class="comment">%</span>
+0240 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0241 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0242 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0243 <span class="comment">% GNU General Public License for more details.</span>
+0244 <span class="comment">%</span>
+0245 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0246 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

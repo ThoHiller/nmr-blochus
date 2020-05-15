@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getFFT</title>
+  <meta name="keywords" content="getFFT">
+  <meta name="description" content=" calculates the FFT for a given time and signal pair">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>getFFT
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> calculates the FFT for a given time and signal pair</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [Y,f] = getFFT(t,s) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getFFT calculates the FFT for a given time and signal pair
+
+ Syntax:
+       getFFT(t,m)
+
+ Inputs:
+       t - time [s]
+       s - signal
+
+ Outputs:
+       Y - amplitudes of the FFT
+       f - frequency [Hz]
+
+ Example:
+       getFFT(t,s)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [Y,f] = getFFT(t,s)</a>
+0002 <span class="comment">%getFFT calculates the FFT for a given time and signal pair</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getFFT(t,m)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       t - time [s]</span>
+0009 <span class="comment">%       s - signal</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       Y - amplitudes of the FFT</span>
+0013 <span class="comment">%       f - frequency [Hz]</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       getFFT(t,s)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       none</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% length of the time series [s]</span>
+0035 Tmax = t(end);
+0036 <span class="comment">% NOTE: because the ode-solver uses adaptive time-stepping, the time vector</span>
+0037 <span class="comment">% may be irregularly spaced, so we use the shortest time step</span>
+0038 dt = diff(t);
+0039 dt = max([1e-6 abs(min(dt))]); <span class="comment">% [s] max. 1MHz</span>
+0040 <span class="comment">% dt = 1e-7;</span>
+0041 <span class="comment">% sampling frequency [Hz]</span>
+0042 FS = 1/dt;
+0043 <span class="comment">% new time vector with regular time stepping [s]</span>
+0044 tt=0:1/FS:Tmax;
+0045 <span class="comment">% number of time steps [-]</span>
+0046 Nt = numel(tt);
+0047 <span class="comment">% if the signal is complex we need to interpolate both parts</span>
+0048 <span class="keyword">if</span> size(s,2)== 2
+0049     <span class="comment">% interpolate signal to new time steps</span>
+0050     SxI = interp1(t,s(:,1),tt);
+0051     SyI = interp1(t,s(:,2),tt);
+0052     <span class="comment">% new complex signal</span>
+0053     y = complex(SxI,SyI);
+0054 <span class="keyword">else</span>
+0055     <span class="comment">% interpolate signal to new time steps</span>
+0056     y = interp1(t,s,tt);
+0057 <span class="keyword">end</span>
+0058 <span class="comment">% complex FFT</span>
+0059 YY = fft(y);
+0060 <span class="comment">% apply fftshift to center the spectrum correctly</span>
+0061 Y = fftshift(YY)./Nt;
+0062 <span class="comment">% frequency sampling [Hz]</span>
+0063 f = FS/2*linspace(-1,1,Nt);
+0064 
+0065 <span class="keyword">return</span>
+0066 
+0067 <span class="comment">%------------- END OF CODE --------------</span>
+0068 
+0069 <span class="comment">%% License:</span>
+0070 <span class="comment">% GNU GPLv3</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">% BLOCHUS</span>
+0073 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0074 <span class="comment">%</span>
+0075 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0076 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0077 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0078 <span class="comment">% (at your option) any later version.</span>
+0079 <span class="comment">%</span>
+0080 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0081 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0082 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0083 <span class="comment">% GNU General Public License for more details.</span>
+0084 <span class="comment">%</span>
+0085 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0086 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

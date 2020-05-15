@@ -1,0 +1,530 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createPanelPulse</title>
+  <meta name="keywords" content="BLOCHUS_createPanelPulse">
+  <meta name="description" content=" creates &quot;Pulse&quot; settings panel">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createPanelPulse
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> creates &quot;Pulse&quot; settings panel</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createPanelPulse creates &quot;Pulse&quot; settings panel
+
+ Syntax:
+       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)
+
+ Inputs:
+       data - figure data structure
+       gui - figure gui elements structure
+       myui - individual GUI settings structure
+
+ Outputs:
+       gui
+       myui
+
+ Example:
+       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)
+
+ Other m-files required:
+       findjobj.m
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../blochus/callbacks/checkbox/onCheckPrePolPulse.html" class="code" title="function onCheckPrePolPulse(src,~)">onCheckPrePolPulse</a>	 activates / deactivates all control elements needed for</li><li><a href="../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../blochus/callbacks/checkbox/onCheckRDP.html" class="code" title="function onCheckRDP(src,~)">onCheckRDP</a>	 updates the checkboxes that activate relaxation during pulse</li><li><a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGUI.html" class="code" title="function BLOCHUS_createGUI(h,wbon)">BLOCHUS_createGUI</a>	 controls the creation of all GUI elements</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)</a>
+0002 <span class="comment">%BLOCHUS_createPanelPulse creates &quot;Pulse&quot; settings panel</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       data - figure data structure</span>
+0009 <span class="comment">%       gui - figure gui elements structure</span>
+0010 <span class="comment">%       myui - individual GUI settings structure</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% Outputs:</span>
+0013 <span class="comment">%       gui</span>
+0014 <span class="comment">%       myui</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Example:</span>
+0017 <span class="comment">%       [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Other m-files required:</span>
+0020 <span class="comment">%       findjobj.m</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% Subfunctions:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% MAT-files required:</span>
+0026 <span class="comment">%       none</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% See also: BLOCHUS</span>
+0029 <span class="comment">% Author: Thomas Hiller</span>
+0030 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0031 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0032 
+0033 <span class="comment">%------------- BEGIN CODE --------------</span>
+0034 
+0035 <span class="comment">%% create all boxes</span>
+0036 gui.panels.Pulse.VBox = uix.VBox(<span class="string">'Parent'</span>, gui.panels.Pulse.main,<span class="keyword">...</span>
+0037     <span class="string">'Spacing'</span>,3,<span class="string">'Padding'</span>,3);
+0038 
+0039 setCheck2 = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0040 setPulseRDP = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0041 setPulseType = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0042 setPulseAxis = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0043 setPulsePolarization = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0044 setPulseB1Factor = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0045 setPulseTtau = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0046 setPulseDFmode = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0047 setPulseDF = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0048 setPulseImode = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0049 setPulseI = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0050 setPulseQ = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0051 setPulseTwait = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Pulse.VBox,<span class="string">'Spacing'</span>,3);
+0052 
+0053 <span class="comment">%%</span>
+0054 uix.Empty(<span class="string">'Parent'</span>,setCheck2);
+0055 tstr = <span class="string">'Activate pulse settings.'</span>;
+0056 gui.check_handles.Pulse = uicontrol(<span class="string">'Style'</span>,<span class="string">'Checkbox'</span>,<span class="keyword">...</span>
+0057     <span class="string">'Parent'</span>,setCheck2,<span class="keyword">...</span>
+0058     <span class="string">'String'</span>,<span class="string">'Use Pulse'</span>,<span class="keyword">...</span>
+0059     <span class="string">'Value'</span>,0,<span class="keyword">...</span>
+0060     <span class="string">'Tag'</span>,<span class="string">'checkPulse'</span>,<span class="keyword">...</span>
+0061     <span class="string">'ToolTipString'</span>,tstr,<span class="keyword">...</span>
+0062     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0063     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0064     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/checkbox/onCheckPrePolPulse.html" class="code" title="function onCheckPrePolPulse(src,~)">onCheckPrePolPulse</a>);
+0065 uix.Empty(<span class="string">'Parent'</span>,setCheck2);
+0066 set(setCheck2,<span class="string">'Widths'</span>,[-1 100 -1]);
+0067 
+0068 <span class="comment">%% relaxation during pulse RDP switch</span>
+0069 gui.text_handles.PulseRDP = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0070     <span class="string">'Parent'</span>,setPulseRDP,<span class="keyword">...</span>
+0071     <span class="string">'String'</span>,<span class="string">'Relax. during pulse'</span>,<span class="keyword">...</span>
+0072     <span class="string">'FontSize'</span>,myui.fontsize);
+0073 uix.Empty(<span class="string">'Parent'</span>,setPulseRDP);
+0074 tstr = <span class="string">'&lt;HTML&gt;Switch on/off relaxation during pulse - RDP.&lt;br&gt;'</span>;
+0075 gui.check_handles.PulseRDP = uicontrol(<span class="string">'Style'</span>,<span class="string">'checkbox'</span>,<span class="keyword">...</span>
+0076     <span class="string">'Parent'</span>,setPulseRDP,<span class="keyword">...</span>
+0077     <span class="string">'String'</span>,<span class="string">'RDP'</span>,<span class="keyword">...</span>
+0078     <span class="string">'Tag'</span>,<span class="string">'PulseRDP'</span>,<span class="keyword">...</span>
+0079     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0080     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0081     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0082     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0083     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/checkbox/onCheckRDP.html" class="code" title="function onCheckRDP(src,~)">onCheckRDP</a>);
+0084 set(setPulseRDP,<span class="string">'Widths'</span>,[140 10 -1]);
+0085 
+0086 <span class="comment">%% pulse type</span>
+0087 gui.text_handles.PulseType = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0088     <span class="string">'Parent'</span>,setPulseType,<span class="keyword">...</span>
+0089     <span class="string">'String'</span>,<span class="string">'Pulse type'</span>,<span class="keyword">...</span>
+0090     <span class="string">'FontSize'</span>,myui.fontsize);
+0091 uix.Empty(<span class="string">'Parent'</span>,setPulseType);
+0092 tstr = [<span class="string">'&lt;HTML&gt;Choose between different pulse types.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0093     <span class="string">'&lt;u&gt;Available options:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0094     <span class="string">'&lt;b&gt;'</span>,char(hex2dec(<span class="string">'3C0'</span>)),<span class="string">'/2&lt;/b&gt; '</span>,char(hex2dec(<span class="string">'3C0'</span>)),<span class="keyword">...</span>
+0095     <span class="string">'/2 excitation pulse. B1 or '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' get adjusted.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0096     <span class="string">'&lt;b&gt;'</span>,char(hex2dec(<span class="string">'3C0'</span>)),<span class="string">'&lt;/b&gt; '</span>,char(hex2dec(<span class="string">'3C0'</span>)),<span class="keyword">...</span>
+0097     <span class="string">' excitation pulse. B1 or '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' get adjusted.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0098     <span class="string">'&lt;b&gt;free&lt;/b&gt; freely adjustable excitation pulse.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0099     <span class="string">'&lt;b&gt;adiabatic HP&lt;/b&gt; adiabatic half passage pulse.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0100     <span class="string">'&lt;b&gt;MIDI OR&lt;/b&gt; MIDI style (discrete) on-resonant pulse.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0101     <span class="string">'&lt;b&gt;MDID AP&lt;/b&gt; MIDI style (discrete) adiabatic pulse.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0102     <span class="string">'&lt;u&gt;Default value:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0103     <span class="string">'&lt;b&gt;'</span>,char(hex2dec(<span class="string">'3C0'</span>)),<span class="string">'/2&lt;/b&gt;&lt;br&gt;'</span>];
+0104 gui.popup_handles.PulseType = uicontrol(<span class="string">'Style'</span>,<span class="string">'Popup'</span>,<span class="keyword">...</span>
+0105     <span class="string">'Parent'</span>,setPulseType,<span class="keyword">...</span>
+0106     <span class="string">'String'</span>,{[char(hex2dec(<span class="string">'3C0'</span>)),<span class="string">'/2'</span>],char(hex2dec(<span class="string">'3C0'</span>)),<span class="string">'free'</span>,<span class="keyword">...</span>
+0107     <span class="string">'AHP'</span>,<span class="string">'MIDI OR'</span>,<span class="string">'MIDI AHP'</span>},<span class="keyword">...</span>
+0108     <span class="string">'Value'</span>,1,<span class="keyword">...</span>
+0109     <span class="string">'Tag'</span>,<span class="string">'PulseType'</span>,<span class="keyword">...</span>
+0110     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0111     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0112     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0113     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0114     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>);
+0115 set(setPulseType,<span class="string">'Widths'</span>,[140 10 -1]);
+0116 
+0117 <span class="comment">%% pulse axis</span>
+0118 gui.text_handles.PulseAxis = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0119     <span class="string">'Parent'</span>,setPulseAxis,<span class="keyword">...</span>
+0120     <span class="string">'String'</span>,<span class="string">'Pulse axis'</span>,<span class="keyword">...</span>
+0121     <span class="string">'FontSize'</span>,myui.fontsize);
+0122 uix.Empty(<span class="string">'Parent'</span>,setPulseAxis);
+0123 tstr = [<span class="string">'&lt;HTML&gt;Choose between different pulse axis.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0124     <span class="string">'Note that in the rotating frame of reference, &lt;b&gt;M&lt;/b&gt; flips'</span>,<span class="keyword">...</span>
+0125     <span class="string">' according to the right-hand-rule.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0126     <span class="string">'&lt;u&gt;Available options:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0127     <span class="string">'&lt;b&gt;+x&lt;/b&gt; - Lab standard (OR pulse is flipped into the -Im part (-y))&lt;br&gt;'</span>,<span class="keyword">...</span>
+0128     <span class="string">'&lt;b&gt;-x&lt;/b&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0129     <span class="string">'&lt;b&gt;+y&lt;/b&gt; - MRS standard (OR pulse is flipped into the Re part (+x))&lt;br&gt;'</span>,<span class="keyword">...</span>
+0130     <span class="string">'&lt;b&gt;-y&lt;/b&gt;&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0131     <span class="string">'&lt;u&gt;Default value:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0132     <span class="string">'&lt;b&gt;+x&lt;/b&gt;&lt;br&gt;'</span>];
+0133 gui.popup_handles.PulseAxis = uicontrol(<span class="string">'Style'</span>,<span class="string">'Popup'</span>,<span class="keyword">...</span>
+0134     <span class="string">'Parent'</span>,setPulseAxis,<span class="keyword">...</span>
+0135     <span class="string">'String'</span>,{<span class="string">'+x (Lab std)'</span>,<span class="string">'-x'</span>,<span class="string">'+y (MRS std)'</span>,<span class="string">'-y'</span>},<span class="keyword">...</span>
+0136     <span class="string">'Value'</span>,1,<span class="keyword">...</span>
+0137     <span class="string">'Tag'</span>,<span class="string">'PulseAxis'</span>,<span class="keyword">...</span>
+0138     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0139     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0140     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0141     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0142     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>);
+0143 set(setPulseAxis,<span class="string">'Widths'</span>,[140 10 -1]);
+0144 
+0145 <span class="comment">%% pulse polarization</span>
+0146 gui.text_handles.PulsePolarization = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0147     <span class="string">'Parent'</span>,setPulsePolarization,<span class="keyword">...</span>
+0148     <span class="string">'String'</span>,<span class="string">'Pulse polarization'</span>,<span class="keyword">...</span>
+0149     <span class="string">'FontSize'</span>,myui.fontsize);
+0150 uix.Empty(<span class="string">'Parent'</span>,setPulsePolarization);
+0151 tstr = [<span class="string">'&lt;HTML&gt;Choose between different pulse polarization.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0152     <span class="string">'&lt;u&gt;Available options:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0153     <span class="string">'&lt;b&gt;circular&lt;/b&gt; x and y components.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0154     <span class="string">'&lt;b&gt;linear&lt;/b&gt; only x component.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0155     <span class="string">'&lt;u&gt;Default value:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0156     <span class="string">'&lt;b&gt;circular&lt;/b&gt;&lt;br&gt;'</span>];
+0157 gui.popup_handles.PulsePolarization = uicontrol(<span class="string">'Style'</span>,<span class="string">'Popup'</span>,<span class="keyword">...</span>
+0158     <span class="string">'Parent'</span>,setPulsePolarization,<span class="keyword">...</span>
+0159     <span class="string">'String'</span>,{<span class="string">'circular'</span>,<span class="string">'linear'</span>},<span class="keyword">...</span>
+0160     <span class="string">'Value'</span>,1,<span class="keyword">...</span>
+0161     <span class="string">'Tag'</span>,<span class="string">'PulsePolarization'</span>,<span class="keyword">...</span>
+0162     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0163     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0164     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0165     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0166     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>);
+0167 set(setPulsePolarization,<span class="string">'Widths'</span>,[140 10 -1]);
+0168 
+0169 <span class="comment">%% pulse amplitude B1 factor in units of B0</span>
+0170 gui.text_handles.PulseB1Factor = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0171     <span class="string">'Parent'</span>,setPulseB1Factor,<span class="keyword">...</span>
+0172     <span class="string">'String'</span>,<span class="string">'B1 factor [B0]'</span>,<span class="keyword">...</span>
+0173     <span class="string">'FontSize'</span>,myui.fontsize);
+0174 uix.Empty(<span class="string">'Parent'</span>,setPulseB1Factor);
+0175 tstr = <span class="string">'&lt;HTML&gt;Pulse amplitude factor B1 in units of &lt;b&gt;B&lt;/b&gt;&lt;sub&gt;0&lt;/sub&gt;.&lt;br&gt;'</span>;
+0176 gui.edit_handles.PulseB1Factor = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0177     <span class="string">'Parent'</span>,setPulseB1Factor,<span class="keyword">...</span>
+0178     <span class="string">'String'</span>,num2str(data.init.PulseB1Factor(1)),<span class="keyword">...</span>
+0179     <span class="string">'Tag'</span>,<span class="string">'pulse_B1Factor'</span>,<span class="keyword">...</span>
+0180     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0181     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0182     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseB1Factor),<span class="keyword">...</span>
+0183     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0184     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0185 set(setPulseB1Factor,<span class="string">'Widths'</span>,[140 10 -1]);
+0186 
+0187 <span class="comment">%% pulse time T_tau</span>
+0188 gui.text_handles.PulseTtau = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span><span class="comment">.</span>
+0189     <span class="string">'Parent'</span>,setPulseTtau,<span class="keyword">...</span>
+0190     <span class="string">'String'</span>,[<span class="string">'Pulse length '</span>,char(hex2dec(<span class="string">'3C4'</span>)),<span class="string">' [ms]'</span>],<span class="keyword">...</span>
+0191     <span class="string">'FontSize'</span>,myui.fontsize);
+0192 uix.Empty(<span class="string">'Parent'</span>,setPulseTtau);
+0193 tstr = <span class="string">'&lt;HTML&gt;Pulse length &amp;tau in [ms].&lt;br&gt;'</span>;
+0194 gui.edit_handles.PulseTtau = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0195     <span class="string">'Parent'</span>,setPulseTtau,<span class="keyword">...</span>
+0196     <span class="string">'String'</span>,num2str(data.init.PulseTtau(1)),<span class="keyword">...</span>
+0197     <span class="string">'Tag'</span>,<span class="string">'pulse_Ttau'</span>,<span class="keyword">...</span>
+0198     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0199     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0200     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseTtau),<span class="keyword">...</span>
+0201     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span><span class="comment">    </span>
+0202     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0203 set(setPulseTtau,<span class="string">'Widths'</span>,[140 10 -1]);
+0204 
+0205 <span class="comment">%% frequency modulation</span>
+0206 gui.text_handles.PulseDFmode = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0207     <span class="string">'Parent'</span>,setPulseDFmode,<span class="keyword">...</span>
+0208     <span class="string">'String'</span>,[<span class="string">'Frequency modulation '</span>,char(hex2dec(<span class="string">'394'</span>)),<span class="string">'f'</span>],<span class="keyword">...</span>
+0209     <span class="string">'FontSize'</span>,myui.fontsize);
+0210 uix.Empty(<span class="string">'Parent'</span>,setPulseDFmode);
+0211 tstr = [<span class="string">'&lt;HTML&gt;Choose between different pulse types.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0212     <span class="string">'&lt;u&gt;Available options:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0213     <span class="string">'&lt;b&gt;linear&lt;/b&gt; linear sweep from start freq. to end freq.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0214     <span class="string">'&lt;b&gt;tanh MIDI&lt;/b&gt; tanh sweep from start freq. to end freq. (shape can be adjusted).&lt;br&gt;'</span>,<span class="keyword">...</span>
+0215     <span class="string">'&lt;b&gt;tanh GMR&lt;/b&gt; tanh sweep from start freq. to end freq..&lt;br&gt;'</span>,<span class="keyword">...</span>
+0216     <span class="string">'&lt;b&gt;exp&lt;/b&gt; exp sweep from start freq. to end freq..&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0217     <span class="string">'&lt;u&gt;Default value:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0218     <span class="string">'&lt;b&gt;linear&lt;/b&gt;&lt;br&gt;'</span>];
+0219 gui.popup_handles.PulseDFmode = uicontrol(<span class="string">'Style'</span>,<span class="string">'Popup'</span>,<span class="keyword">...</span>
+0220     <span class="string">'Parent'</span>,setPulseDFmode,<span class="keyword">...</span>
+0221     <span class="string">'String'</span>,{<span class="string">'linear'</span>,<span class="string">'tanh MIDI'</span>,<span class="string">'tanh GMR'</span>,<span class="string">'exp'</span>},<span class="keyword">...</span>
+0222     <span class="string">'Value'</span>,1,<span class="keyword">...</span>
+0223     <span class="string">'Tag'</span>,<span class="string">'PulseDFmode'</span>,<span class="keyword">...</span>
+0224     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0225     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0226     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0227     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0228     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>);
+0229 set(setPulseDFmode,<span class="string">'Widths'</span>,[140 10 -1]);
+0230 
+0231 <span class="comment">%% off resonance frequency settings</span>
+0232 gui.text_handles.PulseDF = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0233     <span class="string">'Parent'</span>,setPulseDF,<span class="keyword">...</span>
+0234     <span class="string">'String'</span>,<span class="string">'start [Hz] end [Hz] A B'</span>,<span class="keyword">...</span>
+0235     <span class="string">'FontSize'</span>,myui.fontsize);
+0236 uix.Empty(<span class="string">'Parent'</span>,setPulseDF);
+0237 tstr = [<span class="string">'&lt;HTML&gt;Start of frequency offset '</span>,char(hex2dec(<span class="string">'394'</span>)),<span class="string">'f in [Hz].'</span>];
+0238 gui.edit_handles.PulseDFstart = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0239     <span class="string">'Parent'</span>,setPulseDF,<span class="keyword">...</span>
+0240     <span class="string">'String'</span>,num2str(data.init.PulseDFstart(1)),<span class="keyword">...</span>
+0241     <span class="string">'Tag'</span>,<span class="string">'pulse_DFstart'</span>,<span class="keyword">...</span>
+0242     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0243     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0244     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseDFstart),<span class="keyword">...</span>
+0245     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span><span class="comment">    </span>
+0246     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0247 tstr = [<span class="string">'&lt;HTML&gt;End of frequency offset '</span>,char(hex2dec(<span class="string">'394'</span>)),<span class="string">'f in [Hz].'</span>];
+0248 gui.edit_handles.PulseDFend = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0249     <span class="string">'Parent'</span>,setPulseDF,<span class="keyword">...</span><span class="comment">.</span>
+0250     <span class="string">'String'</span>,num2str(data.init.PulseDFend(1)),<span class="keyword">...</span>
+0251     <span class="string">'Tag'</span>,<span class="string">'pulse_DFend'</span>,<span class="keyword">...</span>
+0252     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0253     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span><span class="comment">    </span>
+0254     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseDFend),<span class="keyword">...</span>
+0255     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0256     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0257 tstr = <span class="string">'Slope parameter A of tanh curve.'</span>;
+0258 gui.edit_handles.PulseDFA = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0259     <span class="string">'Parent'</span>,setPulseDF,<span class="keyword">...</span>
+0260     <span class="string">'String'</span>,num2str(data.init.PulseDFA(1)),<span class="keyword">...</span>
+0261     <span class="string">'Tag'</span>,<span class="string">'pulse_DFA'</span>,<span class="keyword">...</span>
+0262     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0263     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0264     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseDFA),<span class="keyword">...</span>
+0265     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0266     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0267 tstr = <span class="string">'Upsetting parameter B of tanh curve.'</span>;
+0268 gui.edit_handles.PulseDFB = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0269     <span class="string">'Parent'</span>,setPulseDF,<span class="keyword">...</span>
+0270     <span class="string">'String'</span>,num2str(data.init.PulseDFB(1)),<span class="keyword">...</span>
+0271     <span class="string">'Tag'</span>,<span class="string">'pulse_DFB'</span>,<span class="keyword">...</span>
+0272     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0273     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0274     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseDFB),<span class="keyword">...</span>
+0275     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0276     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0277 set(setPulseDF,<span class="string">'Widths'</span>,[140 10 -1.5 -1.5 -1 -1]);
+0278 
+0279 <span class="comment">%% current modulation</span>
+0280 gui.text_handles.PulseImode = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0281     <span class="string">'Parent'</span>,setPulseImode,<span class="keyword">...</span>
+0282     <span class="string">'String'</span>,<span class="string">'Current modulation I'</span>,<span class="keyword">...</span>
+0283     <span class="string">'FontSize'</span>,myui.fontsize);
+0284 uix.Empty(<span class="string">'Parent'</span>,setPulseImode);
+0285 tstr = [<span class="string">'&lt;HTML&gt;Choose between different pulse types.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0286     <span class="string">'&lt;u&gt;Available options:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0287     <span class="string">'&lt;b&gt;linear&lt;/b&gt; linear sweep from start I to end I.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0288     <span class="string">'&lt;b&gt;tanh MIDI&lt;/b&gt; tanh sweep from start I to end I (shape can be adjusted).&lt;br&gt;'</span>,<span class="keyword">...</span>
+0289     <span class="string">'&lt;b&gt;tanh GMR&lt;/b&gt; tanh sweep from start I to end I.&lt;br&gt;'</span>,<span class="keyword">...</span>
+0290     <span class="string">'&lt;b&gt;exp&lt;/b&gt; tanh sweep from start I to end I.&lt;br&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0291     <span class="string">'&lt;u&gt;Default value:&lt;/u&gt;&lt;br&gt;'</span>,<span class="keyword">...</span>
+0292     <span class="string">'&lt;b&gt;linear&lt;/b&gt;&lt;br&gt;'</span>];
+0293 gui.popup_handles.PulseImode = uicontrol(<span class="string">'Style'</span>,<span class="string">'Popup'</span>,<span class="keyword">...</span>
+0294     <span class="string">'Parent'</span>,setPulseImode,<span class="keyword">...</span>
+0295     <span class="string">'String'</span>,{<span class="string">'linear'</span>,<span class="string">'tanh MIDI'</span>,<span class="string">'tanh GMR'</span>,<span class="string">'exp'</span>},<span class="keyword">...</span>
+0296     <span class="string">'Value'</span>,1,<span class="keyword">...</span>
+0297     <span class="string">'Tag'</span>,<span class="string">'PulseDFmode'</span>,<span class="keyword">...</span><span class="comment">.</span>
+0298     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0299     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0300     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0301     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0302     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>);
+0303 set(setPulseImode,<span class="string">'Widths'</span>,[140 10 -1]);
+0304 
+0305 <span class="comment">%% current settings</span>
+0306 gui.text_handles.PulseI = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0307     <span class="string">'Parent'</span>,setPulseI,<span class="keyword">...</span>
+0308     <span class="string">'String'</span>,<span class="string">'start [A] end [A] A B'</span>,<span class="keyword">...</span>
+0309     <span class="string">'FontSize'</span>,myui.fontsize);
+0310 uix.Empty(<span class="string">'Parent'</span>,setPulseI);
+0311 tstr = <span class="string">'Start of current sweep in [A].'</span>;
+0312 gui.edit_handles.PulseIstart = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0313     <span class="string">'Parent'</span>,setPulseI,<span class="keyword">...</span>
+0314     <span class="string">'String'</span>,num2str(data.init.PulseIstart(1)),<span class="keyword">...</span>
+0315     <span class="string">'Tag'</span>,<span class="string">'pulse_Istart'</span>,<span class="keyword">...</span>
+0316     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0317     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0318     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseIstart),<span class="keyword">...</span>
+0319     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span><span class="comment">    </span>
+0320     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0321 tstr = <span class="string">'End of current sweep in [A].'</span>;
+0322 gui.edit_handles.PulseIend = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0323     <span class="string">'Parent'</span>,setPulseI,<span class="keyword">...</span>
+0324     <span class="string">'String'</span>,num2str(data.init.PulseIend(1)),<span class="keyword">...</span>
+0325     <span class="string">'Tag'</span>,<span class="string">'pulse_Iend'</span>,<span class="keyword">...</span>
+0326     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0327     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0328     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseIend),<span class="keyword">...</span>
+0329     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span><span class="comment">    </span>
+0330     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0331 tstr = <span class="string">'Slope parameter A of tanh curve.'</span>;
+0332 gui.edit_handles.PulseIA = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0333     <span class="string">'Parent'</span>,setPulseI,<span class="keyword">...</span>
+0334     <span class="string">'String'</span>,num2str(data.init.PulseIA(1)),<span class="keyword">...</span>
+0335     <span class="string">'Tag'</span>,<span class="string">'pulse_IA'</span>,<span class="keyword">...</span>
+0336     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0337     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0338     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseIA),<span class="keyword">...</span>
+0339     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span><span class="comment">    </span>
+0340     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0341 tstr = <span class="string">'Upsetting parameter B of tanh curve.'</span>;
+0342 gui.edit_handles.PulseIB = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0343     <span class="string">'Parent'</span>,setPulseI,<span class="keyword">...</span>
+0344     <span class="string">'String'</span>,num2str(data.init.PulseIB(1)),<span class="keyword">...</span>
+0345     <span class="string">'Tag'</span>,<span class="string">'pulse_IB'</span>,<span class="keyword">...</span>
+0346     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0347     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0348     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseIB),<span class="keyword">...</span>
+0349     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0350     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0351 set(setPulseI,<span class="string">'Widths'</span>,[140 10 -1.5 -1.5 -1 -1]);
+0352 
+0353 <span class="comment">%% quality factor tuning</span>
+0354 gui.text_handles.PulseQ = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0355     <span class="string">'Parent'</span>,setPulseQ,<span class="keyword">...</span>
+0356     <span class="string">'String'</span>,<span class="string">'quality factor tuning Q | df'</span>,<span class="keyword">...</span>
+0357     <span class="string">'FontSize'</span>,myui.fontsize);
+0358 uix.Empty(<span class="string">'Parent'</span>,setPulseQ);
+0359 tstr = <span class="string">'Activate coil tuning via quality factor.'</span>;
+0360 gui.check_handles.PulseQ = uicontrol(<span class="string">'Style'</span>,<span class="string">'checkbox'</span>,<span class="keyword">...</span>
+0361     <span class="string">'Parent'</span>,setPulseQ,<span class="keyword">...</span>
+0362     <span class="string">'String'</span>,<span class="string">'on / off'</span>,<span class="keyword">...</span>
+0363     <span class="string">'Tag'</span>,<span class="string">'PulseQ'</span>,<span class="keyword">...</span>
+0364     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0365     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0366     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr),<span class="keyword">...</span>
+0367     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0368     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>);
+0369 tstr = <span class="string">'Quality factor Q.'</span>;
+0370 gui.edit_handles.PulseQ = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0371     <span class="string">'Parent'</span>,setPulseQ,<span class="keyword">...</span>
+0372     <span class="string">'String'</span>,num2str(data.init.PulseQ(1)),<span class="keyword">...</span>
+0373     <span class="string">'Tag'</span>,<span class="string">'pulse_Q'</span>,<span class="keyword">...</span>
+0374     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0375     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0376     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseQ),<span class="keyword">...</span>
+0377     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0378     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0379 tstr = <span class="string">'Quality factor offset [Hz]'</span>;
+0380 gui.edit_handles.PulseQdf = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0381     <span class="string">'Parent'</span>,setPulseQ,<span class="keyword">...</span>
+0382     <span class="string">'String'</span>,num2str(data.init.PulseQdf(1)),<span class="keyword">...</span>
+0383     <span class="string">'Tag'</span>,<span class="string">'pulse_Qdf'</span>,<span class="keyword">...</span>
+0384     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0385     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0386     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseQdf),<span class="keyword">...</span>
+0387     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0388     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0389 set(setPulseQ,<span class="string">'Widths'</span>,[140 10 -1.5 -1 -1]);
+0390 
+0391 <span class="comment">%% wait time T_wait between end of PrePol and Pulse</span>
+0392 gui.text_handles.PulseTwait = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0393     <span class="string">'Parent'</span>,setPulseTwait,<span class="keyword">...</span>
+0394     <span class="string">'String'</span>,<span class="string">'Wait time [ms]'</span>,<span class="keyword">...</span>
+0395     <span class="string">'FontSize'</span>,myui.fontsize);
+0396 uix.Empty(<span class="string">'Parent'</span>,setPulseTwait);
+0397 tstr = <span class="string">'Wait time in [ms] between end of pre-polarization switch off and start of pulse.'</span>;
+0398 gui.edit_handles.PulseTwait = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
+0399     <span class="string">'Parent'</span>,setPulseTwait,<span class="keyword">...</span>
+0400     <span class="string">'String'</span>,num2str(data.init.PulseTwait(1)),<span class="keyword">...</span>
+0401     <span class="string">'Tag'</span>,<span class="string">'pulse_Twait'</span>,<span class="keyword">...</span>
+0402     <span class="string">'TooltipString'</span>,tstr,<span class="keyword">...</span>
+0403     <span class="string">'BackgroundColor'</span>,myui.color.wait,<span class="keyword">...</span>
+0404     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0405     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.PulseTwait),<span class="keyword">...</span><span class="comment">  </span>
+0406     <span class="string">'Enable'</span>,<span class="string">'off'</span>,<span class="keyword">...</span>
+0407     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
+0408 set(setPulseTwait,<span class="string">'Widths'</span>,[140 10 -1]);
+0409 
+0410 <span class="comment">%% Java Hack to adjust the text fields vertical alignment</span>
+0411 jh = findjobj(gui.text_handles.PulseRDP);
+0412 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0413 jh = findjobj(gui.text_handles.PulseType);
+0414 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0415 jh = findjobj(gui.text_handles.PulseAxis);
+0416 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0417 jh = findjobj(gui.text_handles.PulseB1Factor);
+0418 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0419 jh = findjobj(gui.text_handles.PulseTtau);
+0420 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0421 jh = findjobj(gui.text_handles.PulseImode);
+0422 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0423 jh = findjobj(gui.text_handles.PulseI);
+0424 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0425 jh = findjobj(gui.text_handles.PulseDFmode);
+0426 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0427 jh = findjobj(gui.text_handles.PulseDF);
+0428 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0429 jh = findjobj(gui.text_handles.PulseQ);
+0430 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0431 jh = findjobj(gui.text_handles.PulseTwait);
+0432 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+0433 
+0434 <span class="keyword">return</span>
+0435 
+0436 <span class="comment">%------------- END OF CODE --------------</span>
+0437 
+0438 <span class="comment">%% License:</span>
+0439 <span class="comment">% GNU GPLv3</span>
+0440 <span class="comment">%</span>
+0441 <span class="comment">% BLOCHUS</span>
+0442 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0443 <span class="comment">%</span>
+0444 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0445 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0446 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0447 <span class="comment">% (at your option) any later version.</span>
+0448 <span class="comment">%</span>
+0449 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0450 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0451 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0452 <span class="comment">% GNU General Public License for more details.</span>
+0453 <span class="comment">%</span>
+0454 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0455 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

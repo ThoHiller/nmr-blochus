@@ -1,0 +1,152 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getAngleBetweenVectors</title>
+  <meta name="keywords" content="getAngleBetweenVectors">
+  <meta name="description" content=" calculates the angle theta between two vectors 'x' and 'y'">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html interface -->
+<h1>getAngleBetweenVectors
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> calculates the angle theta between two vectors 'x' and 'y'</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function [theta,sgn] = getAngleBetweenVectors(x,y) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getAngleBetweenVectors calculates the angle theta between two vectors 'x' and 'y'
+
+ Syntax:
+       getAngleBetweenVectors(x,y)
+
+ Inputs:
+       x - vector
+       y - vector
+
+ Outputs:
+       theta - angle between x and y [rad]
+       sgn - sign of theta
+
+ Example:
+       getAngleBetweenVectors([1 0 0],[0 0 1])
+
+ Other m-files required:
+       none;
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="getRampParameters.html" class="code" title="function getRampParameters(fig)">getRampParameters</a>	 updates all relevant switch-off ramp settings</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [theta,sgn] = getAngleBetweenVectors(x,y)</a>
+0002 <span class="comment">%getAngleBetweenVectors calculates the angle theta between two vectors 'x' and 'y'</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       getAngleBetweenVectors(x,y)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       x - vector</span>
+0009 <span class="comment">%       y - vector</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       theta - angle between x and y [rad]</span>
+0013 <span class="comment">%       sgn - sign of theta</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       getAngleBetweenVectors([1 0 0],[0 0 1])</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       none;</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="keyword">if</span> numel(x)&lt;=3 <span class="comment">% vector treatment</span>
+0035     <span class="comment">% if x is a vector make x and y column vectors</span>
+0036     x = x(:);
+0037     y = y(:);
+0038     <span class="comment">% angle [rad]</span>
+0039     theta = acos(dot(x,y)./(norm(x).*norm(y)));    
+0040     <span class="comment">% sign</span>
+0041     sgn = sign(cross(x,y));
+0042     sgn = sgn(3);
+0043 <span class="keyword">else</span> <span class="comment">% matrix treatment</span>
+0044     <span class="comment">% angle [rad]</span>
+0045     normx = sqrt(x(:,1).^2+x(:,2).^2+x(:,3).^2);
+0046     normy = sqrt(y(:,1).^2+y(:,2).^2+y(:,3).^2);
+0047     theta = acos(dot(x,y,2)./(normx.*normy));    
+0048     <span class="comment">% sign</span>
+0049     sgn = sign(cross(x,y));
+0050     sgn = sgn(:,3);
+0051 <span class="keyword">end</span>
+0052 
+0053 <span class="keyword">if</span> ~isreal(theta)
+0054     theta = real(theta);
+0055 <span class="keyword">end</span>
+0056 
+0057 <span class="keyword">return</span>
+0058 
+0059 <span class="comment">%------------- END OF CODE --------------</span>
+0060 
+0061 <span class="comment">%% License:</span>
+0062 <span class="comment">% GNU GPLv3</span>
+0063 <span class="comment">%</span>
+0064 <span class="comment">% BLOCHUS</span>
+0065 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0066 <span class="comment">%</span>
+0067 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0068 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0069 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0070 <span class="comment">% (at your option) any later version.</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0073 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0074 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0075 <span class="comment">% GNU General Public License for more details.</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0078 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

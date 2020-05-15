@@ -1,0 +1,249 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createGUI</title>
+  <meta name="keywords" content="BLOCHUS_createGUI">
+  <meta name="description" content=" controls the creation of all GUI elements">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createGUI
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> controls the creation of all GUI elements</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function BLOCHUS_createGUI(h,wbon) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createGUI controls the creation of all GUI elements
+
+ Syntax:
+       BLOCHUS_createGUI(h)
+
+ Inputs:
+       h - figure handle
+       wbon - show waitbar (yes=true, no=false)
+
+ Outputs:
+       none
+
+ Example:
+       BLOCHUS_createGUI(h,true)
+
+ Other m-files required:
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGridPlots.html" class="code" title="function [gui,myui] = BLOCHUS_createGridPlots(gui,myui)">BLOCHUS_createGridPlots</a>	 creates the "Plots" grid panel</li><li><a href="BLOCHUS_createMenus.html" class="code" title="function gui = BLOCHUS_createMenus(gui)">BLOCHUS_createMenus</a>	 creates all GUI menus</li><li><a href="BLOCHUS_createPanelBasic.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)">BLOCHUS_createPanelBasic</a>	 creates "Basic" settings panel</li><li><a href="BLOCHUS_createPanelControl.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelControl(gui,myui)">BLOCHUS_createPanelControl</a>	 creates "Control" panel</li><li><a href="BLOCHUS_createPanelPrePol.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPrePol(data,gui,myui)">BLOCHUS_createPanelPrePol</a>	 creates "Pre-polarization" settings panel</li><li><a href="BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li><li><a href="BLOCHUS_createStatusbar.html" class="code" title="function [gui,myui] = BLOCHUS_createStatusbar(gui,myui)">BLOCHUS_createStatusbar</a>	 creates the bottom status bar</li><li><a href="../../blochus/functions/interface/minimizePanel.html" class="code" title="function minimizePanel(src,~)">minimizePanel</a>	 handles the minimization/maximization of all box-panels</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>	 is a graphical user interface (GUI) to simulate NMR spin dynamics</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function BLOCHUS_createGUI(h,wbon)</a>
+0002 <span class="comment">%BLOCHUS_createGUI controls the creation of all GUI elements</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       BLOCHUS_createGUI(h)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       h - figure handle</span>
+0009 <span class="comment">%       wbon - show waitbar (yes=true, no=false)</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       none</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% Example:</span>
+0015 <span class="comment">%       BLOCHUS_createGUI(h,true)</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Other m-files required:</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       none</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% See also: BLOCHUS</span>
+0026 <span class="comment">% Author: Thomas Hiller</span>
+0027 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0028 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0029 
+0030 <span class="comment">%------------- BEGIN CODE --------------</span>
+0031 
+0032 <span class="comment">%% get GUI data</span>
+0033 data = getappdata(h,<span class="string">'data'</span>);
+0034 gui = getappdata(h,<span class="string">'gui'</span>);
+0035 myui = gui.myui;
+0036 
+0037 <span class="comment">%% initialize wait bar</span>
+0038 <span class="keyword">if</span> wbon
+0039     hwb = waitbar(0,<span class="string">'loading ...'</span>,<span class="string">'Name'</span>,<span class="string">'BLOCHUS initialization'</span>,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+0040     steps = 6;
+0041     <span class="keyword">if</span> ~isempty(h)
+0042         posf = get(h,<span class="string">'Position'</span>);
+0043         set(hwb,<span class="string">'Units'</span>,<span class="string">'Pixel'</span>)
+0044         posw = get(hwb,<span class="string">'Position'</span>);
+0045         set(hwb,<span class="string">'Position'</span>,[posf(1)+posf(3)/2-posw(3)/2 posf(2)+posf(4)/2-posw(4)/2 posw(3:4)]);
+0046     <span class="keyword">end</span>
+0047     set(hwb,<span class="string">'Visible'</span>,<span class="string">'on'</span>);
+0048 <span class="keyword">end</span>
+0049 
+0050 
+0051 
+0052 <span class="comment">%% uimenus</span>
+0053 <span class="keyword">if</span> wbon
+0054     waitbar(1/steps,hwb,<span class="string">'loading GUI elements - menus'</span>);
+0055 <span class="keyword">end</span>
+0056 gui = <a href="BLOCHUS_createMenus.html" class="code" title="function gui = BLOCHUS_createMenus(gui)">BLOCHUS_createMenus</a>(gui);
+0057 
+0058 <span class="comment">%% MAIN GUI &quot;BOX&quot;</span>
+0059 gui.main = uix.VBox(<span class="string">'Parent'</span>,gui.figh,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+0060 
+0061 <span class="comment">% top part for settings and plots</span>
+0062 gui.top = uix.HBox(<span class="string">'Parent'</span>,gui.main);
+0063 <span class="comment">% bottom part for the status bar</span>
+0064 gui.bottom = uix.HBox(<span class="string">'Parent'</span>,gui.main);
+0065 set(gui.main,<span class="string">'Heights'</span>,[-1 20]);
+0066 
+0067 <span class="comment">% top left contains the three main panels plus the control panel</span>
+0068 gui.leftTop = uix.VBox(<span class="string">'Parent'</span>,gui.top);
+0069 <span class="comment">% all plots in a flexible grid on the right side</span>
+0070 gui.right = uix.GridFlex(<span class="string">'Parent'</span>,gui.top,<span class="string">'Spacing'</span>,7);
+0071 set(gui.top,<span class="string">'Widths'</span>,[330 -1]);
+0072 set(gui.top,<span class="string">'MinimumWidths'</span>,[330 200]);
+0073 
+0074 <span class="comment">% the three main panels are inside a vertically scrollable panel</span>
+0075 gui.left = uix.ScrollingPanel(<span class="string">'Parent'</span>,gui.leftTop);
+0076 <span class="comment">% but the control panel is fixed to the bottom</span>
+0077 gui.panels.Control.main = uix.BoxPanel(<span class="string">'Parent'</span>,gui.leftTop,<span class="string">'Title'</span>,<span class="string">'Control'</span>,<span class="keyword">...</span>
+0078     <span class="string">'TitleColor'</span>,[164 164 164]./255,<span class="string">'ForegroundColor'</span>,<span class="string">'k'</span>);
+0079 set(gui.leftTop,<span class="string">'Heights'</span>,[-1 53]);
+0080 
+0081 <span class="comment">%% A. settings column</span>
+0082 gui.panels.main = uix.VBox(<span class="string">'Parent'</span>,gui.left);
+0083 gui.panels.Basic.main = uix.BoxPanel(<span class="string">'Parent'</span>,gui.panels.main,<span class="string">'Title'</span>,<span class="string">'Basics'</span>,<span class="keyword">...</span>
+0084     <span class="string">'TitleColor'</span>,myui.color.basic,<span class="string">'ForegroundColor'</span>,<span class="string">'k'</span>,<span class="string">'MinimizeFcn'</span>,@<a href="../../blochus/functions/interface/minimizePanel.html" class="code" title="function minimizePanel(src,~)">minimizePanel</a>);
+0085 gui.panels.PrePol.main = uix.BoxPanel(<span class="string">'Parent'</span>,gui.panels.main,<span class="string">'Title'</span>,<span class="string">'Pre-polarization switch-off'</span>,<span class="keyword">...</span>
+0086     <span class="string">'TitleColor'</span>,myui.color.prepol,<span class="string">'ForegroundColor'</span>,<span class="string">'k'</span>,<span class="string">'MinimizeFcn'</span>,@<a href="../../blochus/functions/interface/minimizePanel.html" class="code" title="function minimizePanel(src,~)">minimizePanel</a>);
+0087 gui.panels.Pulse.main = uix.BoxPanel(<span class="string">'Parent'</span>,gui.panels.main,<span class="string">'Title'</span>,<span class="string">'Pulse'</span>,<span class="keyword">...</span>
+0088     <span class="string">'TitleColor'</span>,myui.color.pulse,<span class="string">'ForegroundColor'</span>,<span class="string">'k'</span>,<span class="string">'MinimizeFcn'</span>,@<a href="../../blochus/functions/interface/minimizePanel.html" class="code" title="function minimizePanel(src,~)">minimizePanel</a>);
+0089 uix.Empty(<span class="string">'Parent'</span>,gui.panels.main);
+0090 
+0091 <span class="comment">% adjust the heights of all left-column-panels</span>
+0092 <span class="comment">% edit and popup elements are 24</span>
+0093 edith = 24;
+0094 <span class="comment">% panel header is always 22 high</span>
+0095 headerh = 22;
+0096 <span class="comment">% spacing is set to 3</span>
+0097 spacing = 3;
+0098 <span class="comment">% maximal height of each panel</span>
+0099 basic_max = 7*edith+8*spacing+headerh;
+0100 prepol_max = 9*edith+10*spacing+headerh;
+0101 pulse_max = 13*edith+14*spacing+headerh;
+0102 <span class="comment">% save the heights information (needed for minimizing the panels)</span>
+0103 myui.heights = [22 22 22 -1; basic_max prepol_max pulse_max -1];
+0104 set(gui.panels.main,<span class="string">'Heights'</span>,myui.heights(2,:),<span class="keyword">...</span>
+0105     <span class="string">'MinimumHeights'</span>,[22 22 22 0]);
+0106 <span class="comment">% the 'MinimumHeights' guarantees that the three panels fit into the</span>
+0107 <span class="comment">% ScrollingPanel when the GUI becomes smaller</span>
+0108 set(gui.left,<span class="string">'Heights'</span>,-1,<span class="string">'MinimumHeights'</span>,basic_max+prepol_max+pulse_max);
+0109 
+0110 <span class="keyword">if</span> wbon
+0111     waitbar(2/steps,hwb,<span class="string">'loading GUI elements - Basic panel'</span>);
+0112 <span class="keyword">end</span>
+0113 [gui,myui] = <a href="BLOCHUS_createPanelBasic.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelBasic(data,gui,myui)">BLOCHUS_createPanelBasic</a>(data,gui,myui);
+0114 
+0115 <span class="keyword">if</span> wbon
+0116     waitbar(2/steps,hwb,<span class="string">'loading GUI elements - PrePol panel'</span>);
+0117 <span class="keyword">end</span>
+0118 [gui,myui] = <a href="BLOCHUS_createPanelPrePol.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPrePol(data,gui,myui)">BLOCHUS_createPanelPrePol</a>(data,gui,myui);
+0119 
+0120 <span class="keyword">if</span> wbon
+0121     waitbar(3/steps,hwb,<span class="string">'loading GUI elements - Pulse panel'</span>);
+0122 <span class="keyword">end</span>
+0123 [gui,myui] = <a href="BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>(data,gui,myui);
+0124 
+0125 <span class="keyword">if</span> wbon
+0126     waitbar(5/steps,hwb,<span class="string">'loading GUI elements - Control panel'</span>);
+0127 <span class="keyword">end</span>
+0128 [gui,myui] = <a href="BLOCHUS_createPanelControl.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelControl(gui,myui)">BLOCHUS_createPanelControl</a>(gui,myui);
+0129 
+0130 <span class="keyword">if</span> wbon
+0131     waitbar(6/steps,hwb,<span class="string">'loading GUI elements - Plot panel'</span>);
+0132 <span class="keyword">end</span>
+0133 [gui,myui] = <a href="BLOCHUS_createGridPlots.html" class="code" title="function [gui,myui] = BLOCHUS_createGridPlots(gui,myui)">BLOCHUS_createGridPlots</a>(gui,myui);
+0134 
+0135 <span class="comment">% delete wait bar</span>
+0136 <span class="keyword">if</span> wbon
+0137     delete(hwb);
+0138 <span class="keyword">end</span>
+0139 
+0140 [gui,myui] = <a href="BLOCHUS_createStatusbar.html" class="code" title="function [gui,myui] = BLOCHUS_createStatusbar(gui,myui)">BLOCHUS_createStatusbar</a>(gui,myui);
+0141 
+0142 <span class="comment">% make the main GUI visible</span>
+0143 set(gui.main,<span class="string">'Visible'</span>,<span class="string">'on'</span>);
+0144 
+0145 <span class="comment">%% enable all menus</span>
+0146 set(gui.menu.file,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0147 set(gui.menu.view,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0148 set(gui.menu.help,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0149 
+0150 <span class="comment">%% update the GUI data</span>
+0151 gui.myui = myui;
+0152 setappdata(gui.figh,<span class="string">'gui'</span>,gui);
+0153 setappdata(gui.figh,<span class="string">'data'</span>,data);
+0154 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'BLOCHUS successfully started'</span>);
+0155 
+0156 <span class="keyword">end</span>
+0157 
+0158 <span class="comment">%------------- END OF CODE --------------</span>
+0159 
+0160 <span class="comment">%% License:</span>
+0161 <span class="comment">% GNU GPLv3</span>
+0162 <span class="comment">%</span>
+0163 <span class="comment">% BLOCHUS</span>
+0164 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0165 <span class="comment">%</span>
+0166 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0167 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0168 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0169 <span class="comment">% (at your option) any later version.</span>
+0170 <span class="comment">%</span>
+0171 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0172 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0173 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0174 <span class="comment">% GNU General Public License for more details.</span>
+0175 <span class="comment">%</span>
+0176 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0177 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

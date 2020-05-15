@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createStatusbar</title>
+  <meta name="keywords" content="BLOCHUS_createStatusbar">
+  <meta name="description" content=" creates the bottom status bar">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createStatusbar
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> creates the bottom status bar</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [gui,myui] = BLOCHUS_createStatusbar(gui,myui) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createStatusbar creates the bottom status bar
+
+ Syntax:
+       [gui,myui] = BLOCHUS_createStatusbar(gui,myui)
+
+ Inputs:
+       gui - figure gui elements structure
+       myui - individual GUI settings structure
+
+ Outputs:
+       gui
+       myui
+
+ Example:
+       [gui,myui] = BLOCHUS_createStatusbar(gui,myui)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGUI.html" class="code" title="function BLOCHUS_createGUI(h,wbon)">BLOCHUS_createGUI</a>	 controls the creation of all GUI elements</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [gui,myui] = BLOCHUS_createStatusbar(gui,myui)</a>
+0002 <span class="comment">%BLOCHUS_createStatusbar creates the bottom status bar</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       [gui,myui] = BLOCHUS_createStatusbar(gui,myui)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       gui - figure gui elements structure</span>
+0009 <span class="comment">%       myui - individual GUI settings structure</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       gui</span>
+0013 <span class="comment">%       myui</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       [gui,myui] = BLOCHUS_createStatusbar(gui,myui)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       none</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% create panels inside the bottom hbox to show persistent status</span>
+0035 <span class="comment">% information</span>
+0036 gui.panels.status.main = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0037 gui.panels.status.Timer = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0038 gui.panels.status.PrePol = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0039 gui.panels.status.Pulse = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0040 gui.panels.status.MIDI = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0041 gui.panels.status.Tooltips = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0042 gui.panels.status.Version = uix.Panel(<span class="string">'Parent'</span>,gui.bottom);
+0043 
+0044 <span class="comment">% adjust the panel widths</span>
+0045 set(gui.bottom,<span class="string">'Widths'</span>,[330 -1 -1 -1 -1 -1 -1]);
+0046 
+0047 gui.text_handles.Status = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0048     <span class="string">'Parent'</span>,gui.panels.status.main,<span class="keyword">...</span>
+0049     <span class="string">'String'</span>,<span class="string">''</span>,<span class="keyword">...</span>
+0050     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0051     <span class="string">'FontSize'</span>,8);
+0052 gui.text_handles.TimerStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0053     <span class="string">'Parent'</span>,gui.panels.status.Timer,<span class="keyword">...</span>
+0054     <span class="string">'String'</span>,<span class="string">'Calc. Time: 0 s'</span>,<span class="keyword">...</span>
+0055     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0056     <span class="string">'FontSize'</span>,8);
+0057 gui.text_handles.PrePolStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0058     <span class="string">'Parent'</span>,gui.panels.status.PrePol,<span class="keyword">...</span>
+0059     <span class="string">'String'</span>,<span class="string">'Pre-Polarization: OFF'</span>,<span class="keyword">...</span>
+0060     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0061     <span class="string">'FontSize'</span>,8);
+0062 gui.text_handles.PulseStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0063     <span class="string">'Parent'</span>,gui.panels.status.Pulse,<span class="keyword">...</span>
+0064     <span class="string">'String'</span>,<span class="string">'Pulse: OFF'</span>,<span class="keyword">...</span>
+0065     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0066     <span class="string">'FontSize'</span>,8);
+0067 gui.text_handles.MIDIStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0068     <span class="string">'Parent'</span>,gui.panels.status.MIDI,<span class="keyword">...</span>
+0069     <span class="string">'String'</span>,<span class="string">'Discrete Pulse: OFF'</span>,<span class="keyword">...</span>
+0070     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0071     <span class="string">'FontSize'</span>,8);
+0072 gui.text_handles.TooltipsStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0073     <span class="string">'Parent'</span>,gui.panels.status.Tooltips,<span class="keyword">...</span>
+0074     <span class="string">'String'</span>,<span class="string">'Tooltips: ON'</span>,<span class="keyword">...</span>
+0075     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0076     <span class="string">'FontSize'</span>,8);
+0077 gui.text_handles.VersionStat = uicontrol(<span class="string">'Style'</span>,<span class="string">'Text'</span>,<span class="keyword">...</span>
+0078     <span class="string">'Parent'</span>,gui.panels.status.Version,<span class="keyword">...</span>
+0079     <span class="string">'String'</span>,<span class="string">'Version: '</span>,<span class="keyword">...</span>
+0080     <span class="string">'HorizontalAlignment'</span>,<span class="string">'left'</span>,<span class="keyword">...</span>
+0081     <span class="string">'FontSize'</span>,8);
+0082 
+0083 <span class="keyword">return</span>
+0084 
+0085 <span class="comment">%------------- END OF CODE --------------</span>
+0086 
+0087 <span class="comment">%% License:</span>
+0088 <span class="comment">% GNU GPLv3</span>
+0089 <span class="comment">%</span>
+0090 <span class="comment">% BLOCHUS</span>
+0091 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0092 <span class="comment">%</span>
+0093 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0094 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0095 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0096 <span class="comment">% (at your option) any later version.</span>
+0097 <span class="comment">%</span>
+0098 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0099 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0100 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0101 <span class="comment">% GNU General Public License for more details.</span>
+0102 <span class="comment">%</span>
+0103 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0104 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_createGridPlots</title>
+  <meta name="keywords" content="BLOCHUS_createGridPlots">
+  <meta name="description" content=" creates the &quot;Plots&quot; grid panel">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_createGridPlots
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> creates the &quot;Plots&quot; grid panel</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function [gui,myui] = BLOCHUS_createGridPlots(gui,myui) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_createGridPlots creates the &quot;Plots&quot; grid panel
+
+ Syntax:
+       [gui,myui] = BLOCHUS_createGridPlots(gui,myui)
+
+ Inputs:
+       gui - figure gui elements structure
+       myui - individual GUI settings structure
+
+ Outputs:
+       gui
+       myui
+
+ Example:
+       [gui,myui] = BLOCHUS_createGridPlots(gui,myui)
+
+ Other m-files required:
+       findjobj.m
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>	 sets the view of the Bloch sphere plot to predefined sets</li><li><a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>	 clears an individual axis</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS_createGUI.html" class="code" title="function BLOCHUS_createGUI(h,wbon)">BLOCHUS_createGUI</a>	 controls the creation of all GUI elements</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function [gui,myui] = BLOCHUS_createGridPlots(gui,myui)</a>
+0002 <span class="comment">%BLOCHUS_createGridPlots creates the &quot;Plots&quot; grid panel</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       [gui,myui] = BLOCHUS_createGridPlots(gui,myui)</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       gui - figure gui elements structure</span>
+0009 <span class="comment">%       myui - individual GUI settings structure</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       gui</span>
+0013 <span class="comment">%       myui</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Example:</span>
+0016 <span class="comment">%       [gui,myui] = BLOCHUS_createGridPlots(gui,myui)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Other m-files required:</span>
+0019 <span class="comment">%       findjobj.m</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">%% first create the individual tab panels</span>
+0035 <span class="comment">%(1,1) magnetization</span>
+0036 gui.panels.Plot.Mag = uix.TabPanel(<span class="string">'Parent'</span>,gui.right,<span class="keyword">...</span>
+0037     <span class="string">'BackgroundColor'</span>,myui.color.basic);
+0038 <span class="comment">%(2,1) pre-polarization settings</span>
+0039 gui.panels.Plot.PrePol = uix.TabPanel(<span class="string">'Parent'</span>,gui.right,<span class="keyword">...</span>
+0040     <span class="string">'BackgroundColor'</span>,myui.color.prepol);
+0041 <span class="comment">%(1,2) bloch sphere</span>
+0042 gui.panels.Plot.Sphere = uix.TabPanel(<span class="string">'Parent'</span>,gui.right,<span class="keyword">...</span>
+0043     <span class="string">'BackgroundColor'</span>,myui.color.basic);
+0044 <span class="comment">%(2,2) pulse settings</span>
+0045 gui.panels.Plot.Pulse = uix.TabPanel(<span class="string">'Parent'</span>,gui.right,<span class="keyword">...</span>
+0046     <span class="string">'BackgroundColor'</span>,myui.color.pulse); 
+0047 
+0048 <span class="comment">%% magnetization</span>
+0049 <span class="comment">% because Matlab is buggy when resizing, put uicontainer inside the panels</span>
+0050 plotXYZL = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.Mag);
+0051 plotXYZR = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.Mag);
+0052 plotXYZFFT = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.Mag);
+0053 gui.panels.Plot.Mag.TabTitles = {<span class="string">'Lab frame'</span>,<span class="string">'Rot frame'</span>,<span class="string">'FFT'</span>};
+0054 gui.panels.Plot.Mag.TabWidth = 75;
+0055 
+0056 gui.axes_handles.MagL = axes(<span class="string">'Parent'</span>,plotXYZL,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0057 gui.axes_handles.MagR = axes(<span class="string">'Parent'</span>,plotXYZR,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0058 gui.axes_handles.MagFFT = axes(<span class="string">'Parent'</span>,plotXYZFFT,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0059 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagL);
+0060 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagR);
+0061 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagFFT);
+0062 
+0063 <span class="comment">%% PrePol tab panel</span>
+0064 plotBpre = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.PrePol);
+0065 plotalpha = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.PrePol);
+0066 plotdadt = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.PrePol);
+0067 plotwda = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.PrePol);
+0068 gui.panels.Plot.PrePol.TabTitles = {<span class="string">'Bp ramp'</span>,<span class="keyword">...</span>
+0069     [char(hex2dec(<span class="string">'3B1'</span>)),<span class="string">'='</span>,char(hex2dec(<span class="string">'2221'</span>)),<span class="string">'B0 B'</span>,],<span class="keyword">...</span>
+0070     [<span class="string">'d'</span>,char(hex2dec(<span class="string">'3B1'</span>)),<span class="string">' / dt'</span>],<span class="keyword">...</span>
+0071     <span class="string">'adiab. cond.'</span>};
+0072 gui.panels.Plot.PrePol.TabWidth = 75;
+0073 
+0074 gui.axes_handles.Bpre = axes(<span class="string">'Parent'</span>,plotBpre,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0075 gui.axes_handles.alpha = axes(<span class="string">'Parent'</span>,plotalpha,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0076 gui.axes_handles.dadt = axes(<span class="string">'Parent'</span>,plotdadt,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0077 gui.axes_handles.wda = axes(<span class="string">'Parent'</span>,plotwda,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0078 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.Bpre);
+0079 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.alpha);
+0080 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.dadt);
+0081 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.wda);
+0082 
+0083 <span class="comment">%% 3D Bloch Sphere</span>
+0084 
+0085 <span class="comment">% lab frame (L) and rot frame (R)</span>
+0086 SphereBoxL = uix.VBox(<span class="string">'Parent'</span>,gui.panels.Plot.Sphere,<span class="string">'Spacing'</span>,3,<span class="string">'Padding'</span>,3);
+0087 SphereBoxR = uix.VBox(<span class="string">'Parent'</span>,gui.panels.Plot.Sphere,<span class="string">'Spacing'</span>,3,<span class="string">'Padding'</span>,3);
+0088 gui.panels.Plot.Sphere.TabTitles = {<span class="string">'Lab frame'</span>,<span class="string">'Rot frame'</span>};
+0089 gui.panels.Plot.Sphere.TabWidth = 75;
+0090 
+0091 <span class="comment">% add view buttons and axes to the panel</span>
+0092 plotSphereL = uicontainer(<span class="string">'Parent'</span>,SphereBoxL);
+0093 SphereButtonsL = uix.HButtonBox(<span class="string">'Parent'</span>,SphereBoxL);
+0094 gui.push_handles.XZL = uicontrol(<span class="string">'Parent'</span>,SphereButtonsL,<span class="keyword">...</span>
+0095     <span class="string">'String'</span>,<span class="string">'XZ'</span>,<span class="keyword">...</span>
+0096     <span class="string">'Tag'</span>,<span class="string">'XZ'</span>,<span class="keyword">...</span>
+0097     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0098     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0099 gui.push_handles.YZL = uicontrol(<span class="string">'Parent'</span>,SphereButtonsL,<span class="keyword">...</span>
+0100     <span class="string">'String'</span>,<span class="string">'YZ'</span>,<span class="keyword">...</span>
+0101     <span class="string">'Tag'</span>,<span class="string">'YZ'</span>,<span class="keyword">...</span>
+0102     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0103     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0104 gui.push_handles.XYL = uicontrol(<span class="string">'Parent'</span>,SphereButtonsL,<span class="keyword">...</span>
+0105     <span class="string">'String'</span>,<span class="string">'XY'</span>,<span class="keyword">...</span>
+0106     <span class="string">'Tag'</span>,<span class="string">'XY'</span>,<span class="keyword">...</span>
+0107     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0108     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0109 gui.push_handles.DL = uicontrol(<span class="string">'Parent'</span>,SphereButtonsL,<span class="keyword">...</span>
+0110     <span class="string">'String'</span>,<span class="string">'3D'</span>,<span class="keyword">...</span>
+0111     <span class="string">'Tag'</span>,<span class="string">'3D'</span>,<span class="keyword">...</span>
+0112     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0113     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0114 set(SphereBoxL,<span class="string">'Heights'</span>,[-1 30]);
+0115 gui.axes_handles.SphereL = axes(<span class="string">'Parent'</span>,plotSphereL,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0116 view(3); axis equal;
+0117 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.SphereL);
+0118 
+0119 <span class="comment">% add view buttons and axes to the panel</span>
+0120 plotSphereR = uicontainer(<span class="string">'Parent'</span>,SphereBoxR);
+0121 SphereButtonsR = uix.HButtonBox(<span class="string">'Parent'</span>,SphereBoxR);
+0122 gui.push_handles.XZR = uicontrol(<span class="string">'Parent'</span>,SphereButtonsR,<span class="keyword">...</span>
+0123     <span class="string">'String'</span>,<span class="string">'XZ'</span>,<span class="keyword">...</span>
+0124     <span class="string">'Tag'</span>,<span class="string">'XZ'</span>,<span class="keyword">...</span>
+0125     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0126     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0127 gui.push_handles.YZR = uicontrol(<span class="string">'Parent'</span>,SphereButtonsR,<span class="keyword">...</span>
+0128     <span class="string">'String'</span>,<span class="string">'YZ'</span>,<span class="keyword">...</span>
+0129     <span class="string">'Tag'</span>,<span class="string">'YZ'</span>,<span class="keyword">...</span>
+0130     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0131     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0132 gui.push_handles.XYR = uicontrol(<span class="string">'Parent'</span>,SphereButtonsR,<span class="keyword">...</span>
+0133     <span class="string">'String'</span>,<span class="string">'XY'</span>,<span class="keyword">...</span>
+0134     <span class="string">'Tag'</span>,<span class="string">'XY'</span>,<span class="keyword">...</span>
+0135     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0136     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0137 gui.push_handles.DR = uicontrol(<span class="string">'Parent'</span>,SphereButtonsR,<span class="keyword">...</span>
+0138     <span class="string">'String'</span>,<span class="string">'3D'</span>,<span class="keyword">...</span>
+0139     <span class="string">'Tag'</span>,<span class="string">'3D'</span>,<span class="keyword">...</span>
+0140     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
+0141     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/push/onPushAxView.html" class="code" title="function onPushAxView(src,~)">onPushAxView</a>);
+0142 set(SphereBoxR,<span class="string">'Heights'</span>,[-1 30]);
+0143 gui.axes_handles.SphereR = axes(<span class="string">'Parent'</span>,plotSphereR,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0144 view(3); axis equal;
+0145 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.SphereR);
+0146 
+0147 <span class="comment">%% Pulse tab panel</span>
+0148 plotPulseSetup = uix.HBox(<span class="string">'Parent'</span>,gui.panels.Plot.Pulse);
+0149 plotPulseB = uicontainer(<span class="string">'Parent'</span>,gui.panels.Plot.Pulse);
+0150 plotPulseFFT = uicontainer(<span class="string">'Parent'</span>, gui.panels.Plot.Pulse);
+0151 gui.panels.Plot.Pulse.TabTitles = {<span class="string">'Pulse setup'</span>,<span class="string">'Pulse'</span>,<span class="string">'FFT'</span>};
+0152 gui.panels.Plot.Pulse.TabWidth = 75;
+0153 
+0154 plotPulseSetupF = uicontainer(<span class="string">'Parent'</span>,plotPulseSetup);
+0155 plotPulseSetupI = uicontainer(<span class="string">'Parent'</span>,plotPulseSetup);
+0156 gui.axes_handles.PulseSetupF = axes(<span class="string">'Parent'</span>,plotPulseSetupF,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0157 gui.axes_handles.PulseSetupI = axes(<span class="string">'Parent'</span>,plotPulseSetupI,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0158 
+0159 gui.axes_handles.PulseB = axes(<span class="string">'Parent'</span>,plotPulseB,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0160 gui.axes_handles.PulseFFT = axes(<span class="string">'Parent'</span>,plotPulseFFT,<span class="string">'Box'</span>,<span class="string">'on'</span>);
+0161 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupF);
+0162 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupI);
+0163 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseB);
+0164 <a href="../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseFFT);
+0165 
+0166 <span class="comment">% arrange the panels in a 2x2 grid</span>
+0167 set(gui.right,<span class="string">'Widths'</span>,[-1 -1],<span class="string">'Heights'</span>,[-1 -1]);
+0168 
+0169 <span class="keyword">end</span>
+0170 
+0171 <span class="comment">%------------- END OF CODE --------------</span>
+0172 
+0173 <span class="comment">%% License:</span>
+0174 <span class="comment">% GNU GPLv3</span>
+0175 <span class="comment">%</span>
+0176 <span class="comment">% BLOCHUS</span>
+0177 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0178 <span class="comment">%</span>
+0179 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0180 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0181 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0182 <span class="comment">% (at your option) any later version.</span>
+0183 <span class="comment">%</span>
+0184 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0185 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0186 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0187 <span class="comment">% GNU General Public License for more details.</span>
+0188 <span class="comment">%</span>
+0189 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0190 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

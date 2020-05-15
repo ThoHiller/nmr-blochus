@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of getPulsePhase</title>
+  <meta name="keywords" content="getPulsePhase">
+  <meta name="description" content=" provides the instantaneous phase of a pulse; this is">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # functions --><!-- menu.html blochsim -->
+<h1>getPulsePhase
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> provides the instantaneous phase of a pulse; this is</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function theta = getPulsePhase(t,df,param,flag) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">getPulsePhase provides the instantaneous phase of a pulse; this is
+needed for frequency modulated pulses (e.g. AHP) because the frequency is
+actually modulated via the phase
+NOTE: because f = dphi/dt*2pi the time domain phase is the integral of the
+frequency:
+phi(t) = phi0 + 2pi*int_0^t f(tau) dtau
+
+this means e.g. for a linear frequency chirp from f0 to f1 like:
+ f(t) = k*t + f0, with slope k = (f1-f0)/(t1-t0)
+
+ the instantaneous phase is given as
+ phi(t) = phi0 + 2pi*(k/2*t^2 + f0*t)
+
+ Syntax:
+       getPulsePhase(t,df,param,flag)
+
+ Inputs:
+       t - time [s]
+       df - off-resonance [Hz]
+       param - struct containing extra settings:
+               fmod   : struct containing frequency modulation settings
+               gamma  : gyromagnetic ratio [rad/s/T]
+               omega0 : angular frequency [rad/s]
+       flag - 0 -&gt; phase during pulse
+              1 -&gt; phase after pulse (only relaxation)
+
+ Outputs:
+       theta - instantaneous phase angle of the pulse
+
+ Example:
+       getPulsePhase(t,0,param,0)
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+</ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li><li><a href="getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function theta = getPulsePhase(t,df,param,flag)</a>
+0002 <span class="comment">%getPulsePhase provides the instantaneous phase of a pulse; this is</span>
+0003 <span class="comment">%needed for frequency modulated pulses (e.g. AHP) because the frequency is</span>
+0004 <span class="comment">%actually modulated via the phase</span>
+0005 <span class="comment">%NOTE: because f = dphi/dt*2pi the time domain phase is the integral of the</span>
+0006 <span class="comment">%frequency:</span>
+0007 <span class="comment">%phi(t) = phi0 + 2pi*int_0^t f(tau) dtau</span>
+0008 <span class="comment">%</span>
+0009 <span class="comment">%this means e.g. for a linear frequency chirp from f0 to f1 like:</span>
+0010 <span class="comment">% f(t) = k*t + f0, with slope k = (f1-f0)/(t1-t0)</span>
+0011 <span class="comment">%</span>
+0012 <span class="comment">% the instantaneous phase is given as</span>
+0013 <span class="comment">% phi(t) = phi0 + 2pi*(k/2*t^2 + f0*t)</span>
+0014 <span class="comment">%</span>
+0015 <span class="comment">% Syntax:</span>
+0016 <span class="comment">%       getPulsePhase(t,df,param,flag)</span>
+0017 <span class="comment">%</span>
+0018 <span class="comment">% Inputs:</span>
+0019 <span class="comment">%       t - time [s]</span>
+0020 <span class="comment">%       df - off-resonance [Hz]</span>
+0021 <span class="comment">%       param - struct containing extra settings:</span>
+0022 <span class="comment">%               fmod   : struct containing frequency modulation settings</span>
+0023 <span class="comment">%               gamma  : gyromagnetic ratio [rad/s/T]</span>
+0024 <span class="comment">%               omega0 : angular frequency [rad/s]</span>
+0025 <span class="comment">%       flag - 0 -&gt; phase during pulse</span>
+0026 <span class="comment">%              1 -&gt; phase after pulse (only relaxation)</span>
+0027 <span class="comment">%</span>
+0028 <span class="comment">% Outputs:</span>
+0029 <span class="comment">%       theta - instantaneous phase angle of the pulse</span>
+0030 <span class="comment">%</span>
+0031 <span class="comment">% Example:</span>
+0032 <span class="comment">%       getPulsePhase(t,0,param,0)</span>
+0033 <span class="comment">%</span>
+0034 <span class="comment">% Other m-files required:</span>
+0035 <span class="comment">%       none</span>
+0036 <span class="comment">%</span>
+0037 <span class="comment">% Subfunctions:</span>
+0038 <span class="comment">%       none</span>
+0039 <span class="comment">%</span>
+0040 <span class="comment">% MAT-files required:</span>
+0041 <span class="comment">%       none</span>
+0042 <span class="comment">%</span>
+0043 <span class="comment">% See also: BLOCHUS</span>
+0044 <span class="comment">% Author: Thomas Hiller</span>
+0045 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0046 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0047 
+0048 <span class="comment">%------------- BEGIN CODE --------------</span>
+0049 
+0050 <span class="comment">% modulation parameter</span>
+0051 fmod = param.fmod;
+0052 <span class="comment">% Larmor freq. [Hz]</span>
+0053 f0 = param.omega0/2/pi;
+0054 
+0055 <span class="comment">% manipulating the phase angle theta modulates the frequency of the pulse</span>
+0056 <span class="keyword">switch</span> fmod.shape
+0057     <span class="keyword">case</span> <span class="string">'const'</span>
+0058         <span class="keyword">switch</span> flag
+0059             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0060                 theta = (f0-df)*2*pi.*t;
+0061             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
+0062                 theta = -fmod.v1*2*pi*t;
+0063         <span class="keyword">end</span>
+0064         
+0065     <span class="keyword">case</span> <span class="string">'lin'</span>
+0066         k = (fmod.v0-fmod.v1)./(fmod.t1-fmod.t0);
+0067         <span class="keyword">switch</span> flag
+0068             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0069                 theta = 2*pi*((f0-fmod.v0).*t + k./2.*t.^2);
+0070             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
+0071                 theta = -2*pi*(fmod.v1*t + k/2*t^2);
+0072         <span class="keyword">end</span>
+0073         
+0074     <span class="keyword">case</span> <span class="string">'tanhMIDI'</span>
+0075         delta_f = fmod.v0-fmod.v1;
+0076         delta_t = fmod.t1-fmod.t0;
+0077         A = 2*pi*fmod.A;
+0078         B = fmod.B;
+0079         C = tanh( (A./fmod.t1).*(fmod.t0-B.*(fmod.t1/2)));
+0080         D = tanh( (A./fmod.t1).*(fmod.t1-B.*(fmod.t1/2)));
+0081         E = fmod.v1;
+0082         F = -delta_f;
+0083         T = delta_t;
+0084         <span class="comment">% sign switch</span>
+0085         delta_val = -delta_f;
+0086         <span class="keyword">switch</span> flag
+0087             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0088                 theta = 2.*pi.*(f0.*t + (( A.*B.*C.*F.*T + 2.*F.*T.*log(cosh((A.*(t-(B.*T./2)))./T)) + 2.*A.*t.*(C.*E-D.*(E+F)) ) ./ (2.*A.*(C-D))) );
+0089             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
+0090                 theta = 2.*pi.*(fmod.v1*t + (( A.*B.*C.*F.*T + 2.*F.*T.*log(cosh((A.*(t-(B.*T./2)))./T)) + 2.*A.*t.*(C.*E-D.*(E+F)) ) ./ (2.*A.*(C-D))) );
+0091         <span class="keyword">end</span>
+0092         
+0093     <span class="keyword">case</span> <span class="string">'tanhGMR'</span>
+0094         delta_f = fmod.v0-fmod.v1;
+0095         delta_t = fmod.t1-fmod.t0;
+0096         <span class="keyword">switch</span> flag
+0097             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0098                 theta = 2*pi*( (f0-fmod.v0).*t + (delta_t/3).*delta_f.*log(cosh(3.*t./delta_t)) );
+0099             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
+0100                 theta = -2*pi*(fmod.v0*t - (delta_t/3)*delta_f*log(cosh(3*t/delta_t)) );
+0101         <span class="keyword">end</span>
+0102         
+0103     <span class="keyword">case</span> <span class="string">'exp'</span>
+0104         delta_f = fmod.v0-fmod.v1;
+0105         delta_t = fmod.t1-fmod.t0;
+0106         <span class="keyword">switch</span> flag
+0107             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0108                 theta = 2*pi*(f0.*t + (delta_t*delta_f./fmod.A).*exp(fmod.A.*(-t/delta_t)));
+0109             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
+0110                 theta = 2*pi*(fmod.end*t + (delta_t*delta_f./fmod.A)*exp(fmod.A*(-t/delta_t)));
+0111         <span class="keyword">end</span>
+0112         
+0113     <span class="keyword">otherwise</span>
+0114         <span class="keyword">switch</span> flag
+0115             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
+0116                 theta = (f0-df)*2*pi.*t;
+0117             <span class="keyword">otherwise</span>
+0118                 <span class="comment">% nothing to do</span>
+0119         <span class="keyword">end</span>
+0120         
+0121 <span class="keyword">end</span>
+0122 
+0123 <span class="keyword">end</span>
+0124 
+0125 <span class="comment">%------------- END OF CODE --------------</span>
+0126 
+0127 <span class="comment">%% License:</span>
+0128 <span class="comment">% GNU GPLv3</span>
+0129 <span class="comment">%</span>
+0130 <span class="comment">% BLOCHUS</span>
+0131 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0132 <span class="comment">%</span>
+0133 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0134 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0135 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0136 <span class="comment">% (at your option) any later version.</span>
+0137 <span class="comment">%</span>
+0138 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0139 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0140 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0141 <span class="comment">% GNU General Public License for more details.</span>
+0142 <span class="comment">%</span>
+0143 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0144 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

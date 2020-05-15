@@ -1,0 +1,369 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of onCheckPrePolPulse</title>
+  <meta name="keywords" content="onCheckPrePolPulse">
+  <meta name="description" content=" activates / deactivates all control elements needed for">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- # callbacks --><!-- menu.html checkbox -->
+<h1>onCheckPrePolPulse
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong> activates / deactivates all control elements needed for</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="box"><strong>function onCheckPrePolPulse(src,~) </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">onCheckPrePolPulse activates / deactivates all control elements needed for
+either the pre-polarization switch-off ramp or a B1-pulse or both
+
+ Syntax:
+       onCheckPrePolPulse(src)
+
+ Inputs:
+       src - handle of the calling object
+
+ Outputs:
+       none
+
+ Example:
+       onCheckPrePolPulse(src)
+
+ Other m-files required:
+       onPopupPrePolRamp
+       onPopupPulseType
+
+ Subfunctions:
+       none
+
+ MAT-files required:
+       none
+
+ See also: BLOCHUS
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>	 selects the pre-polarization switch-off ramp</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li><li><a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>	 clears an individual axis</li><li><a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>	 updates all fields inside the bottom status bar</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../../matlabicon.gif)">
+<li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPrePol.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPrePol(data,gui,myui)">BLOCHUS_createPanelPrePol</a>	 creates "Pre-polarization" settings panel</li><li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li><li><a href="../../../blochus/callbacks/menus/onMenuImport.html" class="code" title="function onMenuImport(src,~)">onMenuImport</a>	 handles the extra menu entries</li></ul>
+<!-- crossreference -->
+
+
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function onCheckPrePolPulse(src,~)</a>
+0002 <span class="comment">%onCheckPrePolPulse activates / deactivates all control elements needed for</span>
+0003 <span class="comment">%either the pre-polarization switch-off ramp or a B1-pulse or both</span>
+0004 <span class="comment">%</span>
+0005 <span class="comment">% Syntax:</span>
+0006 <span class="comment">%       onCheckPrePolPulse(src)</span>
+0007 <span class="comment">%</span>
+0008 <span class="comment">% Inputs:</span>
+0009 <span class="comment">%       src - handle of the calling object</span>
+0010 <span class="comment">%</span>
+0011 <span class="comment">% Outputs:</span>
+0012 <span class="comment">%       none</span>
+0013 <span class="comment">%</span>
+0014 <span class="comment">% Example:</span>
+0015 <span class="comment">%       onCheckPrePolPulse(src)</span>
+0016 <span class="comment">%</span>
+0017 <span class="comment">% Other m-files required:</span>
+0018 <span class="comment">%       onPopupPrePolRamp</span>
+0019 <span class="comment">%       onPopupPulseType</span>
+0020 <span class="comment">%</span>
+0021 <span class="comment">% Subfunctions:</span>
+0022 <span class="comment">%       none</span>
+0023 <span class="comment">%</span>
+0024 <span class="comment">% MAT-files required:</span>
+0025 <span class="comment">%       none</span>
+0026 <span class="comment">%</span>
+0027 <span class="comment">% See also: BLOCHUS</span>
+0028 <span class="comment">% Author: Thomas Hiller</span>
+0029 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0030 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0031 
+0032 <span class="comment">%------------- BEGIN CODE --------------</span>
+0033 
+0034 <span class="comment">% get GUI handle</span>
+0035 fig = ancestor(src,<span class="string">'figure'</span>,<span class="string">'toplevel'</span>);
+0036 
+0037 <span class="keyword">if</span> ~isempty(fig) &amp;&amp; strcmp(get(fig,<span class="string">'Tag'</span>),<span class="string">'BLOCHUS'</span>)
+0038     <span class="comment">% get GUI data</span>
+0039     gui  = getappdata(fig,<span class="string">'gui'</span>);
+0040     data = getappdata(fig,<span class="string">'data'</span>);
+0041     
+0042     <span class="comment">% check status of the check boxes</span>
+0043     isPrePol = get(gui.check_handles.PrePol,<span class="string">'Value'</span>);
+0044     isPulse = get(gui.check_handles.Pulse,<span class="string">'Value'</span>);
+0045     
+0046     <span class="keyword">if</span> isPrePol == 0 &amp;&amp; isPulse == 0 <span class="comment">% just standard relaxation</span>
+0047         data.basic.type = <span class="string">'std'</span>;
+0048         
+0049         <span class="comment">% menu settings</span>
+0050         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0051         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0052         
+0053         <span class="comment">% std settings</span>
+0054         data.basic.Minit = [1 0 0];
+0055         set(gui.edit_handles.Minitx,<span class="string">'String'</span>,num2str(data.basic.Minit(1)));
+0056         set(gui.edit_handles.Minity,<span class="string">'String'</span>,num2str(data.basic.Minit(2)));
+0057         set(gui.edit_handles.Minitz,<span class="string">'String'</span>,num2str(data.basic.Minit(3)));
+0058         set(gui.edit_handles.Minitx,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0059         set(gui.edit_handles.Minity,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0060         set(gui.edit_handles.Minitz,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0061         setappdata(fig,<span class="string">'data'</span>,data);
+0062         
+0063         <span class="comment">% clear magnetization FFT axis</span>
+0064         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagFFT);
+0065         
+0066         <span class="comment">% deactivate PrePol settings</span>
+0067         set(gui.check_handles.PrePolRDS,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0068         set(gui.popup_handles.PrePolRamp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0069         set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0070         set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0071         set(gui.edit_handles.PrePolPhi,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0072         set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0073         set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0074         set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0075         
+0076         <span class="comment">% clear PrePol axes</span>
+0077         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.Bpre);
+0078         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.alpha);
+0079         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.dadt);
+0080         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.wda);
+0081         
+0082         <span class="comment">% deactivate Pulse settings</span>
+0083         set(gui.check_handles.PulseRDP,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0084         set(gui.popup_handles.PulseType,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0085         set(gui.popup_handles.PulseAxis,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0086         set(gui.popup_handles.PulsePolarization,<span class="string">'Enable'</span>,<span class="string">'off'</span>);        
+0087         set(gui.edit_handles.PulseB1Factor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0088         set(gui.edit_handles.PulseTtau,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0089         set(gui.edit_handles.PulseTwait,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0090         set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0091         set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0092         set(gui.edit_handles.PulseDFend,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0093         set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0094         set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0095         set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0096         set(gui.edit_handles.PulseIstart,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0097         set(gui.edit_handles.PulseIend,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0098         set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0099         set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0100         
+0101         <span class="comment">% clear Pulse axes</span>
+0102         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseB);
+0103         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupF);
+0104         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupI);
+0105         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseFFT);
+0106         
+0107     <span class="keyword">elseif</span> isPrePol == 1 &amp;&amp; isPulse == 0 <span class="comment">% only pre-polarization switch-off</span>
+0108         data.basic.type = <span class="string">'prepol'</span>;
+0109         
+0110         <span class="comment">% menu settings</span>
+0111         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0112         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0113         
+0114         <span class="comment">% std settings</span>
+0115         data.basic.Tsim = data.prepol.Tramp;
+0116         set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0117         data.basic.Minit = [1 0 0];
+0118         set(gui.edit_handles.Minitx,<span class="string">'String'</span>,num2str(data.basic.Minit(1)));
+0119         set(gui.edit_handles.Minity,<span class="string">'String'</span>,num2str(data.basic.Minit(2)));
+0120         set(gui.edit_handles.Minitz,<span class="string">'String'</span>,num2str(data.basic.Minit(3)));
+0121         set(gui.edit_handles.Minitx,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0122         set(gui.edit_handles.Minity,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0123         set(gui.edit_handles.Minitz,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0124         
+0125         <span class="comment">% clear magnetization FFT axis</span>
+0126         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagFFT);
+0127         
+0128         <span class="comment">% activate PrePol settings</span>
+0129         set(gui.check_handles.PrePolRDS,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0130         set(gui.popup_handles.PrePolRamp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0131         set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0132         set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0133         set(gui.edit_handles.PrePolPhi,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0134         set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0135         set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0136         set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0137         setappdata(fig,<span class="string">'data'</span>,data);
+0138         <a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>(gui.popup_handles.PrePolRamp);
+0139         data = getappdata(fig,<span class="string">'data'</span>);
+0140         
+0141         <span class="comment">% deactivate Pulse settings</span>
+0142         set(gui.check_handles.PulseRDP,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0143         set(gui.popup_handles.PulseType,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0144         set(gui.popup_handles.PulseAxis,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0145         set(gui.popup_handles.PulsePolarization,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0146         set(gui.edit_handles.PulseB1Factor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0147         set(gui.edit_handles.PulseTtau,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0148         set(gui.edit_handles.PulseTwait,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0149         set(gui.popup_handles.PulseDFmode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0150         set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0151         set(gui.edit_handles.PulseDFend,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0152         set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0153         set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0154         set(gui.popup_handles.PulseImode,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0155         set(gui.edit_handles.PulseIstart,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0156         set(gui.edit_handles.PulseIend,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0157         set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0158         set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0159         
+0160         <span class="comment">% clear Pulse axes</span>
+0161         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseB);
+0162         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupF);
+0163         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseSetupI);
+0164         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.PulseFFT);
+0165         
+0166     <span class="keyword">elseif</span> isPrePol == 0 &amp;&amp; isPulse == 1 <span class="comment">% only Pulse</span>
+0167         data.basic.type = <span class="string">'pulse'</span>;
+0168         
+0169         <span class="comment">% menu settings</span>
+0170         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0171         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0172         
+0173         <span class="comment">% std settings</span>
+0174         data.basic.Tsim = data.pulse.Ttau;
+0175         set(gui.edit_handles.Tsim,<span class="string">'String'</span>,num2str(data.basic.Tsim));
+0176         data.basic.Minit = [0 0 1];
+0177         set(gui.edit_handles.Minitx,<span class="string">'String'</span>,num2str(data.basic.Minit(1)));
+0178         set(gui.edit_handles.Minity,<span class="string">'String'</span>,num2str(data.basic.Minit(2)));
+0179         set(gui.edit_handles.Minitz,<span class="string">'String'</span>,num2str(data.basic.Minit(3)));
+0180         set(gui.edit_handles.Minitx,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0181         set(gui.edit_handles.Minity,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0182         set(gui.edit_handles.Minitz,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0183         setappdata(fig,<span class="string">'data'</span>,data);
+0184         
+0185         <span class="comment">% clear magnetization FFT axis</span>
+0186         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagFFT);
+0187         
+0188         <span class="comment">% deactivate PrePol settings</span>
+0189         set(gui.check_handles.PrePolRDS,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0190         set(gui.popup_handles.PrePolRamp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0191         set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0192         set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0193         set(gui.edit_handles.PrePolPhi,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0194         set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0195         set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0196         set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0197         
+0198         <span class="comment">% clear PrePol axes</span>
+0199         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.Bpre);
+0200         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.alpha);
+0201         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.dadt);
+0202         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.wda);
+0203         
+0204         <span class="comment">% activate Pulse settings</span>
+0205         set(gui.check_handles.PulseRDP,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0206         set(gui.popup_handles.PulseType,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0207         set(gui.popup_handles.PulseAxis,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0208         set(gui.popup_handles.PulsePolarization,<span class="string">'Enable'</span>,<span class="string">'on'</span>);        
+0209         set(gui.edit_handles.PulseB1Factor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0210         set(gui.edit_handles.PulseTtau,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0211         set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0212         set(gui.edit_handles.PulseTwait,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0213         <a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>(gui.popup_handles.PulseType);
+0214         data = getappdata(fig,<span class="string">'data'</span>);
+0215         
+0216     <span class="keyword">elseif</span> isPrePol == 1 &amp;&amp; isPulse == 1 <span class="comment">% pre-polarization + pulse</span>
+0217         data.basic.type = <span class="string">'prepolpulse'</span>;
+0218         
+0219         <span class="comment">% menu settings</span>
+0220         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0221         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0222         
+0223         <span class="comment">% std settings</span>
+0224         data.basic.Minit = [1 0 0];
+0225         set(gui.edit_handles.Minitx,<span class="string">'String'</span>,num2str(data.basic.Minit(1)));
+0226         set(gui.edit_handles.Minity,<span class="string">'String'</span>,num2str(data.basic.Minit(2)));
+0227         set(gui.edit_handles.Minitz,<span class="string">'String'</span>,num2str(data.basic.Minit(3)));
+0228         set(gui.edit_handles.Minitx,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0229         set(gui.edit_handles.Minity,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0230         set(gui.edit_handles.Minitz,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0231         setappdata(fig,<span class="string">'data'</span>,data);
+0232         
+0233         <span class="comment">% clear magnetization FFT axis</span>
+0234         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagFFT);
+0235         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.MagR);
+0236         <a href="../../../blochus/functions/interface/clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(gui.axes_handles.SphereR);
+0237         
+0238         <span class="comment">% activate PrePol settings</span>
+0239         set(gui.check_handles.PrePolRDS,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0240         set(gui.popup_handles.PrePolRamp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0241         set(gui.edit_handles.PrePolFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0242         set(gui.edit_handles.PrePolTheta,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0243         set(gui.edit_handles.PrePolPhi,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0244         set(gui.edit_handles.PrePolSwitchFactor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0245         set(gui.edit_handles.PrePolTramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0246         set(gui.edit_handles.PrePolTslope,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0247         setappdata(fig,<span class="string">'data'</span>,data);
+0248         <a href="../../../blochus/callbacks/popup/onPopupPrePolRamp.html" class="code" title="function onPopupPrePolRamp(src,~)">onPopupPrePolRamp</a>(gui.popup_handles.PrePolRamp);
+0249         data = getappdata(fig,<span class="string">'data'</span>);
+0250         
+0251         <span class="comment">% activate Pulse settings</span>
+0252         set(gui.check_handles.PulseRDP,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0253         set(gui.popup_handles.PulseType,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0254         set(gui.popup_handles.PulseAxis,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0255         set(gui.popup_handles.PulsePolarization,<span class="string">'Enable'</span>,<span class="string">'on'</span>);        
+0256         set(gui.edit_handles.PulseB1Factor,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0257         set(gui.edit_handles.PulseTtau,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0258         set(gui.edit_handles.PulseDFstart,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0259         set(gui.edit_handles.PulseTwait,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0260         setappdata(fig,<span class="string">'data'</span>,data);
+0261         <a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>(gui.popup_handles.PulseType);
+0262         data = getappdata(fig,<span class="string">'data'</span>);
+0263     <span class="keyword">end</span>
+0264     
+0265     <span class="comment">% update all data inside the GUI</span>
+0266     setappdata(fig,<span class="string">'data'</span>,data);
+0267     <span class="comment">% update status bar</span>
+0268     <a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>(fig);
+0269 <span class="keyword">else</span>
+0270     warndlg({<span class="string">'onCheckPrePolPulse:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0271         <span class="string">'BLOCHUS error'</span>);
+0272 <span class="keyword">end</span>
+0273 
+0274 <span class="keyword">end</span>
+0275 
+0276 <span class="comment">%------------- END OF CODE --------------</span>
+0277 
+0278 <span class="comment">%% License:</span>
+0279 <span class="comment">% GNU GPLv3</span>
+0280 <span class="comment">%</span>
+0281 <span class="comment">% BLOCHUS</span>
+0282 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0283 <span class="comment">%</span>
+0284 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0285 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0286 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0287 <span class="comment">% (at your option) any later version.</span>
+0288 <span class="comment">%</span>
+0289 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0290 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0291 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0292 <span class="comment">% GNU General Public License for more details.</span>
+0293 <span class="comment">%</span>
+0294 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0295 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>

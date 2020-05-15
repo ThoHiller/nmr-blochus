@@ -1,0 +1,270 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+  <title>Description of BLOCHUS_loadDefaults</title>
+  <meta name="keywords" content="BLOCHUS_loadDefaults">
+  <meta name="description" content=" loads default GUI data values">
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
+  <meta name="robots" content="index, follow">
+  <link type="text/css" rel="stylesheet" href="../../m2html.css">
+  <script type="text/javascript">
+    if (top.frames.length == 0) { top.location = "../../index.html"; };
+  </script>
+</head>
+<body>
+<a name="_top"></a>
+<!-- # blochus --><!-- menu.html BLOCHUS -->
+<h1>BLOCHUS_loadDefaults
+</h1>
+
+<h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong> loads default GUI data values</strong></div>
+
+<h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="box"><strong>function data = BLOCHUS_loadDefaults </strong></div>
+
+<h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre class="comment">BLOCHUS_loadDefaults loads default GUI data values
+
+ Syntax:
+       BLOCHUS_loadDefaults
+
+ Inputs:
+       none
+
+ Outputs:
+       out - default data structure
+
+ Example:
+       out = BLOCHUS_loadDefaults
+
+ Other m-files required:
+       none
+
+ Subfunctions:
+       getInitData
+
+ MAT-files required:
+       none
+
+ See also <a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>
+ Author: Thomas Hiller
+ email: thomas.hiller[at]leibniz-liag.de
+ License: GNU GPLv3 (at end)</pre></div>
+
+<!-- crossreference -->
+<h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+This function calls:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="../../blochus/functions/blochsim/getGyroRatio.html" class="code" title="function gamma = getGyroRatio(nuc)">getGyroRatio</a>	 provides the gyromagnetic ratio of different nuclei</li><li><a href="../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li></ul>
+This function is called by:
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="BLOCHUS.html" class="code" title="function BLOCHUS">BLOCHUS</a>	 is a graphical user interface (GUI) to simulate NMR spin dynamics</li></ul>
+<!-- crossreference -->
+
+<h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<ul style="list-style-image:url(../../matlabicon.gif)">
+<li><a href="#_sub1" class="code">function init = getInitData</a></li></ul>
+
+<h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../up.png"></a></h2>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function data = BLOCHUS_loadDefaults</a>
+0002 <span class="comment">%BLOCHUS_loadDefaults loads default GUI data values</span>
+0003 <span class="comment">%</span>
+0004 <span class="comment">% Syntax:</span>
+0005 <span class="comment">%       BLOCHUS_loadDefaults</span>
+0006 <span class="comment">%</span>
+0007 <span class="comment">% Inputs:</span>
+0008 <span class="comment">%       none</span>
+0009 <span class="comment">%</span>
+0010 <span class="comment">% Outputs:</span>
+0011 <span class="comment">%       out - default data structure</span>
+0012 <span class="comment">%</span>
+0013 <span class="comment">% Example:</span>
+0014 <span class="comment">%       out = BLOCHUS_loadDefaults</span>
+0015 <span class="comment">%</span>
+0016 <span class="comment">% Other m-files required:</span>
+0017 <span class="comment">%       none</span>
+0018 <span class="comment">%</span>
+0019 <span class="comment">% Subfunctions:</span>
+0020 <span class="comment">%       getInitData</span>
+0021 <span class="comment">%</span>
+0022 <span class="comment">% MAT-files required:</span>
+0023 <span class="comment">%       none</span>
+0024 <span class="comment">%</span>
+0025 <span class="comment">% See also BLOCHUS</span>
+0026 <span class="comment">% Author: Thomas Hiller</span>
+0027 <span class="comment">% email: thomas.hiller[at]leibniz-liag.de</span>
+0028 <span class="comment">% License: GNU GPLv3 (at end)</span>
+0029 
+0030 <span class="comment">%------------- BEGIN CODE --------------</span>
+0031 
+0032 <span class="comment">% aux data</span>
+0033 data.info.ToolTips = 1;
+0034 data.info.Timer = 0;
+0035 
+0036 <span class="comment">% get init data</span>
+0037 <span class="comment">% Note to user: use the &quot;getInitData&quot; function to adjust default</span>
+0038 <span class="comment">% settings and parameter range</span>
+0039 init = <a href="#_sub1" class="code" title="subfunction init = getInitData">getInitData</a>;
+0040 data.init = init;
+0041 
+0042 <span class="comment">% basic data</span>
+0043 data.basic.nucleus = init.nucleus;
+0044 data.basic.gamma = init.gamma;
+0045 data.basic.type = init.type;
+0046 data.basic.M0 = init.M0;
+0047 data.basic.Minit = init.Minit;
+0048 data.basic.B0 = init.B0(1);
+0049 data.basic.Omega0 = init.Omega0(1);
+0050 data.basic.T1relax = init.T1relax(1);
+0051 data.basic.T2relax = init.T2relax(1);
+0052 data.basic.Tsim = init.Tsim(1);
+0053 
+0054 <span class="comment">% pre-polarization data</span>
+0055 data.prepol.Ramp = init.PrePolRamp;
+0056 data.prepol.RDS = init.PrePolRDS;
+0057 data.prepol.Factor = init.PrePolFactor(1);
+0058 data.prepol.Theta = init.PrePolTheta(1);
+0059 data.prepol.Phi = init.PrePolPhi(1);
+0060 data.prepol.SwitchFactor = init.PrePolSwitchFactor(1);
+0061 data.prepol.Tramp = init.PrePolTramp(1);
+0062 data.prepol.Tslope = init.PrePolTslope(1);
+0063 
+0064 <span class="comment">% pulse data</span>
+0065 data.pulse.Type = init.PulseType;
+0066 data.pulse.Axis = init.PulseAxis;
+0067 data.pulse.Polarization = init.PulsePolarization;
+0068 data.pulse.RDP = init.PulseRDP;
+0069 data.pulse.Ttau = init.PulseTtau(1);
+0070 data.pulse.B1Factor = init.PulseB1Factor(1);
+0071 data.pulse.DFmode = init.PulseDFmode;
+0072 data.pulse.DFstart = init.PulseDFstart(1);
+0073 data.pulse.DFend = init.PulseDFend(1);
+0074 data.pulse.DFA = init.PulseDFA(1);
+0075 data.pulse.DFB = init.PulseDFB(1);
+0076 data.pulse.Imode = init.PulseImode;
+0077 data.pulse.Istart = init.PulseIstart(1);
+0078 data.pulse.Iend = init.PulseIend(1);
+0079 data.pulse.IA = init.PulseIA(1);
+0080 data.pulse.IB = init.PulseIB(1);
+0081 data.pulse.Q = init.PulseQ(1);
+0082 data.pulse.Qdf = init.PulseQdf(1);
+0083 data.pulse.Twait = init.PulseTwait(1);
+0084 data.pulse.MIDINP = init.PulseMIDINP;
+0085 data.pulse.MIDIsf = init.PulseMIDIsf;
+0086 
+0087 <span class="keyword">end</span>
+0088 
+0089 <span class="comment">% define init values and range</span>
+0090 <a name="_sub1" href="#_subfunctions" class="code">function init = getInitData</a>
+0091 <span class="comment">% --- BASIC ---</span>
+0092 <span class="comment">% proton [string]</span>
+0093 init.nucleus = <span class="string">'1H'</span>;
+0094 <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
+0095 init.gamma = <a href="../../blochus/functions/blochsim/getGyroRatio.html" class="code" title="function gamma = getGyroRatio(nuc)">getGyroRatio</a>(init.nucleus);
+0096 <span class="comment">% simulation type [string]</span>
+0097 init.type = <span class="string">'std'</span>;
+0098 <span class="comment">% equilibrium magnetization [A/m]</span>
+0099 init.M0 = [0 0 1];
+0100 <span class="comment">% initial magnetization [A/m]</span>
+0101 init.Minit = [1 0 0];
+0102 <span class="comment">% Earth's magnetic field [T] default: 48µT min: 1fT max: 1T</span>
+0103 init.B0 = [48/1e6 1e-12 1];
+0104 <span class="comment">% corresponding Larmor frequencies [Hz]</span>
+0105 init.Omega0 = [<a href="../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(init.gamma,init.B0(1))/2/pi -1e9 1e9];
+0106 <span class="comment">% T1 relaxation time [ms] default: 100ms min: 1µs max: 1000s</span>
+0107 init.T1relax = [100 1e-3 1e6];
+0108 <span class="comment">% T2 relaxation time [ms] default: 50ms min: 1µs max: 1000s</span>
+0109 init.T2relax = [50 1e-3 1e6];
+0110 <span class="comment">% simulation time [ms] default: 50ms min: 1µs max: 1000s</span>
+0111 init.Tsim = [50 1e-3 1e6];
+0112 
+0113 <span class="comment">% --- PRE-POLARIZATION ---</span>
+0114 <span class="comment">% switch-off ramp shape [string]</span>
+0115 init.PrePolRamp = <span class="string">'exp'</span>;
+0116 <span class="comment">% relaxation during switch-off [0/1]</span>
+0117 init.PrePolRDS = 0;
+0118 <span class="comment">% pre-polarization B-field amplitude in units of [B0]</span>
+0119 init.PrePolFactor = [100 1e-6 1e6];
+0120 <span class="comment">% polar angle of pre-polarization field [deg]</span>
+0121 init.PrePolTheta = [90 0 360];
+0122 <span class="comment">% azimuthal angle of pre-polarization field [deg]</span>
+0123 init.PrePolPhi = [0 0 360];
+0124 <span class="comment">% pre-polarization B-field switch amplitude in units of [B0]</span>
+0125 init.PrePolSwitchFactor = [1 1e-6 1e6];
+0126 <span class="comment">% switch-off ramp time [ms] default: 1ms min: 1µs max: 1000s</span>
+0127 init.PrePolTramp = [1 1e-6 1e6];
+0128 <span class="comment">% switch-off ramp slope time [ms] default: 0.1ms min: 1µs max: 1000s</span>
+0129 init.PrePolTslope = [0.1 1e-6 1e6];
+0130 
+0131 <span class="comment">% --- PULSE ---</span>
+0132 <span class="comment">% pulse type [string]</span>
+0133 init.PulseType = <span class="string">'pi_half'</span>;
+0134 <span class="comment">% pulse axis [string]</span>
+0135 init.PulseAxis = <span class="string">'+x'</span>;
+0136 <span class="comment">% pulse polarization [string]</span>
+0137 init.PulsePolarization = <span class="string">'circular'</span>;
+0138 <span class="comment">% relaxation during pulse [0/1]</span>
+0139 init.PulseRDP = 0;
+0140 <span class="comment">% pulse length [ms] default: 20ms min: 1µs max: 1000s</span>
+0141 init.PulseTtau = [20 1e-6 1e6];
+0142 <span class="comment">% pulse amplitude in units of [B0] default: 0.0061163 min: 1e-12 max: 1e6</span>
+0143 init.PulseB1Factor = [0.0061163 1e-12 1e6];
+0144 <span class="comment">% frequency modulation function [string]</span>
+0145 init.PulseDFmode = <span class="string">'const'</span>;
+0146 <span class="comment">% start of frequency sweep [Hz] default: 0Hz min: -1MHz max: 1MHz</span>
+0147 init.PulseDFstart = [0 -1e6 1e6];
+0148 <span class="comment">% end of frequency sweep [Hz] default: 0Hz min: -1MHz max: 1MHz</span>
+0149 init.PulseDFend = [0 -1e6 1e6];
+0150 <span class="comment">% slope parameter A</span>
+0151 init.PulseDFA = [1 -1e6 1e6];
+0152 <span class="comment">% slope parameter B</span>
+0153 init.PulseDFB = [0 -1e6 1e6];
+0154 <span class="comment">% current modulation function [string]</span>
+0155 init.PulseImode = <span class="string">'const'</span>;
+0156 <span class="comment">% start of current sweep [A] default: 1A min: 0A max: 1A</span>
+0157 init.PulseIstart = [1 0 1];
+0158 <span class="comment">% end of current sweep [A] default: 1A min: 0A max: 1A</span>
+0159 init.PulseIend = [1 0 1];
+0160 <span class="comment">% slope parameter A</span>
+0161 init.PulseIA = [1 -1e6 1e6];
+0162 <span class="comment">% slope parameter B</span>
+0163 init.PulseIB = [0 -1e6 1e6];
+0164 <span class="comment">% quality factor Q</span>
+0165 init.PulseQ = [0 0 100];
+0166 <span class="comment">% quality factor off-resonance [Hz]</span>
+0167 init.PulseQdf = [0 0 1e6];
+0168 <span class="comment">% wait time between pre-polarization switch-off and pulse [ms]</span>
+0169 init.PulseTwait = [2 0 1e6];
+0170 <span class="comment">% number of periods (only for MIDI)</span>
+0171 init.PulseMIDINP = 1;
+0172 <span class="comment">% MIDI sampling frequency (fixed)</span>
+0173 init.PulseMIDIsf = 50000;
+0174 
+0175 <span class="keyword">end</span>
+0176 
+0177 <span class="comment">%------------- END OF CODE --------------</span>
+0178 
+0179 <span class="comment">%% License:</span>
+0180 <span class="comment">% GNU GPLv3</span>
+0181 <span class="comment">%</span>
+0182 <span class="comment">% BLOCHUS</span>
+0183 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0184 <span class="comment">%</span>
+0185 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0186 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0187 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0188 <span class="comment">% (at your option) any later version.</span>
+0189 <span class="comment">%</span>
+0190 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0191 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0192 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0193 <span class="comment">% GNU General Public License for more details.</span>
+0194 <span class="comment">%</span>
+0195 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0196 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+<hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
+</body>
+</html>
