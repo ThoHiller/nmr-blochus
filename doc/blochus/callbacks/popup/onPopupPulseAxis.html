@@ -42,7 +42,7 @@
 
  Other m-files required:
        getPulseParameters
-       plotBpulse
+       plotPulse
 
  Subfunctions:
        none
@@ -59,7 +59,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>	 plots different pulse parameter</li></ul>
+<li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>	 plots different pulse parameter</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li></ul>
@@ -85,7 +85,7 @@ This function is called by:
 0015 <span class="comment">%</span>
 0016 <span class="comment">% Other m-files required:</span>
 0017 <span class="comment">%       getPulseParameters</span>
-0018 <span class="comment">%       plotBpulse</span>
+0018 <span class="comment">%       plotPulse</span>
 0019 <span class="comment">%</span>
 0020 <span class="comment">% Subfunctions:</span>
 0021 <span class="comment">%       none</span>
@@ -130,7 +130,7 @@ This function is called by:
 0060     <span class="comment">% get GUI data</span>
 0061     data = getappdata(fig,<span class="string">'data'</span>);
 0062     <span class="comment">% plot pulse</span>
-0063     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(gui.figh);
+0063     <a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>(gui.figh);
 0064     
 0065 <span class="keyword">else</span>
 0066     warndlg({<span class="string">'onPopupPulseAxis:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>

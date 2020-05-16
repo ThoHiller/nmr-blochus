@@ -155,7 +155,7 @@ This function is called by:
 0083     <span class="string">'FontSize'</span>,myui.fontsize,<span class="keyword">...</span>
 0084     <span class="string">'UserData'</span>,struct(<span class="string">'Tooltipstr'</span>,tstr,<span class="string">'defaults'</span>,data.init.B0),<span class="keyword">...</span><span class="comment">    </span>
 0085     <span class="string">'Callback'</span>,@<a href="../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>);
-0086 tstr = <span class="string">'&lt;HTML&gt;&lt;b&gt;Omega&lt;/b&gt;&lt;sub&gt;0&lt;/sub&gt; frequency in [Hz].&lt;br&gt;'</span>;
+0086 tstr = [<span class="string">'&lt;HTML&gt;Larmor frequency &lt;b&gt;'</span>,char(hex2dec(<span class="string">'3C9'</span>)),<span class="string">'&lt;/b&gt;&lt;sub&gt;0&lt;/sub&gt; in [Hz].&lt;br&gt;'</span>];
 0087 gui.edit_handles.Omega0 = uicontrol(<span class="string">'Style'</span>,<span class="string">'Edit'</span>,<span class="keyword">...</span>
 0088     <span class="string">'Parent'</span>,setB0,<span class="keyword">...</span>
 0089     <span class="string">'String'</span>,sprintf(<span class="string">'%7.2f'</span>,data.init.Omega0(1)),<span class="keyword">...</span>

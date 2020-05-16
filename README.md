@@ -11,9 +11,9 @@
 **BLOCHUS** is a set of MATLAB<sup>TM</sup> tools, that allow some basic simulations of (S)NMR spin dynamics based on the Bloch equations. The Bloch equations are solved in the laboratory frame of reference with MATLABs built-in `ode45` solver. Because it was developed within the scope of a near surface SNMR project, its main features are the simulation of (1) pre-polarization switch-off ramps and (2) excitation pulses. The main front-end to the underlying simulation tools is a graphical user interface (GUI) that allows playing around with the different features and helps to understand the basic concepts of (S)NMR spin dynamics.
 
 #### Basic features:
-1. Choose between different protons (e.g. *Hydrogen*, *Helium*, *Flourine*, etc.)
+1. Choose between different protons (e.g. *Hydrogen*, *Helium*, *Fluorine*, etc.)
 2. Choose between different pre-polarization switch-off ramp shapes (e.g. *exponential*, *linear*, *half cosine*,  etc.) with arbitrary ramp time 
-3. Choose between different excitation pulses (*pi/2*, *pi*, *adiabatic half passage*, etc.) with arbitrary off-resonant frequency, or in case of the adiabatic pulses, arbitrary frequency and current modulation.
+3. Choose between different excitation pulses (*pi/2*, *pi*, *adiabatic half passage*, etc.) with arbitrary off-resonance frequency, or in case of the adiabatic pulses, arbitrary frequency and current modulation.
 
 - - -
 

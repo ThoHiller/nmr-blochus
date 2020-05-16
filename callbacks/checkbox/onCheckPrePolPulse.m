@@ -262,6 +262,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         data = getappdata(fig,'data');
     end
     
+    % because the settings changed, deactivate the "Animate" button
+    set(gui.push_handles.Animate,'Enable','off');
     % update all data inside the GUI
     setappdata(fig,'data',data);
     % update status bar

@@ -19,7 +19,7 @@ function onEditValue(src,~)
 %       getOmega0
 %       getPulseParameters
 %       getRampParameters
-%       plotBpulse
+%       plotPulse
 %       plotRamp
 %
 % Subfunctions:
@@ -50,37 +50,20 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % get the user data of the field
     ud = get(src,'UserData');
     
-    if isstruct(ud) % for new fields
-        % get the default values [default min max]
-        defaults = ud.defaults;
-        
-        % check if the value is numeric
-        % if not reset to defaults stored in user data
-        if isnan(val)
-            set(src,'String',num2str(defaults(1)));
-            val = str2double(get(src,'String'));
-        end
-        % check if the value is out of bounds
-        % if yes reset to default
-        if val < defaults(2) || val > defaults(3)
-            set(src,'String',num2str(defaults(1)));
-            val = str2double(get(src,'String')); %#ok<*NASGU>
-        end
-        
-    else % old style (Needs to be removed after the refactoring)
-        % check if the value is numeric
-        % if not reset to defaults stored in user data
-        if isnan(val)
-            set(src,'String',num2str(ud(3)));
-            val = str2double(get(src,'String'));
-        end
-        % check if the value is out of bounds
-        % if yes reset to default
-        if val < ud(1) || val > ud(2)
-            set(src,'String',num2str(ud(3)));
-            val = str2double(get(src,'String')); %#ok<*NASGU>
-        end
-        disp(['there is still an old style edit field:',tag])
+    % get the default values [default min max]
+    defaults = ud.defaults;
+    
+    % check if the value is numeric
+    % if not reset to defaults stored in user data
+    if isnan(val)
+        set(src,'String',num2str(defaults(1)));
+        val = str2double(get(src,'String'));
+    end
+    % check if the value is out of bounds
+    % if yes reset to default
+    if val < defaults(2) || val > defaults(3)
+        set(src,'String',num2str(defaults(1)));
+        val = str2double(get(src,'String')); %#ok<*NASGU>
     end
     
     % get the data field to update from the field tag
@@ -175,6 +158,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             % -------------------------------------------------------------
             % --- PRE-POLARIZATION ----------------------------------------
             % -------------------------------------------------------------
+        
         case {'prepol_Factor','prepol_SwitchFactor'}
             % check if the ramp type is "melton1995", if yes update the
             % switch-off time to maintain the same switch-off rate
@@ -231,6 +215,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             % -------------------------------------------------------------
             % --- PULSE ---------------------------------------------------
             % -------------------------------------------------------------
+        
         case 'pulse_B1Factor'
             % if the pulse amplitude changes some settings have to be
             % adjusted, depending on the chosen pulse type
@@ -239,10 +224,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     switch data.pulse.Type
                         case 'pi_half'
                             % in case of "pi_half" the pulse length gets updated
-                            data.pulse.Ttau = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.B1Factor)));
+                            data.pulse.Ttau = abs(1e3*(pi/2/(data.basic.gamma*...
+                                data.basic.B0*data.pulse.B1Factor)));
                         case 'pi'
                             % in case of "pi" the pulse length gets updated
-                            data.pulse.Ttau = abs(1e3*(pi/(data.basic.gamma*data.basic.B0*data.pulse.B1Factor)));
+                            data.pulse.Ttau = abs(1e3*(pi/(data.basic.gamma*...
+                                data.basic.B0*data.pulse.B1Factor)));
                     end
                     set(gui.edit_handles.PulseTtau,'String',num2str(data.pulse.Ttau));
                     % in case of pure "Pulse" update the total simulation time
@@ -257,13 +244,13 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     % update pulse settings
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
                     
                 otherwise
                     % update pulse settings
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
             end
             
         case 'pulse_Ttau'
@@ -274,10 +261,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     switch data.pulse.Type
                         case 'pi_half'
                             % in case of "pi_half" the pulse amplitude gets updated
-                            data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+                            data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*...
+                                data.basic.B0*data.pulse.Ttau)));
                         case 'pi'
                             % in case of "pi" the pulse amplitude gets updated
-                            data.pulse.B1Factor = abs(1e3*(pi/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+                            data.pulse.B1Factor = abs(1e3*(pi/(data.basic.gamma*...
+                                data.basic.B0*data.pulse.Ttau)));
                     end
                     set(gui.edit_handles.PulseB1Factor,'String',num2str(data.pulse.B1Factor));
                     % in case of pure "Pulse" update the total simulation time
@@ -292,7 +281,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     % update pulse settings
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
                     
                 case 'MIDI_OR'
                     % in case of "MIDI_OR" the PulseTtau-field holds the
@@ -301,7 +290,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     % update pulse length
                     data.pulse.Ttau = abs(data.pulse.MIDINP/data.basic.Omega0)*1e3;
                     % update pulse amplitude to pi/2 value
-                    data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*data.basic.B0*data.pulse.Ttau)));
+                    data.pulse.B1Factor = abs(1e3*(pi/2/(data.basic.gamma*...
+                        data.basic.B0*data.pulse.Ttau)));
                     set(gui.edit_handles.PulseB1Factor,'String',num2str(data.pulse.B1Factor));
                     % in case of pure "Pulse" update the total simulation time
                     switch data.basic.type
@@ -315,7 +305,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     % update pulse settings
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
                     
                 case 'MIDI_AP'
                     % in case of "MIDI_AP" the PulseTtau-field holds the
@@ -339,7 +329,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     end
                     setappdata(fig,'data',data);
                     % update pulse plot
-                    plotBpulse(fig);
+                    plotPulse(fig);
                     
                 otherwise
                     % for all other pulse types ("free" & "AHP")
@@ -356,7 +346,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     % update pulse settings
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
             end
             
         otherwise
@@ -366,10 +356,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     setappdata(fig,'data',data);
                     getPulseParameters(fig);
                     data = getappdata(fig,'data');
-                    plotBpulse(fig);
+                    plotPulse(fig);
                     
                 otherwise
-                    % nothing to do for all other fields e.g. T1, T2, Tsim
+                    % because the pulse data changed, deactivate the
+                    % "Animate" button
+                    set(gui.push_handles.Animate,'Enable','off');
             end
     end
     

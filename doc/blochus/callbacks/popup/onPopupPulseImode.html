@@ -59,7 +59,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>	 plots different pulse parameter</li></ul>
+<li><a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>	 updates all relevant pulse settings</li><li><a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>	 plots different pulse parameter</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../blochus/BLOCHUS/BLOCHUS_createPanelPulse.html" class="code" title="function [gui,myui] = BLOCHUS_createPanelPulse(data,gui,myui)">BLOCHUS_createPanelPulse</a>	 creates "Pulse" settings panel</li><li><a href="onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
@@ -155,7 +155,7 @@ This function is called by:
 0085     <span class="comment">% update GUI data</span>
 0086     setappdata(fig,<span class="string">'data'</span>,data);
 0087     <span class="comment">% plot pulse</span>
-0088     <a href="../../../blochus/functions/interface/plotBpulse.html" class="code" title="function plotBpulse(fig)">plotBpulse</a>(gui.figh);
+0088     <a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>(gui.figh);
 0089     
 0090 <span class="keyword">else</span>
 0091     warndlg({<span class="string">'onPopupPulseDFmode:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>

@@ -58,7 +58,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % update GUI data
     setappdata(fig,'data',data);
     % plot pulse
-    plotBpulse(gui.figh);
+    plotPulse(gui.figh);
     
 else
     warndlg({'onPopupPulsePolarization:','There is no figure with the BLOCHUS Tag open.'},...

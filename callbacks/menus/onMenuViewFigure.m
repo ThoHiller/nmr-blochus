@@ -42,14 +42,54 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % opening the export figure
     expfig = figure;
     
-    % create the axes layout on the export figure
+    % due to the two axes on the pulse modulation panel, we need to know
+    % before creating the new figure if this panel is active
+    isdual = false;
+    if get(gui.panels.Plot.Pulse,'Selection') == 1
+        isdual = true;
+    end
+    
+    % create the axes layout on the export figure and get the axes
+    % positions
     switch get(src,'Label')
-        case {'Current View','Magnetization','Switch-off Ramp'}
+        case 'Current View'
+            % we copy all visible axes in a 2x2 grid
+            ax1 = subplot(2,2,1,'Parent',expfig);
+            ax2 = subplot(2,2,2,'Parent',expfig);
+            ax3 = subplot(2,2,3,'Parent',expfig);
+            pos1 = get(ax1,'Position');
+            pos2 = get(ax2,'Position');
+            pos3 = get(ax3,'Position');
+            delete(ax1);
+            delete(ax2);
+            delete(ax3);
+            if isdual
+                ax4a = subplot(2,4,7,'Parent',expfig);
+                ax4b = subplot(2,4,8,'Parent',expfig);
+                pos4a = get(ax4a,'Position');
+                pos4b = get(ax4b,'Position');
+                delete(ax4a);
+                delete(ax4b);
+            else
+                ax4 = subplot(2,2,4,'Parent',expfig);
+                pos4 = get(ax4,'Position');
+                delete(ax4);
+            end
+            
+        case {'Magnetization','Switch-off Ramp'}
             % we copy all visible axes in a 2x2 grid
             ax1 = subplot(2,2,1,'Parent',expfig);
             ax2 = subplot(2,2,2,'Parent',expfig);
             ax3 = subplot(2,2,3,'Parent',expfig);
             ax4 = subplot(2,2,4,'Parent',expfig);
+            pos1 = get(ax1,'Position');
+            pos2 = get(ax2,'Position');
+            pos3 = get(ax3,'Position');
+            pos4 = get(ax4,'Position');
+            delete(ax1);
+            delete(ax2);
+            delete(ax3);
+            delete(ax4);
             
         case 'Pulse'
             % we copy pulse parameter in a 3x2 grid
@@ -57,14 +97,15 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             ax2 = subplot(3,2,2,'Parent',expfig);
             ax3 = subplot(3,2,[3 4],'Parent',expfig);
             ax4 = subplot(3,2,[5 6],'Parent',expfig);
+            pos1 = get(ax1,'Position');
+            pos2 = get(ax2,'Position');
+            pos3 = get(ax3,'Position');
+            pos4 = get(ax4,'Position');
+            delete(ax1);
+            delete(ax2);
+            delete(ax3);
+            delete(ax4);
     end
-    % get the default positions
-    pos1 = get(ax1,'Position');
-    pos2 = get(ax2,'Position');
-    pos3 = get(ax3,'Position');
-    pos4 = get(ax4,'Position');
-    % delete axes
-    delete(ax1);delete(ax2);delete(ax3);delete(ax4);
     
     % copy the GUI axes to the export figure
     switch get(src,'Label')
@@ -99,7 +140,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             end
             switch pul
                 case 1
-                    ax4 = copyobj(gui.axes_handles.PulseSetupF,expfig);
+                    ax4a = copyobj(gui.axes_handles.PulseSetupF,expfig);
+                    ax4b = copyobj(gui.axes_handles.PulseSetupI,expfig);
                 case 2
                     ax4 = copyobj(gui.axes_handles.PulseB,expfig);
                 case 3
@@ -132,11 +174,26 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             
             set(expfig,'Name','BLOCHUS: Pulse');
     end
+    
     % adjust the axes positions
-    set(ax1,'Position',pos1);
-    set(ax2,'Position',pos2);
-    set(ax3,'Position',pos3);
-    set(ax4,'Position',pos4);
+    switch get(src,'Label')
+        case 'Current View'
+            set(ax1,'Position',pos1);
+            set(ax2,'Position',pos2);
+            set(ax3,'Position',pos3);
+            if isdual
+                set(ax4a,'Position',pos4a);
+                set(ax4b,'Position',pos4b);
+            else
+                set(ax4,'Position',pos4);
+            end
+            
+        otherwise
+            set(ax1,'Position',pos1);
+            set(ax2,'Position',pos2);
+            set(ax3,'Position',pos3);
+            set(ax4,'Position',pos4);
+    end
     
     % adjust the position of the export figure
     set(expfig,'Position',[posf(1)+300 posf(2) (posf(3)-300)*0.8 posf(4)*0.8]);
@@ -146,7 +203,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         case 'Current View'
             lgh1 = legend(ax1,'show');
             lgh3 = legend(ax3,'show');
-            lgh4 = legend(ax4,'show');
+            if isdual
+                lgh4a = legend(ax4a,'show');
+                lgh4b = legend(ax4b,'show');
+            else
+                lgh4 = legend(ax4,'show');
+            end
             
         case 'Magnetization'
             lgh1 = legend(ax1,'show');

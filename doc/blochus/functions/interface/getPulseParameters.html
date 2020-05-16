@@ -60,7 +60,7 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/functions/blochsim/getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>	 creates discrete on-resonant or adiabatic pulses</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li></ul>
+<li><a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>	 calculates the FFT for a given time and signal pair</li><li><a href="../../../blochus/functions/blochsim/getMIDI_Tx.html" class="code" title="function [t,Bxy,AP] = getMIDI_Tx(param)">getMIDI_Tx</a>	 creates discrete on-resonant or adiabatic pulses</li><li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="../../../blochus/functions/blochsim/getPulseTimeSeries.html" class="code" title="function [Bout,df,I,theta] = getPulseTimeSeries(param)">getPulseTimeSeries</a>	 returns the B-field amplitudes of the pulse either for a</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
 <li><a href="../../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
@@ -310,38 +310,46 @@ This function is called by:
 0239 <span class="comment">% dummy time vector [ms]</span>
 0240 data.results.pulse.t = pulse_t'.*1e3;
 0241 
-0242 <span class="comment">% update data</span>
-0243 data.results.pulse.fmod = fmod;
-0244 data.results.pulse.Imod = Imod;
-0245 data.results.pulse.df = df;
-0246 data.results.pulse.I = I;
-0247 data.results.pulse.Bxy = pulse_Bxy;
-0248 
-0249 <span class="comment">% update GUI data</span>
-0250 setappdata(fig,<span class="string">'data'</span>,data);
-0251 
-0252 <span class="keyword">end</span>
+0242 <span class="comment">% get FFT of the pulse</span>
+0243 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(pulse_t(:),pulse_Bxy(:,1:2));
+0244                 
+0245 <span class="comment">% update data</span>
+0246 data.results.pulse.fmod = fmod;
+0247 data.results.pulse.Imod = Imod;
+0248 data.results.pulse.df = df;
+0249 data.results.pulse.I = I;
+0250 data.results.pulse.Bxy = pulse_Bxy;
+0251 data.results.pulse.Bspec.fx = fbx;
+0252 data.results.pulse.Bspec.X = Xb;
 0253 
-0254 <span class="comment">%------------- END OF CODE --------------</span>
-0255 
-0256 <span class="comment">%% License:</span>
-0257 <span class="comment">% GNU GPLv3</span>
-0258 <span class="comment">%</span>
-0259 <span class="comment">% BLOCHUS</span>
-0260 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0261 <span class="comment">%</span>
-0262 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0263 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0264 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0265 <span class="comment">% (at your option) any later version.</span>
+0254 <span class="comment">% because the pulse data changed, deactivate the &quot;Animate&quot; button</span>
+0255 set(gui.push_handles.Animate,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0256 
+0257 <span class="comment">% update GUI data</span>
+0258 setappdata(fig,<span class="string">'data'</span>,data);
+0259 
+0260 <span class="keyword">end</span>
+0261 
+0262 <span class="comment">%------------- END OF CODE --------------</span>
+0263 
+0264 <span class="comment">%% License:</span>
+0265 <span class="comment">% GNU GPLv3</span>
 0266 <span class="comment">%</span>
-0267 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0268 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0269 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0270 <span class="comment">% GNU General Public License for more details.</span>
-0271 <span class="comment">%</span>
-0272 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0273 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0267 <span class="comment">% BLOCHUS</span>
+0268 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0269 <span class="comment">%</span>
+0270 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0271 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0272 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0273 <span class="comment">% (at your option) any later version.</span>
+0274 <span class="comment">%</span>
+0275 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0276 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0277 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0278 <span class="comment">% GNU General Public License for more details.</span>
+0279 <span class="comment">%</span>
+0280 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0281 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -45,6 +45,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     
     % change the pushbutton color to indicate that a calculation is running
     set(src,'BackGroundColor','r');
+    % reset the color of the animate button
+    set(gui.push_handles.Animate,'BackGroundColor',[.94 .94 .94]);
     
     % basic parameter that are always needed
     % z unit vector
@@ -151,10 +153,13 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             [TT,MM] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
             
             % normalized magnetization vector at end of switch-off ramp
-            MMn = MM(end,:)./norm(MM(end,:));
+            % because the simulation can be longer than the ramp, find the
+            % last point of the ramp to calculate the adiabatic quality p
+            indt = find(TT<=rampparam.Tramp,1,'last');
+            MMn = MM(indt,:)./norm(MM(indt,:));
             % "adiabatic quality" p of the switch-off ramp
-            % -> orientation of M with respect to z_unit
-            p = dot(MMn(end,:),zunit)./norm(zunit);
+            % -> orientation of M with respect to z_unit          
+            p = dot(MMn,zunit)./norm(zunit);
             
             % save data
             data.results.basic.T = TT;
@@ -260,9 +265,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 theta(indT) = getOmega0(odeparam.gamma,odeparam.B0).*TT(indT);
                 % rotate M into rotating frame of reference
                 Mrot = getMrot(MM,theta,dphi);
-                % get FFTof M in the laboratory frame of reference
+                % get FFT of M in the laboratory frame of reference
                 [Xm,fmx] = getFFT(TT,MM(:,1:2));
-                % get FFT for the pulse
+                % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT(TT<=Ttau),Bpulse(TT<=Ttau,1:2));
                 
                 % update Info field
@@ -271,9 +276,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             else
                 % rotate M into rotating frame of reference
                 Mrot = getMrot(MM,theta);
-                % get FFTof M in the laboratory frame of reference
+                % get FFT of M in the laboratory frame of reference
                 [Xm,fmx] = getFFT(TT,MM(:,1:2));
-                % get FFT for the pulse
+                % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT,Bpulse(:,1:2));
                 
                 % update Info field
@@ -292,6 +297,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             
             % this is basically the combination of all of the above
             % simulation types
+			%  --- IMPORTANT NOTE: ----------------------------------------
+			% The pre-polarization switch-off only "lives" in the laboratory
+			% frame of reference. However, for convenience reasons I plot
+			% the lab-frame pre-polarization data also in the rotating
+			% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure "eye candy"
+			%  -------------------------------------------------------------
             
             % these times we will later on, so init them already here
             % total simulation time [s]
@@ -511,7 +522,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 % and account for the phase from the wait time before the
                 % pulse
                 MM3rot = getMrot(MM,theta,dphi+phiWait);
-                % get FFT pulse B-field
+                % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT(TT<=Ttau),Bpulse(TT<=Ttau,1:2));
                 
                 % update Info field
@@ -523,7 +534,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 % and account for the phase from the wait time before the
                 % pulse
                 MM3rot = getMrot(MM,theta,phiWait);
-                % get FFT pulse B-field
+                % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT,Bpulse(:,1:2));
                 
                 % update Info field
@@ -546,6 +557,13 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             MM = [MM1;MM2;MM3];
             % because there is no M in the rotating frame of reference
             % during the switch-off ramp, use the lab-frame data instead
+			%  --- IMPORTANT NOTE: ----------------------------------------
+			% The pre-polarization switch-off only "lives" in the laboratory
+			% frame of reference. However, for convenience reasons I plot
+			% the lab-frame pre-polarization data also in the rotating
+			% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure "eye candy"
+			% MM1 is lab-frame data!
+			%  -------------------------------------------------------------
             MMrot = [MM1;MM2rot;MM3rot];
             
             % remove possible duplicate points

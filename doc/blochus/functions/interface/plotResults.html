@@ -63,7 +63,7 @@ This function calls:
 <li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>	 clears an individual axis</li><li><a href="plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>	 plots a (Bloch)-Sphere (basically a unit sphere) with</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/callbacks/menus/onMenuImport.html" class="code" title="function onMenuImport(src,~)">onMenuImport</a>	 handles the extra menu entries</li><li><a href="../../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>	</li><li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li></ul>
+<li><a href="../../../blochus/callbacks/menus/onMenuImport.html" class="code" title="function onMenuImport(src,~)">onMenuImport</a>	 handles the extra menu entries</li><li><a href="../../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>	 animates the results of the latest simulation</li><li><a href="../../../blochus/callbacks/push/onPushRun.html" class="code" title="function onPushRun(src,~)">onPushRun</a>	 starts the calculation</li></ul>
 <!-- crossreference -->
 
 <h2><a name="_subfunctions"></a>SUBFUNCTIONS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
@@ -168,237 +168,242 @@ This function is called by:
 0095         M = data.results.basic.Mrot;
 0096         ax = gui.axes_handles.MagR;
 0097 <span class="keyword">end</span>
-0098 <span class="comment">% norm of magnetization vector</span>
-0099 Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
-0100 
-0101 <span class="comment">% normalize M in case of pre-polarization</span>
-0102 <span class="comment">% and adjust axis limits</span>
-0103 <span class="keyword">switch</span> data.basic.type
-0104     <span class="keyword">case</span> {<span class="string">'prepol'</span>,<span class="string">'prepolpulse'</span>}
-0105         M = M./data.basic.B0;
-0106         Mamp = Mamp./data.basic.B0;
-0107         d = max(M(:))-min(M(:));
-0108         ymin = min(M(:))-d/20;
-0109         ymax = max(M(:))+d/20;
-0110     <span class="keyword">otherwise</span>
-0111         ymin = -1.05;
-0112         ymax = 1.05;
-0113 <span class="keyword">end</span>
-0114 
-0115 <span class="comment">% plot the data</span>
-0116 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
-0117 hold(ax,<span class="string">'on'</span>);
-0118 plot(T,M(:,1),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
-0119 plot(T,M(:,2),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'Parent'</span>,ax);
-0120 plot(T,M(:,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'Parent'</span>,ax);
-0121 plot(T,sqrt(M(:,1).^2+M(:,2).^2),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0122     <span class="string">'Color'</span>,<span class="string">'m'</span>,<span class="string">'Parent'</span>,ax);
-0123 plot(T,Mamp,<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="keyword">...</span>
-0124     <span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'Parent'</span>,ax);
-0125 set(ax,<span class="string">'XLim'</span>,[min(T) max(T)],<span class="string">'YLim'</span>,[ymin ymax]);
-0126 
-0127 <span class="comment">% -------------------------------------------------------------------------</span>
-0128 <span class="comment">% plot vertical line at end of switch-off ramp</span>
-0129 <span class="keyword">if</span> (strcmp(data.basic.type,<span class="string">'prepol'</span>) || strcmp(data.basic.type,<span class="string">'prepolpulse'</span>))<span class="keyword">...</span>
-0130         &amp;&amp; Tramp &lt; Tsim
-0131     plot([Tramp Tramp],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
-0132         <span class="string">'Color'</span>,myui.color.prepol,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
-0133         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
-0134 <span class="keyword">end</span>
-0135 <span class="comment">% plot vertical line at end of pulse</span>
-0136 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'pulse'</span>) &amp;&amp; Ttau &lt; Tsim
-0137     plot([Ttau Ttau],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
-0138         <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
-0139         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
-0140 <span class="keyword">end</span>
-0141 <span class="comment">% plot vertical line at end of pulse</span>
-0142 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'prepolpulse'</span>)
-0143     plot([Ttau+Tramp+Twait Ttau+Tramp+Twait],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
-0144         <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
-0145         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
-0146     <span class="keyword">if</span> Twait &gt; 0
-0147          plot([Tramp+Twait Tramp+Twait],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
-0148              <span class="string">'Color'</span>,myui.color.wait,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
-0149              <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
-0150     <span class="keyword">end</span>
-0151 <span class="keyword">end</span>
-0152 <span class="comment">% -------------------------------------------------------------------------</span>
-0153 hold(ax,<span class="string">'off'</span>);
-0154 
-0155 <span class="comment">% axis settings</span>
-0156 grid(ax,<span class="string">'on'</span>);
-0157 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
-0158 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'magnetization M'</span>);
-0159 <span class="comment">% legend</span>
-0160 lh = legend(ax,<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>,<span class="string">'|xy|'</span>,<span class="string">'|M|'</span>,<span class="string">'Location'</span>,<span class="string">'SouthWest'</span>);
-0161 
-0162 <span class="comment">% adiabatic quality of switch-off ramp</span>
-0163 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'prepol'</span>) || strcmp(data.basic.type,<span class="string">'prepolpulse'</span>)
-0164     set(get(lh,<span class="string">'Title'</span>),<span class="string">'String'</span>,[<span class="string">'p='</span>,sprintf(<span class="string">'%4.3f'</span>,data.results.prepol.p)])
-0165 <span class="keyword">end</span>
-0166 <span class="comment">% font size</span>
-0167 set(ax,<span class="string">'FontSize'</span>,gui.myui.axfontsize);
-0168 
-0169 <span class="keyword">end</span>
+0098 <span class="comment">% xy-component of magnetization vector</span>
+0099 Mxy = sqrt(M(:,1).^2+M(:,2).^2);
+0100 <span class="comment">% norm of magnetization vector</span>
+0101 Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
+0102 
+0103 <span class="comment">% normalize M in case of pre-polarization</span>
+0104 <span class="comment">% and adjust axis limits</span>
+0105 <span class="keyword">switch</span> data.basic.type
+0106     <span class="keyword">case</span> {<span class="string">'prepol'</span>,<span class="string">'prepolpulse'</span>}
+0107         M = M./data.basic.B0;
+0108         Mxy = Mxy./data.basic.B0;
+0109         Mamp = Mamp./data.basic.B0;
+0110         d = max([M(:);Mxy(:)])-min([M(:);Mxy(:)]);
+0111         ymin = min([M(:);Mxy(:)])-d/20;
+0112         ymax = max([M(:);Mxy(:)])+d/20;
+0113     <span class="keyword">otherwise</span>
+0114         ymin = -1.05;
+0115         ymax = 1.05;
+0116 <span class="keyword">end</span>
+0117 
+0118 <span class="comment">% plot the data</span>
+0119 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
+0120 hold(ax,<span class="string">'on'</span>);
+0121 plot(T,M(:,1),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="string">'Color'</span>,<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
+0122 plot(T,M(:,2),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="string">'Color'</span>,<span class="string">'g'</span>,<span class="string">'Parent'</span>,ax);
+0123 plot(T,M(:,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'Parent'</span>,ax);
+0124 plot(T,Mxy,<span class="string">'LineWidth'</span>,myui.linewidth,<span class="string">'Color'</span>,<span class="string">'m'</span>,<span class="string">'Parent'</span>,ax);
+0125 plot(T,Mamp,<span class="string">'LineWidth'</span>,myui.linewidth,<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="keyword">...</span>
+0126     <span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="string">'Parent'</span>,ax);
+0127 set(ax,<span class="string">'XLim'</span>,[min(T) max(T)],<span class="string">'YLim'</span>,[ymin ymax]);
+0128 
+0129 <span class="comment">% -------------------------------------------------------------------------</span>
+0130 <span class="comment">% plot vertical line at end of switch-off ramp</span>
+0131 <span class="keyword">if</span> (strcmp(data.basic.type,<span class="string">'prepol'</span>) || strcmp(data.basic.type,<span class="string">'prepolpulse'</span>))<span class="keyword">...</span>
+0132         &amp;&amp; Tramp &lt; Tsim
+0133     plot([Tramp Tramp],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0134         <span class="string">'Color'</span>,myui.color.prepol,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
+0135         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
+0136 <span class="keyword">end</span>
+0137 <span class="comment">% plot vertical line at end of pulse</span>
+0138 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'pulse'</span>) &amp;&amp; Ttau &lt; Tsim
+0139     plot([Ttau Ttau],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0140         <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
+0141         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
+0142 <span class="keyword">end</span>
+0143 <span class="comment">% plot vertical line at end of pulse</span>
+0144 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'prepolpulse'</span>)
+0145     plot([Ttau+Tramp+Twait Ttau+Tramp+Twait],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0146         <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
+0147         <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
+0148     <span class="keyword">if</span> Twait &gt; 0
+0149          plot([Tramp+Twait Tramp+Twait],get(ax,<span class="string">'YLim'</span>),<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0150              <span class="string">'Color'</span>,myui.color.wait,<span class="string">'LineWidth'</span>,1,<span class="string">'Tag'</span>,<span class="string">'MarkerLines'</span>,<span class="keyword">...</span>
+0151              <span class="string">'HandleVisibility'</span>,<span class="string">'off'</span>,<span class="string">'Parent'</span>,ax);
+0152     <span class="keyword">end</span>
+0153 <span class="keyword">end</span>
+0154 <span class="comment">% -------------------------------------------------------------------------</span>
+0155 hold(ax,<span class="string">'off'</span>);
+0156 
+0157 <span class="comment">% axis settings</span>
+0158 grid(ax,<span class="string">'on'</span>);
+0159 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'t [ms]'</span>);
+0160 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'magnetization M'</span>);
+0161 <span class="comment">% legend</span>
+0162 lh = legend(ax,<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>,<span class="string">'|xy|'</span>,<span class="string">'|M|'</span>,<span class="string">'Location'</span>,<span class="string">'SouthWest'</span>);
+0163 
+0164 <span class="comment">% adiabatic quality of switch-off ramp</span>
+0165 <span class="keyword">if</span> strcmp(data.basic.type,<span class="string">'prepol'</span>) || strcmp(data.basic.type,<span class="string">'prepolpulse'</span>)
+0166     set(get(lh,<span class="string">'Title'</span>),<span class="string">'String'</span>,[<span class="string">'p='</span>,sprintf(<span class="string">'%4.3f'</span>,data.results.prepol.p)])
+0167 <span class="keyword">end</span>
+0168 <span class="comment">% font size</span>
+0169 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
 0170 
-0171 <span class="comment">%% magnetization components on Bloch sphere</span>
-0172 <a name="_sub2" href="#_subfunctions" class="code">function plotSphere(data,gui,frame)</a>
-0173 myui = gui.myui;
-0174 
-0175 <span class="comment">% for plotting everything is in [ms]</span>
-0176 T = data.results.basic.T.*1e3;
-0177 
-0178 <span class="comment">% all relevant time marker</span>
-0179 Tsim = data.basic.Tsim;
-0180 Ttau = data.pulse.Ttau;
-0181 Tramp = data.prepol.Tramp;
-0182 Twait = data.pulse.Twait;
-0183 
-0184 <span class="comment">% choose reference frame to plot</span>
-0185 <span class="keyword">switch</span> frame
-0186     <span class="keyword">case</span> <span class="string">'lab'</span>
-0187         M = data.results.basic.M;
-0188         ax = gui.axes_handles.SphereL;
-0189     <span class="keyword">case</span> <span class="string">'rot'</span>
-0190         M = data.results.basic.Mrot;
-0191         ax = gui.axes_handles.SphereR;
-0192 <span class="keyword">end</span>
-0193 <span class="comment">% norm of magnetization vector</span>
-0194 Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
-0195 
-0196 <span class="comment">% for visualization purposes M always gets normalized on Bloch sphere</span>
-0197 M = M./Mamp(1);
-0198 
-0199 <span class="comment">% chhose what to plot depending on simulation type</span>
-0200 <span class="keyword">switch</span> data.basic.type
-0201     <span class="keyword">case</span> <span class="string">'std'</span>
-0202         indS1 = 1:numel(T); <span class="comment">% relaxation</span>
-0203         indS2 = []; <span class="comment">% relaxation at end of &quot;prepolpulse&quot;-type</span>
-0204         indR = []; <span class="comment">% switch-off ramp</span>
-0205         indB = []; <span class="comment">% switch-off B-field</span>
-0206         indP = []; <span class="comment">% pulse</span>
-0207         indE = numel(T); <span class="comment">% end point</span>
-0208         Beffn = [0 0 0];
-0209         
-0210     <span class="keyword">case</span> <span class="string">'prepol'</span>
-0211         indS1 = T&gt;Tramp;
-0212         indS2 = [];
-0213         indR = T&lt;=Tramp;
-0214         indB = [];
-0215         indP = [];
-0216         indE = numel(T);
-0217         <span class="comment">% switch-off B-field trajectory</span>
-0218         Bamp = sqrt(data.results.prepol.Beff(:,1).^2+data.results.prepol.Beff(:,2).^2+data.results.prepol.Beff(:,3).^2);
-0219         Beffn = data.results.prepol.Beff./Bamp;
-0220         
-0221     <span class="keyword">case</span> <span class="string">'pulse'</span>
-0222         indS1 = T&gt;Ttau;
-0223         indS2 = [];
-0224         indR = [];
-0225         indB = [];
-0226         indP = T&lt;=Ttau;
-0227         indE = numel(T);
-0228         Beffn = [0 0 0];
-0229         
-0230     <span class="keyword">case</span> <span class="string">'prepolpulse'</span>
-0231         indS2 = T&gt;Tramp &amp; T&lt;=Tramp+Twait;
-0232         indS1 = T&gt;Tramp+Twait+Ttau;
-0233         indR = T&lt;=Tramp;
-0234         indB = [];
-0235         indP = T&gt;Tramp+Twait &amp; T&lt;=Tramp+Twait+Ttau;
-0236         indE = numel(T);
-0237         <span class="comment">% switch-off B-field trajectory</span>
-0238         Bamp = sqrt(data.results.prepol.Beff(:,1).^2+data.results.prepol.Beff(:,2).^2+data.results.prepol.Beff(:,3).^2);
-0239         Beffn = data.results.prepol.Beff./Bamp;
-0240 <span class="keyword">end</span>
-0241 
-0242 <span class="comment">% plot data</span>
-0243 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
-0244 hold(ax,<span class="string">'on'</span>);
-0245 plot3(M(indS1,1),M(indS1,2),M(indS1,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0246     <span class="string">'Color'</span>,myui.color.basic,<span class="string">'Parent'</span>,ax);
-0247 plot3(M(indS2,1),M(indS2,2),M(indS2,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0248     <span class="string">'Color'</span>,myui.color.wait,<span class="string">'Parent'</span>,ax);
-0249 plot3(M(indP,1),M(indP,2),M(indP,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0250     <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'Parent'</span>,ax);
-0251 plot3(M(indR,1),M(indR,2),M(indR,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0252     <span class="string">'Color'</span>,myui.color.prepol,<span class="string">'Parent'</span>,ax);
-0253 plot3(Beffn(:,1),Beffn(:,2),Beffn(:,3),<span class="string">'LineWidth'</span>,gui.myui.linewidth,<span class="keyword">...</span>
-0254     <span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'Parent'</span>,ax)
-0255 plot3(M(indE,1),M(indE,2),M(indE,3),<span class="string">'ko'</span>,<span class="string">'MarkerSize'</span>,8,<span class="string">'Parent'</span>,ax);
-0256 <span class="comment">% plot actual Bloch sphere</span>
-0257 <a href="plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>(18,18,ax);
-0258 <span class="comment">% axis settings</span>
-0259 view(ax,[-35 30]);
-0260 hold(ax,<span class="string">'off'</span>);
-0261 set(ax,<span class="string">'XLim'</span>,[-1.05 1.05],<span class="string">'YLim'</span>,[-1.05 1.05],<span class="string">'ZLim'</span>,[-1.05 1.05])
-0262 set(ax,<span class="string">'Color'</span>,<span class="string">'w'</span>,<span class="string">'XColor'</span>,<span class="string">'none'</span>,<span class="string">'YColor'</span>,<span class="string">'none'</span>,<span class="string">'ZColor'</span>,<span class="string">'none'</span>);
-0263 axis(ax,<span class="string">'equal'</span>);
-0264 axis(ax,<span class="string">'tight'</span>);
-0265 
-0266 <span class="keyword">end</span>
-0267 
-0268 <span class="comment">%% FFT of magnetization and pulse</span>
-0269 <a name="_sub3" href="#_subfunctions" class="code">function plotFFT(data,gui,type)</a>
-0270 myui = gui.myui;
+0171 <span class="keyword">end</span>
+0172 
+0173 <span class="comment">%% magnetization components on Bloch sphere</span>
+0174 <a name="_sub2" href="#_subfunctions" class="code">function plotSphere(data,gui,frame)</a>
+0175 myui = gui.myui;
+0176 
+0177 <span class="comment">% for plotting everything is in [ms]</span>
+0178 T = data.results.basic.T.*1e3;
+0179 
+0180 <span class="comment">% all relevant time marker</span>
+0181 Tsim = data.basic.Tsim;
+0182 Ttau = data.pulse.Ttau;
+0183 Tramp = data.prepol.Tramp;
+0184 Twait = data.pulse.Twait;
+0185 
+0186 <span class="comment">% choose reference frame to plot</span>
+0187 <span class="keyword">switch</span> frame
+0188     <span class="keyword">case</span> <span class="string">'lab'</span>
+0189         M = data.results.basic.M;
+0190         ax = gui.axes_handles.SphereL;
+0191     <span class="keyword">case</span> <span class="string">'rot'</span>
+0192         M = data.results.basic.Mrot;
+0193         ax = gui.axes_handles.SphereR;
+0194 <span class="keyword">end</span>
+0195 <span class="comment">% norm of magnetization vector</span>
+0196 Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
+0197 
+0198 <span class="comment">% for visualization purposes M always gets normalized on Bloch sphere</span>
+0199 M = M./Mamp(1);
+0200 
+0201 <span class="comment">% chhose what to plot depending on simulation type</span>
+0202 <span class="keyword">switch</span> data.basic.type
+0203     <span class="keyword">case</span> <span class="string">'std'</span>
+0204         indS1 = 1:numel(T); <span class="comment">% relaxation</span>
+0205         indS2 = []; <span class="comment">% relaxation at end of &quot;prepolpulse&quot;-type</span>
+0206         indR = []; <span class="comment">% switch-off ramp</span>
+0207         indB = []; <span class="comment">% switch-off B-field</span>
+0208         indP = []; <span class="comment">% pulse</span>
+0209         indE = numel(T); <span class="comment">% end point</span>
+0210         Beffn = [0 0 0];
+0211         
+0212     <span class="keyword">case</span> <span class="string">'prepol'</span>
+0213         indS1 = T&gt;Tramp;
+0214         indS2 = [];
+0215         indR = T&lt;=Tramp;
+0216         indB = [];
+0217         indP = [];
+0218         indE = numel(T);
+0219         <span class="comment">% switch-off B-field trajectory</span>
+0220         Bamp = sqrt(data.results.prepol.Beff(:,1).^2+<span class="keyword">...</span>
+0221             data.results.prepol.Beff(:,2).^2+<span class="keyword">...</span>
+0222             data.results.prepol.Beff(:,3).^2);
+0223         Beffn = data.results.prepol.Beff./Bamp;
+0224         
+0225     <span class="keyword">case</span> <span class="string">'pulse'</span>
+0226         indS1 = T&gt;Ttau;
+0227         indS2 = [];
+0228         indR = [];
+0229         indB = [];
+0230         indP = T&lt;=Ttau;
+0231         indE = numel(T);
+0232         Beffn = [0 0 0];
+0233         
+0234     <span class="keyword">case</span> <span class="string">'prepolpulse'</span>
+0235         indS2 = T&gt;Tramp &amp; T&lt;=Tramp+Twait;
+0236         indS1 = T&gt;Tramp+Twait+Ttau;
+0237         indR = T&lt;=Tramp;
+0238         indB = [];
+0239         indP = T&gt;Tramp+Twait &amp; T&lt;=Tramp+Twait+Ttau;
+0240         indE = numel(T);
+0241         <span class="comment">% switch-off B-field trajectory</span>
+0242         Bamp = sqrt(data.results.prepol.Beff(:,1).^2+<span class="keyword">...</span>
+0243             data.results.prepol.Beff(:,2).^2+<span class="keyword">...</span>
+0244             data.results.prepol.Beff(:,3).^2);
+0245         Beffn = data.results.prepol.Beff./Bamp;
+0246 <span class="keyword">end</span>
+0247 
+0248 <span class="comment">% plot data</span>
+0249 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
+0250 hold(ax,<span class="string">'on'</span>);
+0251 plot3(M(indS1,1),M(indS1,2),M(indS1,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="keyword">...</span>
+0252     <span class="string">'Color'</span>,myui.color.basic,<span class="string">'Parent'</span>,ax);
+0253 plot3(M(indS2,1),M(indS2,2),M(indS2,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="keyword">...</span>
+0254     <span class="string">'Color'</span>,myui.color.wait,<span class="string">'Parent'</span>,ax);
+0255 plot3(M(indP,1),M(indP,2),M(indP,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="keyword">...</span>
+0256     <span class="string">'Color'</span>,myui.color.pulse,<span class="string">'Parent'</span>,ax);
+0257 plot3(M(indR,1),M(indR,2),M(indR,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="keyword">...</span>
+0258     <span class="string">'Color'</span>,myui.color.prepol,<span class="string">'Parent'</span>,ax);
+0259 plot3(Beffn(:,1),Beffn(:,2),Beffn(:,3),<span class="string">'LineWidth'</span>,myui.linewidth,<span class="keyword">...</span>
+0260     <span class="string">'Color'</span>,myui.color.prepolB,<span class="string">'Parent'</span>,ax)
+0261 plot3(M(indE,1),M(indE,2),M(indE,3),<span class="string">'ko'</span>,<span class="string">'MarkerSize'</span>,8,<span class="string">'Parent'</span>,ax);
+0262 <span class="comment">% plot actual Bloch sphere</span>
+0263 <a href="plotBSphere.html" class="code" title="function bsh = plotBSphere(dlat,dlong,ax,varargin)">plotBSphere</a>(18,18,ax);
+0264 <span class="comment">% axis settings</span>
+0265 view(ax,[-35 30]);
+0266 hold(ax,<span class="string">'off'</span>);
+0267 set(ax,<span class="string">'XLim'</span>,[-1.05 1.05],<span class="string">'YLim'</span>,[-1.05 1.05],<span class="string">'ZLim'</span>,[-1.05 1.05])
+0268 set(ax,<span class="string">'Color'</span>,<span class="string">'w'</span>,<span class="string">'XColor'</span>,<span class="string">'none'</span>,<span class="string">'YColor'</span>,<span class="string">'none'</span>,<span class="string">'ZColor'</span>,<span class="string">'none'</span>);
+0269 axis(ax,<span class="string">'equal'</span>);
+0270 axis(ax,<span class="string">'tight'</span>);
 0271 
-0272 <span class="comment">% Larmor freq. [Hz]</span>
-0273 fL = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0)/2/pi;
-0274 
-0275 <span class="comment">% choose what to plot</span>
-0276 <span class="keyword">switch</span> type
-0277     <span class="keyword">case</span> <span class="string">'M'</span>
-0278         ax = gui.axes_handles.MagFFT;
-0279         f = data.results.basic.Mspec.fx;
-0280         X = data.results.basic.Mspec.X;
-0281         lgdstr = {<span class="string">'Mxy'</span>,<span class="string">'\omega_0'</span>};
-0282     <span class="keyword">case</span> <span class="string">'B'</span>
-0283         ax = gui.axes_handles.PulseFFT;
-0284         f = data.results.pulse.Bspec.fx;
-0285         X = data.results.pulse.Bspec.X;
-0286         lgdstr = {<span class="string">'B'</span>,<span class="string">'\omega_0'</span>};
-0287 <span class="keyword">end</span>
-0288 
-0289 <span class="comment">% plot data</span>
-0290 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
-0291 hold(ax,<span class="string">'on'</span>);
-0292 plot(f,abs(X),<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
-0293 <span class="comment">% vertical line indicating Larmor frequency</span>
-0294 line([fL fL],[0 max(abs(X))],<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
-0295     <span class="string">'LineWidth'</span>,0.75,<span class="string">'Parent'</span>,ax);
-0296 hold(ax,<span class="string">'off'</span>);
-0297 <span class="comment">% axis settings</span>
-0298 set(ax,<span class="string">'XLim'</span>,[-abs(2*fL) abs(2*fL)],<span class="string">'YLim'</span>,[0 max(abs(X))].*1.1);
-0299 grid(ax,<span class="string">'on'</span>);
-0300 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'F [Hz]'</span>);
-0301 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'amplitude'</span>);
-0302 <span class="comment">% legend</span>
-0303 legend(ax,lgdstr,<span class="string">'Location'</span>,<span class="string">'NorthEast'</span>);
-0304 <span class="comment">% font size</span>
-0305 set(ax,<span class="string">'FontSize'</span>,gui.myui.axfontsize);
-0306 
-0307 <span class="keyword">end</span>
-0308 
-0309 <span class="comment">%------------- END OF CODE --------------</span>
-0310 
-0311 <span class="comment">%% License:</span>
-0312 <span class="comment">% GNU GPLv3</span>
-0313 <span class="comment">%</span>
-0314 <span class="comment">% BLOCHUS</span>
-0315 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0316 <span class="comment">%</span>
-0317 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0318 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0319 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0320 <span class="comment">% (at your option) any later version.</span>
+0272 <span class="keyword">end</span>
+0273 
+0274 <span class="comment">%% FFT of magnetization and pulse</span>
+0275 <a name="_sub3" href="#_subfunctions" class="code">function plotFFT(data,gui,type)</a>
+0276 
+0277 <span class="comment">% Larmor freq. [Hz]</span>
+0278 fL = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0)/2/pi;
+0279 
+0280 <span class="comment">% choose what to plot</span>
+0281 <span class="keyword">switch</span> type
+0282     <span class="keyword">case</span> <span class="string">'M'</span>
+0283         ax = gui.axes_handles.MagFFT;
+0284         f = data.results.basic.Mspec.fx;
+0285         X = data.results.basic.Mspec.X;
+0286         lgdstr = {<span class="string">'Mxy'</span>,<span class="string">'\omega_0'</span>};
+0287     <span class="keyword">case</span> <span class="string">'B'</span>
+0288         ax = gui.axes_handles.PulseFFT;
+0289         f = data.results.pulse.Bspec.fx;
+0290         X = data.results.pulse.Bspec.X;
+0291         lgdstr = {<span class="string">'B'</span>,<span class="string">'\omega_0'</span>};
+0292 <span class="keyword">end</span>
+0293 
+0294 <span class="comment">% plot data</span>
+0295 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
+0296 hold(ax,<span class="string">'on'</span>);
+0297 plot(f,abs(X),<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
+0298 <span class="comment">% vertical line indicating Larmor frequency</span>
+0299 line([fL fL],[0 max(abs(X))],<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0300     <span class="string">'LineWidth'</span>,0.75,<span class="string">'Parent'</span>,ax);
+0301 hold(ax,<span class="string">'off'</span>);
+0302 <span class="comment">% axis settings</span>
+0303 set(ax,<span class="string">'XLim'</span>,[-abs(2*fL) abs(2*fL)],<span class="string">'YLim'</span>,[0 max(abs(X))].*1.1);
+0304 grid(ax,<span class="string">'on'</span>);
+0305 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'F [Hz]'</span>);
+0306 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'amplitude'</span>);
+0307 <span class="comment">% legend</span>
+0308 legend(ax,lgdstr,<span class="string">'Location'</span>,<span class="string">'NorthEast'</span>);
+0309 <span class="comment">% font size</span>
+0310 set(ax,<span class="string">'FontSize'</span>,gui.myui.axfontsize);
+0311 
+0312 <span class="keyword">end</span>
+0313 
+0314 <span class="comment">%------------- END OF CODE --------------</span>
+0315 
+0316 <span class="comment">%% License:</span>
+0317 <span class="comment">% GNU GPLv3</span>
+0318 <span class="comment">%</span>
+0319 <span class="comment">% BLOCHUS</span>
+0320 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
 0321 <span class="comment">%</span>
-0322 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0323 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0324 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0325 <span class="comment">% GNU General Public License for more details.</span>
+0322 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0323 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0324 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0325 <span class="comment">% (at your option) any later version.</span>
 0326 <span class="comment">%</span>
-0327 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0328 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0327 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0328 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0329 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0330 <span class="comment">% GNU General Public License for more details.</span>
+0331 <span class="comment">%</span>
+0332 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0333 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -2,8 +2,8 @@
                 "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
 <head>
-  <title>Description of plotBpulse</title>
-  <meta name="keywords" content="plotBpulse">
+  <title>Description of plotPulse</title>
+  <meta name="keywords" content="plotPulse">
   <meta name="description" content=" plots different pulse parameter">
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
   <meta name="generator" content="m2html &copy; 2005 Guillaume Flandin">
@@ -16,20 +16,20 @@
 <body>
 <a name="_top"></a>
 <!-- # blochus --><!-- # functions --><!-- menu.html interface -->
-<h1>plotBpulse
+<h1>plotPulse
 </h1>
 
 <h2><a name="_name"></a>PURPOSE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <div class="box"><strong> plots different pulse parameter</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
-<div class="box"><strong>function plotBpulse(fig) </strong></div>
+<div class="box"><strong>function plotPulse(fig) </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
-<div class="fragment"><pre class="comment">plotBpulse plots different pulse parameter
+<div class="fragment"><pre class="comment">plotPulse plots different pulse parameter
 
  Syntax:
-       plotBpulse(fig)
+       plotPulse(fig)
 
  Inputs:
        fig - figure handle
@@ -38,7 +38,7 @@
        none
 
  Example:
-       plotBpulse(gui.figh)
+       plotPulse(gui.figh)
 
  Other m-files required:
        none
@@ -58,20 +58,20 @@
 <h2><a name="_cross"></a>CROSS-REFERENCE INFORMATION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 This function calls:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-</ul>
+<li><a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>	 calculates the angular frequency from a given B-field and</li><li><a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>	 clears an individual axis</li></ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li></ul>
+<li><a href="../../../blochus/callbacks/checkbox/onCheckPulseQ.html" class="code" title="function onCheckPulseQ(src,~)">onCheckPulseQ</a>	 updates the checkbox that activates quality factor tuning</li><li><a href="../../../blochus/callbacks/edits/onEditValue.html" class="code" title="function onEditValue(src,~)">onEditValue</a>	 updates all edit field values, checks for wrong inputs and</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseAxis.html" class="code" title="function onPopupPulseAxis(src,~)">onPopupPulseAxis</a>	 sets the orientation of the pulse axis</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseDFmode.html" class="code" title="function onPopupPulseDFmode(src,~)">onPopupPulseDFmode</a>	 selects the frequency modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseImode.html" class="code" title="function onPopupPulseImode(src,~)">onPopupPulseImode</a>	 selects the current modulation for an adiabatic pulse</li><li><a href="../../../blochus/callbacks/popup/onPopupPulsePolarization.html" class="code" title="function onPopupPulsePolarization(src,~)">onPopupPulsePolarization</a>	 selects the pulse polarization</li><li><a href="../../../blochus/callbacks/popup/onPopupPulseType.html" class="code" title="function onPopupPulseType(src,~)">onPopupPulseType</a>	 selects the pulse type</li><li><a href="../../../blochus/callbacks/push/onPushAnimate.html" class="code" title="function onPushAnimate(src,~)">onPushAnimate</a>	 animates the results of the latest simulation</li></ul>
 <!-- crossreference -->
 
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
-<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function plotBpulse(fig)</a>
-0002 <span class="comment">%plotBpulse plots different pulse parameter</span>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function plotPulse(fig)</a>
+0002 <span class="comment">%plotPulse plots different pulse parameter</span>
 0003 <span class="comment">%</span>
 0004 <span class="comment">% Syntax:</span>
-0005 <span class="comment">%       plotBpulse(fig)</span>
+0005 <span class="comment">%       plotPulse(fig)</span>
 0006 <span class="comment">%</span>
 0007 <span class="comment">% Inputs:</span>
 0008 <span class="comment">%       fig - figure handle</span>
@@ -80,7 +80,7 @@ This function is called by:
 0011 <span class="comment">%       none</span>
 0012 <span class="comment">%</span>
 0013 <span class="comment">% Example:</span>
-0014 <span class="comment">%       plotBpulse(gui.figh)</span>
+0014 <span class="comment">%       plotPulse(gui.figh)</span>
 0015 <span class="comment">%</span>
 0016 <span class="comment">% Other m-files required:</span>
 0017 <span class="comment">%       none</span>
@@ -159,28 +159,53 @@ This function is called by:
 0090 legend(ax,<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'Location'</span>,<span class="string">'SouthWest'</span>);
 0091 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
 0092 
-0093 <span class="keyword">end</span>
-0094 
-0095 <span class="comment">%------------- END OF CODE --------------</span>
+0093 <span class="comment">%% FFT</span>
+0094 <span class="comment">% Larmor freq. [Hz]</span>
+0095 fL = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(data.basic.gamma,data.basic.B0)/2/pi;
 0096 
-0097 <span class="comment">%% License:</span>
-0098 <span class="comment">% GNU GPLv3</span>
-0099 <span class="comment">%</span>
-0100 <span class="comment">% BLOCHUS</span>
-0101 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0102 <span class="comment">%</span>
-0103 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0104 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0105 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0106 <span class="comment">% (at your option) any later version.</span>
-0107 <span class="comment">%</span>
-0108 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0109 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0110 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0111 <span class="comment">% GNU General Public License for more details.</span>
-0112 <span class="comment">%</span>
-0113 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0114 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0097 ax = gui.axes_handles.PulseFFT;
+0098 f = data.results.pulse.Bspec.fx;
+0099 X = data.results.pulse.Bspec.X;
+0100 <span class="comment">% plot data</span>
+0101 <a href="clearSingleAxis.html" class="code" title="function clearSingleAxis(axh)">clearSingleAxis</a>(ax);
+0102 hold(ax,<span class="string">'on'</span>);
+0103 plot(f,abs(X),<span class="string">'r'</span>,<span class="string">'Parent'</span>,ax);
+0104 <span class="comment">% vertical line indicating Larmor frequency</span>
+0105 line([fL fL],[0 max(abs(X))],<span class="string">'Color'</span>,<span class="string">'k'</span>,<span class="string">'LineStyle'</span>,<span class="string">'--'</span>,<span class="keyword">...</span>
+0106     <span class="string">'LineWidth'</span>,0.75,<span class="string">'Parent'</span>,ax);
+0107 hold(ax,<span class="string">'off'</span>);
+0108 <span class="comment">% axis settings</span>
+0109 set(ax,<span class="string">'XLim'</span>,[-abs(2*fL) abs(2*fL)],<span class="string">'YLim'</span>,[0 max(abs(X))].*1.1);
+0110 grid(ax,<span class="string">'on'</span>);
+0111 set(get(ax,<span class="string">'XLabel'</span>),<span class="string">'String'</span>,<span class="string">'F [Hz]'</span>);
+0112 set(get(ax,<span class="string">'YLabel'</span>),<span class="string">'String'</span>,<span class="string">'amplitude'</span>);
+0113 <span class="comment">% legend</span>
+0114 legend(ax,<span class="string">'B'</span>,<span class="string">'\omega_0'</span>,<span class="string">'Location'</span>,<span class="string">'NorthEast'</span>);
+0115 <span class="comment">% font size</span>
+0116 set(ax,<span class="string">'FontSize'</span>,myui.axfontsize);
+0117 
+0118 <span class="keyword">end</span>
+0119 
+0120 <span class="comment">%------------- END OF CODE --------------</span>
+0121 
+0122 <span class="comment">%% License:</span>
+0123 <span class="comment">% GNU GPLv3</span>
+0124 <span class="comment">%</span>
+0125 <span class="comment">% BLOCHUS</span>
+0126 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0127 <span class="comment">%</span>
+0128 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0129 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0130 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0131 <span class="comment">% (at your option) any later version.</span>
+0132 <span class="comment">%</span>
+0133 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0134 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0135 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0136 <span class="comment">% GNU General Public License for more details.</span>
+0137 <span class="comment">%</span>
+0138 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0139 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

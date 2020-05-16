@@ -101,6 +101,8 @@ data.results.prepol.alpha = alpha;
 data.results.prepol.omega = omega;
 data.results.prepol.dadt = dadt;
 
+% because the ramp data changed, deactivate the "Animate" button
+set(gui.push_handles.Animate,'Enable','off');
 
 % update GUI data
 setappdata(fig,'data',data);

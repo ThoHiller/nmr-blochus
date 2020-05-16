@@ -95,6 +95,8 @@ switch frame
         M = data.results.basic.Mrot;
         ax = gui.axes_handles.MagR;
 end
+% xy-component of magnetization vector
+Mxy = sqrt(M(:,1).^2+M(:,2).^2);
 % norm of magnetization vector
 Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
 
@@ -103,10 +105,11 @@ Mamp = sqrt(M(:,1).^2+M(:,2).^2+M(:,3).^2);
 switch data.basic.type
     case {'prepol','prepolpulse'}
         M = M./data.basic.B0;
+        Mxy = Mxy./data.basic.B0;
         Mamp = Mamp./data.basic.B0;
-        d = max(M(:))-min(M(:));
-        ymin = min(M(:))-d/20;
-        ymax = max(M(:))+d/20;
+        d = max([M(:);Mxy(:)])-min([M(:);Mxy(:)]);
+        ymin = min([M(:);Mxy(:)])-d/20;
+        ymax = max([M(:);Mxy(:)])+d/20;
     otherwise
         ymin = -1.05;
         ymax = 1.05;
@@ -115,12 +118,11 @@ end
 % plot the data
 clearSingleAxis(ax);
 hold(ax,'on');
-plot(T,M(:,1),'LineWidth',gui.myui.linewidth,'Color','r','Parent',ax);
-plot(T,M(:,2),'LineWidth',gui.myui.linewidth,'Color','g','Parent',ax);
-plot(T,M(:,3),'LineWidth',gui.myui.linewidth,'Color','b','Parent',ax);
-plot(T,sqrt(M(:,1).^2+M(:,2).^2),'LineWidth',gui.myui.linewidth,...
-    'Color','m','Parent',ax);
-plot(T,Mamp,'LineWidth',gui.myui.linewidth,'Color','k',...
+plot(T,M(:,1),'LineWidth',myui.linewidth,'Color','r','Parent',ax);
+plot(T,M(:,2),'LineWidth',myui.linewidth,'Color','g','Parent',ax);
+plot(T,M(:,3),'LineWidth',myui.linewidth,'Color','b','Parent',ax);
+plot(T,Mxy,'LineWidth',myui.linewidth,'Color','m','Parent',ax);
+plot(T,Mamp,'LineWidth',myui.linewidth,'Color','k',...
     'LineStyle','--','Parent',ax);
 set(ax,'XLim',[min(T) max(T)],'YLim',[ymin ymax]);
 
@@ -164,7 +166,7 @@ if strcmp(data.basic.type,'prepol') || strcmp(data.basic.type,'prepolpulse')
     set(get(lh,'Title'),'String',['p=',sprintf('%4.3f',data.results.prepol.p)])
 end
 % font size
-set(ax,'FontSize',gui.myui.axfontsize);
+set(ax,'FontSize',myui.axfontsize);
 
 end
 
@@ -215,7 +217,9 @@ switch data.basic.type
         indP = [];
         indE = numel(T);
         % switch-off B-field trajectory
-        Bamp = sqrt(data.results.prepol.Beff(:,1).^2+data.results.prepol.Beff(:,2).^2+data.results.prepol.Beff(:,3).^2);
+        Bamp = sqrt(data.results.prepol.Beff(:,1).^2+...
+            data.results.prepol.Beff(:,2).^2+...
+            data.results.prepol.Beff(:,3).^2);
         Beffn = data.results.prepol.Beff./Bamp;
         
     case 'pulse'
@@ -235,22 +239,24 @@ switch data.basic.type
         indP = T>Tramp+Twait & T<=Tramp+Twait+Ttau;
         indE = numel(T);
         % switch-off B-field trajectory
-        Bamp = sqrt(data.results.prepol.Beff(:,1).^2+data.results.prepol.Beff(:,2).^2+data.results.prepol.Beff(:,3).^2);
+        Bamp = sqrt(data.results.prepol.Beff(:,1).^2+...
+            data.results.prepol.Beff(:,2).^2+...
+            data.results.prepol.Beff(:,3).^2);
         Beffn = data.results.prepol.Beff./Bamp;
 end
 
 % plot data
 clearSingleAxis(ax);
 hold(ax,'on');
-plot3(M(indS1,1),M(indS1,2),M(indS1,3),'LineWidth',gui.myui.linewidth,...
+plot3(M(indS1,1),M(indS1,2),M(indS1,3),'LineWidth',myui.linewidth,...
     'Color',myui.color.basic,'Parent',ax);
-plot3(M(indS2,1),M(indS2,2),M(indS2,3),'LineWidth',gui.myui.linewidth,...
+plot3(M(indS2,1),M(indS2,2),M(indS2,3),'LineWidth',myui.linewidth,...
     'Color',myui.color.wait,'Parent',ax);
-plot3(M(indP,1),M(indP,2),M(indP,3),'LineWidth',gui.myui.linewidth,...
+plot3(M(indP,1),M(indP,2),M(indP,3),'LineWidth',myui.linewidth,...
     'Color',myui.color.pulse,'Parent',ax);
-plot3(M(indR,1),M(indR,2),M(indR,3),'LineWidth',gui.myui.linewidth,...
+plot3(M(indR,1),M(indR,2),M(indR,3),'LineWidth',myui.linewidth,...
     'Color',myui.color.prepol,'Parent',ax);
-plot3(Beffn(:,1),Beffn(:,2),Beffn(:,3),'LineWidth',gui.myui.linewidth,...
+plot3(Beffn(:,1),Beffn(:,2),Beffn(:,3),'LineWidth',myui.linewidth,...
     'Color',myui.color.prepolB,'Parent',ax)
 plot3(M(indE,1),M(indE,2),M(indE,3),'ko','MarkerSize',8,'Parent',ax);
 % plot actual Bloch sphere
@@ -267,7 +273,6 @@ end
 
 %% FFT of magnetization and pulse
 function plotFFT(data,gui,type)
-myui = gui.myui;
 
 % Larmor freq. [Hz]
 fL = getOmega0(data.basic.gamma,data.basic.B0)/2/pi;

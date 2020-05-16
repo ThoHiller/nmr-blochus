@@ -1,8 +1,8 @@
-function plotBpulse(fig)
-%plotBpulse plots different pulse parameter
+function plotPulse(fig)
+%plotPulse plots different pulse parameter
 %
 % Syntax:
-%       plotBpulse(fig)
+%       plotPulse(fig)
 %
 % Inputs:
 %       fig - figure handle
@@ -11,7 +11,7 @@ function plotBpulse(fig)
 %       none
 %
 % Example:
-%       plotBpulse(gui.figh)
+%       plotPulse(gui.figh)
 %
 % Other m-files required:
 %       none
@@ -88,6 +88,31 @@ grid(ax,'on');
 set(get(ax,'XLabel'),'String','t [ms]');
 set(get(ax,'YLabel'),'String','B_{1} [B_0]');
 legend(ax,'x','y','Location','SouthWest');
+set(ax,'FontSize',myui.axfontsize);
+
+%% FFT
+% Larmor freq. [Hz]
+fL = getOmega0(data.basic.gamma,data.basic.B0)/2/pi;
+
+ax = gui.axes_handles.PulseFFT;
+f = data.results.pulse.Bspec.fx;
+X = data.results.pulse.Bspec.X;
+% plot data
+clearSingleAxis(ax);
+hold(ax,'on');
+plot(f,abs(X),'r','Parent',ax);
+% vertical line indicating Larmor frequency
+line([fL fL],[0 max(abs(X))],'Color','k','LineStyle','--',...
+    'LineWidth',0.75,'Parent',ax);
+hold(ax,'off');
+% axis settings
+set(ax,'XLim',[-abs(2*fL) abs(2*fL)],'YLim',[0 max(abs(X))].*1.1);
+grid(ax,'on');
+set(get(ax,'XLabel'),'String','F [Hz]');
+set(get(ax,'YLabel'),'String','amplitude');
+% legend
+legend(ax,'B','\omega_0','Location','NorthEast');
+% font size
 set(ax,'FontSize',myui.axfontsize);
 
 end

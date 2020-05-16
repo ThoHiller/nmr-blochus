@@ -226,7 +226,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % update GUI data
     setappdata(fig,'data',data);
     % plot pulse
-    plotBpulse(fig);
+    plotPulse(fig);
     % update status bar
     updateStatusInformation(fig);
 else

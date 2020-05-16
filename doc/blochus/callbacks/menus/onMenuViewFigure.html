@@ -111,156 +111,218 @@ This function is called by:
 0042     <span class="comment">% opening the export figure</span>
 0043     expfig = figure;
 0044     
-0045     <span class="comment">% create the axes layout on the export figure</span>
-0046     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
-0047         <span class="keyword">case</span> {<span class="string">'Current View'</span>,<span class="string">'Magnetization'</span>,<span class="string">'Switch-off Ramp'</span>}
-0048             <span class="comment">% we copy all visible axes in a 2x2 grid</span>
-0049             ax1 = subplot(2,2,1,<span class="string">'Parent'</span>,expfig);
-0050             ax2 = subplot(2,2,2,<span class="string">'Parent'</span>,expfig);
-0051             ax3 = subplot(2,2,3,<span class="string">'Parent'</span>,expfig);
-0052             ax4 = subplot(2,2,4,<span class="string">'Parent'</span>,expfig);
-0053             
-0054         <span class="keyword">case</span> <span class="string">'Pulse'</span>
-0055             <span class="comment">% we copy pulse parameter in a 3x2 grid</span>
-0056             ax1 = subplot(3,2,1,<span class="string">'Parent'</span>,expfig);
-0057             ax2 = subplot(3,2,2,<span class="string">'Parent'</span>,expfig);
-0058             ax3 = subplot(3,2,[3 4],<span class="string">'Parent'</span>,expfig);
-0059             ax4 = subplot(3,2,[5 6],<span class="string">'Parent'</span>,expfig);
-0060     <span class="keyword">end</span>
-0061     <span class="comment">% get the default positions</span>
-0062     pos1 = get(ax1,<span class="string">'Position'</span>);
-0063     pos2 = get(ax2,<span class="string">'Position'</span>);
-0064     pos3 = get(ax3,<span class="string">'Position'</span>);
-0065     pos4 = get(ax4,<span class="string">'Position'</span>);
-0066     <span class="comment">% delete axes</span>
-0067     delete(ax1);delete(ax2);delete(ax3);delete(ax4);
-0068     
-0069     <span class="comment">% copy the GUI axes to the export figure</span>
-0070     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
-0071         <span class="keyword">case</span> <span class="string">'Current View'</span>
-0072             mag = get(gui.panels.Plot.Mag,<span class="string">'Selection'</span>);
-0073             sph = get(gui.panels.Plot.Sphere,<span class="string">'Selection'</span>);
-0074             pre = get(gui.panels.Plot.PrePol,<span class="string">'Selection'</span>);
-0075             pul = get(gui.panels.Plot.Pulse,<span class="string">'Selection'</span>);
-0076             <span class="keyword">switch</span> mag
-0077                 <span class="keyword">case</span> 1
-0078                     ax1 = copyobj(gui.axes_handles.MagL,expfig);
-0079                 <span class="keyword">case</span> 2
-0080                     ax1 = copyobj(gui.axes_handles.MagR,expfig);
-0081                 <span class="keyword">case</span> 3
-0082                     ax1 = copyobj(gui.axes_handles.MagFFT,expfig);
-0083             <span class="keyword">end</span>
-0084             <span class="keyword">switch</span> sph
-0085                 <span class="keyword">case</span> 1
-0086                     ax2 = copyobj(gui.axes_handles.SphereL,expfig);
-0087                 <span class="keyword">case</span> 2
-0088                     ax2 = copyobj(gui.axes_handles.SphereR,expfig);
-0089             <span class="keyword">end</span>
-0090             <span class="keyword">switch</span> pre
-0091                 <span class="keyword">case</span> 1
-0092                     ax3 = copyobj(gui.axes_handles.Bpre,expfig);
-0093                 <span class="keyword">case</span> 2
-0094                     ax3 = copyobj(gui.axes_handles.alpha,expfig);
-0095                 <span class="keyword">case</span> 3
-0096                     ax3 = copyobj(gui.axes_handles.dadt,expfig);
-0097                 <span class="keyword">case</span> 4
-0098                     ax3 = copyobj(gui.axes_handles.wda,expfig);
-0099             <span class="keyword">end</span>
-0100             <span class="keyword">switch</span> pul
-0101                 <span class="keyword">case</span> 1
-0102                     ax4 = copyobj(gui.axes_handles.PulseSetupF,expfig);
-0103                 <span class="keyword">case</span> 2
-0104                     ax4 = copyobj(gui.axes_handles.PulseB,expfig);
-0105                 <span class="keyword">case</span> 3
-0106                     ax4 = copyobj(gui.axes_handles.PulseFFT,expfig);
-0107             <span class="keyword">end</span>
-0108             
-0109             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Current View'</span>);
-0110             
-0111         <span class="keyword">case</span> <span class="string">'Magnetization'</span>
-0112             ax1 = copyobj(gui.axes_handles.MagL,expfig);
-0113             ax2 = copyobj(gui.axes_handles.SphereL,expfig);
-0114             ax3 = copyobj(gui.axes_handles.MagR,expfig);
-0115             ax4 = copyobj(gui.axes_handles.SphereR,expfig);
-0116             
-0117             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Magnetization'</span>);
-0118             
-0119         <span class="keyword">case</span> <span class="string">'Switch-off Ramp'</span>
-0120             ax1 = copyobj(gui.axes_handles.Bpre,expfig);
-0121             ax2 = copyobj(gui.axes_handles.alpha,expfig);
-0122             ax3 = copyobj(gui.axes_handles.dadt,expfig);
-0123             ax4 = copyobj(gui.axes_handles.wda,expfig);
-0124             
-0125             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Switch-off Ramp'</span>);
-0126             
-0127         <span class="keyword">case</span> <span class="string">'Pulse'</span>
-0128             ax1 = copyobj(gui.axes_handles.PulseSetupF,expfig);
-0129             ax2 = copyobj(gui.axes_handles.PulseSetupI,expfig);
-0130             ax3 = copyobj(gui.axes_handles.PulseB,expfig);
-0131             ax4 = copyobj(gui.axes_handles.PulseFFT,expfig);
-0132             
-0133             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Pulse'</span>);
-0134     <span class="keyword">end</span>
-0135     <span class="comment">% adjust the axes positions</span>
-0136     set(ax1,<span class="string">'Position'</span>,pos1);
-0137     set(ax2,<span class="string">'Position'</span>,pos2);
-0138     set(ax3,<span class="string">'Position'</span>,pos3);
-0139     set(ax4,<span class="string">'Position'</span>,pos4);
-0140     
-0141     <span class="comment">% adjust the position of the export figure</span>
-0142     set(expfig,<span class="string">'Position'</span>,[posf(1)+300 posf(2) (posf(3)-300)*0.8 posf(4)*0.8]);
-0143     
-0144     <span class="comment">% show legends</span>
-0145     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
-0146         <span class="keyword">case</span> <span class="string">'Current View'</span>
-0147             lgh1 = legend(ax1,<span class="string">'show'</span>);
-0148             lgh3 = legend(ax3,<span class="string">'show'</span>);
-0149             lgh4 = legend(ax4,<span class="string">'show'</span>);
+0045     <span class="comment">% due to the two axes on the pulse modulation panel, we need to know</span>
+0046     <span class="comment">% before creating the new figure if this panel is active</span>
+0047     isdual = false;
+0048     <span class="keyword">if</span> get(gui.panels.Plot.Pulse,<span class="string">'Selection'</span>) == 1
+0049         isdual = true;
+0050     <span class="keyword">end</span>
+0051     
+0052     <span class="comment">% create the axes layout on the export figure and get the axes</span>
+0053     <span class="comment">% positions</span>
+0054     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
+0055         <span class="keyword">case</span> <span class="string">'Current View'</span>
+0056             <span class="comment">% we copy all visible axes in a 2x2 grid</span>
+0057             ax1 = subplot(2,2,1,<span class="string">'Parent'</span>,expfig);
+0058             ax2 = subplot(2,2,2,<span class="string">'Parent'</span>,expfig);
+0059             ax3 = subplot(2,2,3,<span class="string">'Parent'</span>,expfig);
+0060             pos1 = get(ax1,<span class="string">'Position'</span>);
+0061             pos2 = get(ax2,<span class="string">'Position'</span>);
+0062             pos3 = get(ax3,<span class="string">'Position'</span>);
+0063             delete(ax1);
+0064             delete(ax2);
+0065             delete(ax3);
+0066             <span class="keyword">if</span> isdual
+0067                 ax4a = subplot(2,4,7,<span class="string">'Parent'</span>,expfig);
+0068                 ax4b = subplot(2,4,8,<span class="string">'Parent'</span>,expfig);
+0069                 pos4a = get(ax4a,<span class="string">'Position'</span>);
+0070                 pos4b = get(ax4b,<span class="string">'Position'</span>);
+0071                 delete(ax4a);
+0072                 delete(ax4b);
+0073             <span class="keyword">else</span>
+0074                 ax4 = subplot(2,2,4,<span class="string">'Parent'</span>,expfig);
+0075                 pos4 = get(ax4,<span class="string">'Position'</span>);
+0076                 delete(ax4);
+0077             <span class="keyword">end</span>
+0078             
+0079         <span class="keyword">case</span> {<span class="string">'Magnetization'</span>,<span class="string">'Switch-off Ramp'</span>}
+0080             <span class="comment">% we copy all visible axes in a 2x2 grid</span>
+0081             ax1 = subplot(2,2,1,<span class="string">'Parent'</span>,expfig);
+0082             ax2 = subplot(2,2,2,<span class="string">'Parent'</span>,expfig);
+0083             ax3 = subplot(2,2,3,<span class="string">'Parent'</span>,expfig);
+0084             ax4 = subplot(2,2,4,<span class="string">'Parent'</span>,expfig);
+0085             pos1 = get(ax1,<span class="string">'Position'</span>);
+0086             pos2 = get(ax2,<span class="string">'Position'</span>);
+0087             pos3 = get(ax3,<span class="string">'Position'</span>);
+0088             pos4 = get(ax4,<span class="string">'Position'</span>);
+0089             delete(ax1);
+0090             delete(ax2);
+0091             delete(ax3);
+0092             delete(ax4);
+0093             
+0094         <span class="keyword">case</span> <span class="string">'Pulse'</span>
+0095             <span class="comment">% we copy pulse parameter in a 3x2 grid</span>
+0096             ax1 = subplot(3,2,1,<span class="string">'Parent'</span>,expfig);
+0097             ax2 = subplot(3,2,2,<span class="string">'Parent'</span>,expfig);
+0098             ax3 = subplot(3,2,[3 4],<span class="string">'Parent'</span>,expfig);
+0099             ax4 = subplot(3,2,[5 6],<span class="string">'Parent'</span>,expfig);
+0100             pos1 = get(ax1,<span class="string">'Position'</span>);
+0101             pos2 = get(ax2,<span class="string">'Position'</span>);
+0102             pos3 = get(ax3,<span class="string">'Position'</span>);
+0103             pos4 = get(ax4,<span class="string">'Position'</span>);
+0104             delete(ax1);
+0105             delete(ax2);
+0106             delete(ax3);
+0107             delete(ax4);
+0108     <span class="keyword">end</span>
+0109     
+0110     <span class="comment">% copy the GUI axes to the export figure</span>
+0111     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
+0112         <span class="keyword">case</span> <span class="string">'Current View'</span>
+0113             mag = get(gui.panels.Plot.Mag,<span class="string">'Selection'</span>);
+0114             sph = get(gui.panels.Plot.Sphere,<span class="string">'Selection'</span>);
+0115             pre = get(gui.panels.Plot.PrePol,<span class="string">'Selection'</span>);
+0116             pul = get(gui.panels.Plot.Pulse,<span class="string">'Selection'</span>);
+0117             <span class="keyword">switch</span> mag
+0118                 <span class="keyword">case</span> 1
+0119                     ax1 = copyobj(gui.axes_handles.MagL,expfig);
+0120                 <span class="keyword">case</span> 2
+0121                     ax1 = copyobj(gui.axes_handles.MagR,expfig);
+0122                 <span class="keyword">case</span> 3
+0123                     ax1 = copyobj(gui.axes_handles.MagFFT,expfig);
+0124             <span class="keyword">end</span>
+0125             <span class="keyword">switch</span> sph
+0126                 <span class="keyword">case</span> 1
+0127                     ax2 = copyobj(gui.axes_handles.SphereL,expfig);
+0128                 <span class="keyword">case</span> 2
+0129                     ax2 = copyobj(gui.axes_handles.SphereR,expfig);
+0130             <span class="keyword">end</span>
+0131             <span class="keyword">switch</span> pre
+0132                 <span class="keyword">case</span> 1
+0133                     ax3 = copyobj(gui.axes_handles.Bpre,expfig);
+0134                 <span class="keyword">case</span> 2
+0135                     ax3 = copyobj(gui.axes_handles.alpha,expfig);
+0136                 <span class="keyword">case</span> 3
+0137                     ax3 = copyobj(gui.axes_handles.dadt,expfig);
+0138                 <span class="keyword">case</span> 4
+0139                     ax3 = copyobj(gui.axes_handles.wda,expfig);
+0140             <span class="keyword">end</span>
+0141             <span class="keyword">switch</span> pul
+0142                 <span class="keyword">case</span> 1
+0143                     ax4a = copyobj(gui.axes_handles.PulseSetupF,expfig);
+0144                     ax4b = copyobj(gui.axes_handles.PulseSetupI,expfig);
+0145                 <span class="keyword">case</span> 2
+0146                     ax4 = copyobj(gui.axes_handles.PulseB,expfig);
+0147                 <span class="keyword">case</span> 3
+0148                     ax4 = copyobj(gui.axes_handles.PulseFFT,expfig);
+0149             <span class="keyword">end</span>
 0150             
-0151         <span class="keyword">case</span> <span class="string">'Magnetization'</span>
-0152             lgh1 = legend(ax1,<span class="string">'show'</span>);
-0153             lgh3 = legend(ax3,<span class="string">'show'</span>);
-0154             
-0155         <span class="keyword">case</span> <span class="string">'Switch-off Ramp'</span>
-0156             lgh1 = legend(ax1,<span class="string">'show'</span>);
-0157             lgh2 = legend(ax2,<span class="string">'show'</span>);
-0158             lgh4 = legend(ax4,<span class="string">'show'</span>);
-0159             set(lgh4,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
+0151             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Current View'</span>);
+0152             
+0153         <span class="keyword">case</span> <span class="string">'Magnetization'</span>
+0154             ax1 = copyobj(gui.axes_handles.MagL,expfig);
+0155             ax2 = copyobj(gui.axes_handles.SphereL,expfig);
+0156             ax3 = copyobj(gui.axes_handles.MagR,expfig);
+0157             ax4 = copyobj(gui.axes_handles.SphereR,expfig);
+0158             
+0159             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Magnetization'</span>);
 0160             
-0161         <span class="keyword">case</span> <span class="string">'Pulse'</span>
-0162             lgh1 = legend(ax1,<span class="string">'show'</span>);
-0163             lgh2 = legend(ax2,<span class="string">'show'</span>);
-0164             lgh3 = legend(ax3,<span class="string">'show'</span>);
-0165             lgh4 = legend(ax4,<span class="string">'show'</span>);
-0166     <span class="keyword">end</span>
-0167     
-0168 <span class="keyword">else</span>
-0169     warndlg({<span class="string">'onMenuViewFigure:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
-0170         <span class="string">'BLOCHUS error'</span>);
-0171 <span class="keyword">end</span>
-0172 
-0173 <span class="keyword">end</span>
-0174 
-0175 <span class="comment">%------------- END OF CODE --------------</span>
-0176 
-0177 <span class="comment">%% License:</span>
-0178 <span class="comment">% GNU GPLv3</span>
-0179 <span class="comment">%</span>
-0180 <span class="comment">% BLOCHUS</span>
-0181 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0182 <span class="comment">%</span>
-0183 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0184 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0185 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0186 <span class="comment">% (at your option) any later version.</span>
-0187 <span class="comment">%</span>
-0188 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0189 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0190 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0191 <span class="comment">% GNU General Public License for more details.</span>
-0192 <span class="comment">%</span>
-0193 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0194 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0161         <span class="keyword">case</span> <span class="string">'Switch-off Ramp'</span>
+0162             ax1 = copyobj(gui.axes_handles.Bpre,expfig);
+0163             ax2 = copyobj(gui.axes_handles.alpha,expfig);
+0164             ax3 = copyobj(gui.axes_handles.dadt,expfig);
+0165             ax4 = copyobj(gui.axes_handles.wda,expfig);
+0166             
+0167             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Switch-off Ramp'</span>);
+0168             
+0169         <span class="keyword">case</span> <span class="string">'Pulse'</span>
+0170             ax1 = copyobj(gui.axes_handles.PulseSetupF,expfig);
+0171             ax2 = copyobj(gui.axes_handles.PulseSetupI,expfig);
+0172             ax3 = copyobj(gui.axes_handles.PulseB,expfig);
+0173             ax4 = copyobj(gui.axes_handles.PulseFFT,expfig);
+0174             
+0175             set(expfig,<span class="string">'Name'</span>,<span class="string">'BLOCHUS: Pulse'</span>);
+0176     <span class="keyword">end</span>
+0177     
+0178     <span class="comment">% adjust the axes positions</span>
+0179     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
+0180         <span class="keyword">case</span> <span class="string">'Current View'</span>
+0181             set(ax1,<span class="string">'Position'</span>,pos1);
+0182             set(ax2,<span class="string">'Position'</span>,pos2);
+0183             set(ax3,<span class="string">'Position'</span>,pos3);
+0184             <span class="keyword">if</span> isdual
+0185                 set(ax4a,<span class="string">'Position'</span>,pos4a);
+0186                 set(ax4b,<span class="string">'Position'</span>,pos4b);
+0187             <span class="keyword">else</span>
+0188                 set(ax4,<span class="string">'Position'</span>,pos4);
+0189             <span class="keyword">end</span>
+0190             
+0191         <span class="keyword">otherwise</span>
+0192             set(ax1,<span class="string">'Position'</span>,pos1);
+0193             set(ax2,<span class="string">'Position'</span>,pos2);
+0194             set(ax3,<span class="string">'Position'</span>,pos3);
+0195             set(ax4,<span class="string">'Position'</span>,pos4);
+0196     <span class="keyword">end</span>
+0197     
+0198     <span class="comment">% adjust the position of the export figure</span>
+0199     set(expfig,<span class="string">'Position'</span>,[posf(1)+300 posf(2) (posf(3)-300)*0.8 posf(4)*0.8]);
+0200     
+0201     <span class="comment">% show legends</span>
+0202     <span class="keyword">switch</span> get(src,<span class="string">'Label'</span>)
+0203         <span class="keyword">case</span> <span class="string">'Current View'</span>
+0204             lgh1 = legend(ax1,<span class="string">'show'</span>);
+0205             lgh3 = legend(ax3,<span class="string">'show'</span>);
+0206             <span class="keyword">if</span> isdual
+0207                 lgh4a = legend(ax4a,<span class="string">'show'</span>);
+0208                 lgh4b = legend(ax4b,<span class="string">'show'</span>);
+0209             <span class="keyword">else</span>
+0210                 lgh4 = legend(ax4,<span class="string">'show'</span>);
+0211             <span class="keyword">end</span>
+0212             
+0213         <span class="keyword">case</span> <span class="string">'Magnetization'</span>
+0214             lgh1 = legend(ax1,<span class="string">'show'</span>);
+0215             lgh3 = legend(ax3,<span class="string">'show'</span>);
+0216             
+0217         <span class="keyword">case</span> <span class="string">'Switch-off Ramp'</span>
+0218             lgh1 = legend(ax1,<span class="string">'show'</span>);
+0219             lgh2 = legend(ax2,<span class="string">'show'</span>);
+0220             lgh4 = legend(ax4,<span class="string">'show'</span>);
+0221             set(lgh4,<span class="string">'Interpreter'</span>,<span class="string">'latex'</span>,<span class="string">'Location'</span>,<span class="string">'best'</span>);
+0222             
+0223         <span class="keyword">case</span> <span class="string">'Pulse'</span>
+0224             lgh1 = legend(ax1,<span class="string">'show'</span>);
+0225             lgh2 = legend(ax2,<span class="string">'show'</span>);
+0226             lgh3 = legend(ax3,<span class="string">'show'</span>);
+0227             lgh4 = legend(ax4,<span class="string">'show'</span>);
+0228     <span class="keyword">end</span>
+0229     
+0230 <span class="keyword">else</span>
+0231     warndlg({<span class="string">'onMenuViewFigure:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0232         <span class="string">'BLOCHUS error'</span>);
+0233 <span class="keyword">end</span>
+0234 
+0235 <span class="keyword">end</span>
+0236 
+0237 <span class="comment">%------------- END OF CODE --------------</span>
+0238 
+0239 <span class="comment">%% License:</span>
+0240 <span class="comment">% GNU GPLv3</span>
+0241 <span class="comment">%</span>
+0242 <span class="comment">% BLOCHUS</span>
+0243 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0244 <span class="comment">%</span>
+0245 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0246 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0247 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0248 <span class="comment">% (at your option) any later version.</span>
+0249 <span class="comment">%</span>
+0250 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0251 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0252 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0253 <span class="comment">% GNU General Public License for more details.</span>
+0254 <span class="comment">%</span>
+0255 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0256 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

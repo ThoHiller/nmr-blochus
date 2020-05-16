@@ -239,12 +239,20 @@ param.t = pulse_t;
 % dummy time vector [ms]
 data.results.pulse.t = pulse_t'.*1e3;
 
+% get FFT of the pulse
+[Xb,fbx] = getFFT(pulse_t(:),pulse_Bxy(:,1:2));
+                
 % update data
 data.results.pulse.fmod = fmod;
 data.results.pulse.Imod = Imod;
 data.results.pulse.df = df;
 data.results.pulse.I = I;
 data.results.pulse.Bxy = pulse_Bxy;
+data.results.pulse.Bspec.fx = fbx;
+data.results.pulse.Bspec.X = Xb;
+
+% because the pulse data changed, deactivate the "Animate" button
+set(gui.push_handles.Animate,'Enable','off');
 
 % update GUI data
 setappdata(fig,'data',data);
