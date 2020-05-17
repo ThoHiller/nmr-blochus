@@ -129,14 +129,14 @@ This function is called by:
 0059             
 0060         <span class="keyword">case</span> 3 <span class="comment">% tanh GMR</span>
 0061             data.pulse.DFmode = <span class="string">'tanhGMR'</span>;
-0062             data.pulse.DFstart = -300;
+0062             data.pulse.DFstart = -200;
 0063             set(gui.edit_handles.PulseDFstart,<span class="string">'String'</span>,num2str(data.pulse.DFstart));
 0064             set(gui.edit_handles.PulseDFA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
 0065             set(gui.edit_handles.PulseDFB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
 0066             
 0067         <span class="keyword">case</span> 4 <span class="comment">% exp</span>
 0068             data.pulse.DFmode = <span class="string">'exp'</span>;
-0069             data.pulse.DFstart = -300;
+0069             data.pulse.DFstart = -200;
 0070             data.pulse.DFA = 10;
 0071             set(gui.edit_handles.PulseDFstart,<span class="string">'String'</span>,num2str(data.pulse.DFstart));
 0072             set(gui.edit_handles.PulseDFA,<span class="string">'String'</span>,num2str(data.pulse.DFA));

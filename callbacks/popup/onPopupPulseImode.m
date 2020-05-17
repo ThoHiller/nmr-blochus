@@ -50,10 +50,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             
         case 2 % tanh MIDI
             data.pulse.Imode = 'tanhMIDI';
-            data.pulse.Istart = 0;
             data.pulse.IA = 0.5;
             data.pulse.IB = 1;
-            set(gui.edit_handles.PulseIstart,'String',num2str(data.pulse.Istart));
             set(gui.edit_handles.PulseIA,'String',num2str(data.pulse.IA));
             set(gui.edit_handles.PulseIA,'Enable','on');
             set(gui.edit_handles.PulseIB,'String',num2str(data.pulse.IB));
@@ -61,16 +59,12 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             
         case 3 % tanh GMR
             data.pulse.Imode = 'tanhGMR';
-            data.pulse.Istart = 0;
-            set(gui.edit_handles.PulseIstart,'String',num2str(data.pulse.Istart));
             set(gui.edit_handles.PulseIA,'Enable','off');
             set(gui.edit_handles.PulseIB,'Enable','off');
             
         case 4 % exp
             data.pulse.Imode = 'exp';
-            data.pulse.Istart = 0;
             data.pulse.IA = 10;
-            set(gui.edit_handles.PulseIstart,'String',num2str(data.pulse.Istart));
             set(gui.edit_handles.PulseIA,'String',num2str(data.pulse.IA));
             set(gui.edit_handles.PulseIA,'Enable','on');
             set(gui.edit_handles.PulseIB,'Enable','off');

@@ -69,6 +69,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIA,'Enable','off');
             set(gui.edit_handles.PulseIB,'Enable','off');
             set(gui.check_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQdf,'Enable','off');
             
         case 2 % pi
             data.pulse.Type = 'pi';
@@ -96,6 +98,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIA,'Enable','off');
             set(gui.edit_handles.PulseIB,'Enable','off');
             set(gui.check_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQdf,'Enable','off');
             
         case 3 % free
             data.pulse.Type = 'free';
@@ -120,6 +124,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIA,'Enable','off');
             set(gui.edit_handles.PulseIB,'Enable','off');
             set(gui.check_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQdf,'Enable','off');            
             
         case 4 % AHP
             data.pulse.Type = 'AHP';
@@ -133,7 +139,11 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseDFA,'Enable','off');
             set(gui.edit_handles.PulseDFB,'Enable','off');
             
-            data.pulse.Istart = 0;
+            if get(gui.check_handles.PulseQ,'Value') == 0
+                data.pulse.Istart = 0;
+            else
+                data.pulse.Istart = 1;
+            end
             data.pulse.Iend = 1;
             set(gui.popup_handles.PulseImode,'Enable','on');
             set(gui.edit_handles.PulseIstart,'Enable','on','String',num2str(data.pulse.Istart));
@@ -142,6 +152,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIB,'Enable','off');
             set(gui.check_handles.PulseQ,'Enable','on');
             
+            setappdata(fig,'data',data);
+            onCheckPulseQ(gui.check_handles.PulseQ);
+            data = getappdata(fig,'data');
             setappdata(fig,'data',data);
             onPopupPulseDFmode(gui.popup_handles.PulseDFmode);
             data = getappdata(fig,'data');
@@ -173,6 +186,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIA,'Enable','off');
             set(gui.edit_handles.PulseIB,'Enable','off');
             set(gui.check_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQdf,'Enable','off');
             
             % update the GUI as if the number of periods would have been
             % changed manually
@@ -209,6 +224,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             set(gui.edit_handles.PulseIA,'Enable','on','String',num2str(data.pulse.IA));
             set(gui.edit_handles.PulseIB,'Enable','on','String',num2str(data.pulse.IB));
             set(gui.check_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQ,'Enable','off');
+            set(gui.edit_handles.PulseQdf,'Enable','off');
             
             % update the GUI as if the number of periods would have been
             % changed manually

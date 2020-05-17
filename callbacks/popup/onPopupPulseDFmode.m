@@ -59,14 +59,14 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             
         case 3 % tanh GMR
             data.pulse.DFmode = 'tanhGMR';
-            data.pulse.DFstart = -300;
+            data.pulse.DFstart = -200;
             set(gui.edit_handles.PulseDFstart,'String',num2str(data.pulse.DFstart));
             set(gui.edit_handles.PulseDFA,'Enable','off');
             set(gui.edit_handles.PulseDFB,'Enable','off');
             
         case 4 % exp
             data.pulse.DFmode = 'exp';
-            data.pulse.DFstart = -300;
+            data.pulse.DFstart = -200;
             data.pulse.DFA = 10;
             set(gui.edit_handles.PulseDFstart,'String',num2str(data.pulse.DFstart));
             set(gui.edit_handles.PulseDFA,'String',num2str(data.pulse.DFA));

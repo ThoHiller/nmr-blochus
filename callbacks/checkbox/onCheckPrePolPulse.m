@@ -97,6 +97,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         set(gui.edit_handles.PulseIend,'Enable','off');
         set(gui.edit_handles.PulseIA,'Enable','off');
         set(gui.edit_handles.PulseIB,'Enable','off');
+        set(gui.check_handles.PulseQ,'Enable','off');
+        set(gui.edit_handles.PulseQ,'Enable','off');
+        set(gui.edit_handles.PulseQdf,'Enable','off');
         
         % clear Pulse axes
         clearSingleAxis(gui.axes_handles.PulseB);
@@ -156,6 +159,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         set(gui.edit_handles.PulseIend,'Enable','off');
         set(gui.edit_handles.PulseIA,'Enable','off');
         set(gui.edit_handles.PulseIB,'Enable','off');
+        set(gui.check_handles.PulseQ,'Enable','off');
+        set(gui.edit_handles.PulseQ,'Enable','off');
+        set(gui.edit_handles.PulseQdf,'Enable','off');
         
         % clear Pulse axes
         clearSingleAxis(gui.axes_handles.PulseB);

@@ -120,70 +120,64 @@ This function is called by:
 0050             
 0051         <span class="keyword">case</span> 2 <span class="comment">% tanh MIDI</span>
 0052             data.pulse.Imode = <span class="string">'tanhMIDI'</span>;
-0053             data.pulse.Istart = 0;
-0054             data.pulse.IA = 0.5;
-0055             data.pulse.IB = 1;
-0056             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart));
-0057             set(gui.edit_handles.PulseIA,<span class="string">'String'</span>,num2str(data.pulse.IA));
-0058             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0059             set(gui.edit_handles.PulseIB,<span class="string">'String'</span>,num2str(data.pulse.IB));
-0060             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0061             
-0062         <span class="keyword">case</span> 3 <span class="comment">% tanh GMR</span>
-0063             data.pulse.Imode = <span class="string">'tanhGMR'</span>;
-0064             data.pulse.Istart = 0;
-0065             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart));
-0066             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
-0067             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
-0068             
-0069         <span class="keyword">case</span> 4 <span class="comment">% exp</span>
-0070             data.pulse.Imode = <span class="string">'exp'</span>;
-0071             data.pulse.Istart = 0;
-0072             data.pulse.IA = 10;
-0073             set(gui.edit_handles.PulseIstart,<span class="string">'String'</span>,num2str(data.pulse.Istart));
-0074             set(gui.edit_handles.PulseIA,<span class="string">'String'</span>,num2str(data.pulse.IA));
-0075             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0076             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
-0077     <span class="keyword">end</span>
-0078     
+0053             data.pulse.IA = 0.5;
+0054             data.pulse.IB = 1;
+0055             set(gui.edit_handles.PulseIA,<span class="string">'String'</span>,num2str(data.pulse.IA));
+0056             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0057             set(gui.edit_handles.PulseIB,<span class="string">'String'</span>,num2str(data.pulse.IB));
+0058             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0059             
+0060         <span class="keyword">case</span> 3 <span class="comment">% tanh GMR</span>
+0061             data.pulse.Imode = <span class="string">'tanhGMR'</span>;
+0062             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0063             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0064             
+0065         <span class="keyword">case</span> 4 <span class="comment">% exp</span>
+0066             data.pulse.Imode = <span class="string">'exp'</span>;
+0067             data.pulse.IA = 10;
+0068             set(gui.edit_handles.PulseIA,<span class="string">'String'</span>,num2str(data.pulse.IA));
+0069             set(gui.edit_handles.PulseIA,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0070             set(gui.edit_handles.PulseIB,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0071     <span class="keyword">end</span>
+0072     
+0073     <span class="comment">% update GUI data</span>
+0074     setappdata(fig,<span class="string">'data'</span>,data);
+0075     <span class="comment">% update pulse settings</span>
+0076     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(gui.figh);
+0077     <span class="comment">% get GUI data</span>
+0078     data = getappdata(fig,<span class="string">'data'</span>);
 0079     <span class="comment">% update GUI data</span>
 0080     setappdata(fig,<span class="string">'data'</span>,data);
-0081     <span class="comment">% update pulse settings</span>
-0082     <a href="../../../blochus/functions/interface/getPulseParameters.html" class="code" title="function getPulseParameters(fig)">getPulseParameters</a>(gui.figh);
-0083     <span class="comment">% get GUI data</span>
-0084     data = getappdata(fig,<span class="string">'data'</span>);
-0085     <span class="comment">% update GUI data</span>
-0086     setappdata(fig,<span class="string">'data'</span>,data);
-0087     <span class="comment">% plot pulse</span>
-0088     <a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>(gui.figh);
-0089     
-0090 <span class="keyword">else</span>
-0091     warndlg({<span class="string">'onPopupPulseDFmode:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
-0092         <span class="string">'BLOCHUS error'</span>);
-0093 <span class="keyword">end</span>
-0094 
-0095 <span class="keyword">end</span>
-0096 
-0097 <span class="comment">%------------- END OF CODE --------------</span>
-0098 
-0099 <span class="comment">%% License:</span>
-0100 <span class="comment">% GNU GPLv3</span>
-0101 <span class="comment">%</span>
-0102 <span class="comment">% BLOCHUS</span>
-0103 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0104 <span class="comment">%</span>
-0105 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0106 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0107 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0108 <span class="comment">% (at your option) any later version.</span>
-0109 <span class="comment">%</span>
-0110 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0111 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0112 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0113 <span class="comment">% GNU General Public License for more details.</span>
-0114 <span class="comment">%</span>
-0115 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0116 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0081     <span class="comment">% plot pulse</span>
+0082     <a href="../../../blochus/functions/interface/plotPulse.html" class="code" title="function plotPulse(fig)">plotPulse</a>(gui.figh);
+0083     
+0084 <span class="keyword">else</span>
+0085     warndlg({<span class="string">'onPopupPulseDFmode:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0086         <span class="string">'BLOCHUS error'</span>);
+0087 <span class="keyword">end</span>
+0088 
+0089 <span class="keyword">end</span>
+0090 
+0091 <span class="comment">%------------- END OF CODE --------------</span>
+0092 
+0093 <span class="comment">%% License:</span>
+0094 <span class="comment">% GNU GPLv3</span>
+0095 <span class="comment">%</span>
+0096 <span class="comment">% BLOCHUS</span>
+0097 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0098 <span class="comment">%</span>
+0099 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0100 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0101 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0102 <span class="comment">% (at your option) any later version.</span>
+0103 <span class="comment">%</span>
+0104 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0105 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0106 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0107 <span class="comment">% GNU General Public License for more details.</span>
+0108 <span class="comment">%</span>
+0109 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0110 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

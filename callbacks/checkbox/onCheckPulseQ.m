@@ -39,9 +39,13 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     
     switch get(src,'Value')
         case 0
+            data.pulse.Istart = 0;
+            set(gui.edit_handles.PulseIstart,'String',num2str(data.pulse.Istart));
             set(gui.edit_handles.PulseQ,'Enable','off');
             set(gui.edit_handles.PulseQdf,'Enable','off');
-        case 1    
+        case 1
+            data.pulse.Istart = 1;
+            set(gui.edit_handles.PulseIstart,'String',num2str(data.pulse.Istart));
             set(gui.edit_handles.PulseQ,'Enable','on');
             set(gui.edit_handles.PulseQdf,'Enable','on');
     end
