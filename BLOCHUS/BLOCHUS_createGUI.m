@@ -143,9 +143,9 @@ end
 set(gui.main,'Visible','on');
 
 %% enable all menus
-set(gui.menu.file,'Enable','on');
-set(gui.menu.view,'Enable','on');
-set(gui.menu.help,'Enable','on');
+set(gui.menu_handles.file,'Enable','on');
+set(gui.menu_handles.view,'Enable','on');
+set(gui.menu_handles.help,'Enable','on');
 
 %% update the GUI data
 gui.myui = myui;

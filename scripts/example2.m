@@ -1,6 +1,6 @@
 % script: example2.m
-% this script demonstrates how basic pulses are used with BLOCHUS
-% everything is done with a Hydrogen proton (gyromagnetic ratio > 0 )
+% This script demonstrates how basic pulses can be simulated with BLOCHUS
+% everything is done with a Hydrogen proton (gyromagnetic ratio > 0)
 %
 % settings:
 % -> magnetic field B0 is set to 50 µT
@@ -40,53 +40,93 @@ tol = 1e-9;
 options = odeset('RelTol',tol,'AbsTol',[tol tol tol]);
 
 %% standard parameter
-nucleus = '1H'; % hydrogen proton
+% hydrogen proton
+nucleus = '1H';
 % parameter needed for the ODE
 odeparam.type = 'pulse';
-odeparam.M0 = zunit; % equilibrium magnetization [A/m]
-odeparam.B0 = 5e-5; % primary magnetic field B0 [T]
-odeparam.T1 = 0.0010; % relaxation time T1 [s]
-odeparam.T2 = 0.0005; % relaxation time T2 [s]
-odeparam.gamma = getGyroRatio(nucleus); % gyromagnetic ratio [rad/s/T]
+% equilibrium magnetization [A/m]
+odeparam.M0 = zunit;
+% primary magnetic field B0 [T]
+odeparam.B0 = 5e-5;
+% longitudinal relaxation time T1 [s]
+odeparam.T1 = 0.0010;
+% transversal relaxation time T2 [s]
+odeparam.T2 = 0.0005;
+% gyromagnetic ratio [rad/s/T]
+odeparam.gamma = getGyroRatio(nucleus);
 
 %% pulse modulation standard values
+% pulse type [string]
 fmod.PulseType = 'pi_half';
+% shape of the modulation function [string]
 fmod.shape = 'const';
+% pulse start time [s]
 fmod.t0 = 0;
+% pulse end time [s]
 fmod.t1 = 0.005;
+% time vector [s]
 fmod.t = 0;
+% start frequency [Hz]
 fmod.v0 = 0;
+% end frequency [Hz]
 fmod.v1 = 0;
+% modulation parameter (MIDI)
 fmod.A = 1;
+% modulation parameter (MIDI)
 fmod.B = 0;
 
+% shape of the modulation function [string]
 Imod.shape = 'const';
+% check if quality factor tuning is activated [0/1]
 Imod.useQ = 0;
+% quality factor
 Imod.Q = 0;
+% quality factor off-resonance frequency [Hz]
 Imod.Qdf = 0;
+% pulse start time [s]
 Imod.t0 = 0;
+% pulse end time [s]
 Imod.t1 = 0.005;
+% time vector [s]
 Imod.t = 0;
+% start current [A]
 Imod.v0 = 1;
+% end current [A]
 Imod.v1 = 1;
+% modulation parameter (MIDI)
 Imod.A = 1;
+% modulation parameter (MIDI)
 Imod.B = 0;
 
 %% 1.) pi/2 pulse
 if usetest(1)
-    % excitation pulse parameter
+    
+    % relaxation during pulse [0/1]
     odeparam.RDP = 0;
-    odeparam.Ttau = 0.005; % [s]
+    % pulse length [s]
+    odeparam.Ttau = 0.005;
+    
+    % excitation pulse parameter
+    % pulse type [string]
     pulseparam.PulseType = fmod.PulseType;
-    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % gyromagnetic ratio [rad/s/T]
     pulseparam.gamma = odeparam.gamma;
+    % Larmor frequency [rad/s]
     pulseparam.omega0 = getOmega0(odeparam.gamma,odeparam.B0);
+    % pulse amplitude [T]
+    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % pulse frequency modulation [struct]
     pulseparam.fmod = fmod;
+    % pulse current modulation [struct]
     pulseparam.Imod = Imod;
+    % auxiliary pulse phase [rad]
     pulseparam.phi = 0;
+    % pulse axis [string]
     pulseparam.PulseAxis = '+x';
+    % pulse polarization [string]
     pulseparam.PulsePolarization = 'circular';
     
+    % save pulse parameter settings
     odeparam.pulseparam = pulseparam;
     
     % initial magnetization pointing towards B0 (+z)
@@ -98,7 +138,7 @@ if usetest(1)
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f1 = figure; set(f1,'Name','example2a_ref');
@@ -141,20 +181,35 @@ end
 
 %% 2.) pi pulse
 if usetest(2)
+    % new pulse type
     fmod.PulseType = 'pi';
-    % excitation pulse parameter
+    
+    % relaxation during pulse [0/1]
     odeparam.RDP = 0;
-    odeparam.Ttau = 0.005; % [s]
+    % pulse length [s]
+    odeparam.Ttau = 0.005;
+    
+    % excitation pulse parameter
+    % pulse type [string]
     pulseparam.PulseType = fmod.PulseType;
-    pulseparam.Amp = odeparam.B0*abs((pi/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % gyromagnetic ratio [rad/s/T]
     pulseparam.gamma = odeparam.gamma;
+    % Larmor frequency [rad/s]
     pulseparam.omega0 = getOmega0(odeparam.gamma,odeparam.B0);
+    % pulse amplitude [T]
+    pulseparam.Amp = odeparam.B0*abs((pi/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % pulse frequency modulation [struct]
     pulseparam.fmod = fmod;
+    % pulse current modulation [struct]
     pulseparam.Imod = Imod;
+    % auxiliary pulse phase [rad]
     pulseparam.phi = 0;
+    % pulse axis [string]
     pulseparam.PulseAxis = '+x';
+    % pulse polarization [string]
     pulseparam.PulsePolarization = 'circular';
     
+    % save pulse parameter settings
     odeparam.pulseparam = pulseparam;
     
     % initial magnetization pointing towards B0 (+z)
@@ -166,7 +221,7 @@ if usetest(2)
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f2 = figure; set(f2,'Name','example2b_ref');
@@ -209,20 +264,36 @@ end
 
 %% 3.) pi/2 pulses with different pulse axes
 if usetest(3)
+    % new pulse type
     fmod.PulseType = 'pi_half';
+    
     % excitation pulse parameter
+    % relaxation during pulse [0/1]
     odeparam.RDP = 0;
-    odeparam.Ttau = 0.005; % [s]
+    % pulse length [s]
+    odeparam.Ttau = 0.005;
+    
+    % excitation pulse parameter
+    % pulse type [string]
     pulseparam.PulseType = fmod.PulseType;
-    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % gyromagnetic ratio [rad/s/T]
     pulseparam.gamma = odeparam.gamma;
+    % Larmor frequency [rad/s]
     pulseparam.omega0 = getOmega0(odeparam.gamma,odeparam.B0);
+    % pulse amplitude [T]
+    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % pulse frequency modulation [struct]
     pulseparam.fmod = fmod;
+    % pulse current modulation [struct]
     pulseparam.Imod = Imod;
+    % auxiliary pulse phase [rad]
     pulseparam.phi = 0;
+    % pulse axis [string]
     pulseparam.PulseAxis = '+x';
+    % pulse polarization [string]
     pulseparam.PulsePolarization = 'circular';
     
+    % save pulse parameter settings
     odeparam.pulseparam = pulseparam;
     
     % initial magnetization pointing towards B0 (+z)
@@ -234,7 +305,7 @@ if usetest(3)
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f3 = figure; set(f3,'Name','example2c_ref');
@@ -296,23 +367,37 @@ end
 % (i.e. instead of -2000 Hz it is -2100 Hz)
 % because of the negative Larmor frequency of H-protons the rotation axis
 % dips downwards for negative ratios
-if usetest(4)    
+if usetest(4)
     % df/omega_nut ratio
     ratio = -4:1:4;
-    
+    % new pulse type
     fmod.PulseType = 'pi_half';
+
     % excitation pulse parameter
+    % relaxation during pulse [0/1]
     odeparam.RDP = 0;
-    odeparam.Ttau = 0.005; % [s]
+    % pulse length [s]
+    odeparam.Ttau = 0.005;
+    
+    % excitation pulse parameter
+    % pulse type [string]
     pulseparam.PulseType = fmod.PulseType;
-    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % gyromagnetic ratio [rad/s/T]
     pulseparam.gamma = odeparam.gamma;
+    % Larmor frequency [rad/s]
     pulseparam.omega0 = getOmega0(odeparam.gamma,odeparam.B0);
+    % pulse amplitude [T]
+    pulseparam.Amp = odeparam.B0*abs((pi/2/(odeparam.gamma*odeparam.B0*odeparam.Ttau)));
+    % pulse frequency modulation [struct]
     pulseparam.fmod = fmod;
+    % pulse current modulation [struct]
     pulseparam.Imod = Imod;
+    % auxiliary pulse phase [rad]
     pulseparam.phi = 0;
+    % pulse axis [string]
     pulseparam.PulseAxis = '+y';
-    pulseparam.PulsePolarization = 'circular';
+    % pulse polarization [string]
+    pulseparam.PulsePolarization = 'circular'; 
     
     % nutation frequency for a pi/2 pulse with 5 ms is 50 Hz
     omega_nut = (pi/2)/odeparam.Ttau/2/pi; % [Hz]
@@ -320,10 +405,12 @@ if usetest(4)
     f4 = figure; set(f4,'Name','example2d_ref');
     for i = 1:numel(ratio)
         
-        df = ratio(i)*omega_nut; % frequency offsets [Hz]
+        % frequency offsets [Hz]
+        df = ratio(i)*omega_nut; 
         pulseparam.fmod.v0 = df;
         pulseparam.fmod.v1 = df;
         
+        % save pulse parameter settings
         odeparam.pulseparam = pulseparam;
         
         % initial magnetization pointing towards B0 (+z)
@@ -342,7 +429,7 @@ if usetest(4)
         pulseparam.t = T;
         [Bpulse,~,~,theta]= getPulseTimeSeries(pulseparam);
         
-        % rotate M(T) vector into rotating reference frame
+        % get M(T) in rotating frame of reference
         Mrot = getMrot(M,theta);
         
         ax(i) = subplot(3,3,i); hold(ax(i),'on'); %#ok<*SAGROW>
@@ -375,3 +462,4 @@ end
 %
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <https://www.gnu.org/licenses/>.
+

@@ -1,8 +1,8 @@
-function onMenuViewShow(src,~)
-%onMenuViewShow handles the extra menu entries
+function onMenuView(src,~)
+%onMenuView handles the extra menu entries
 %
 % Syntax:
-%       onMenuViewShow(src)
+%       onMenuView(src)
 %
 % Inputs:
 %       src - handle of the calling object
@@ -11,7 +11,7 @@ function onMenuViewShow(src,~)
 %       none
 %
 % Example:
-%       onMenuViewShow(src,~)
+%       onMenuView(src,~)
 %
 % Other m-files required:
 %       switchToolTips
@@ -39,26 +39,25 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     data = getappdata(fig,'data');
     
     switch get(src,'Label')
-        case 'Tooltips' % switch on/off Tooltips
-            onoff = get(gui.menu.view_tooltips,'Checked');
-            switchToolTips(gui,onoff);
-            switch onoff
-                case 'on'
-                    set(gui.menu.view_tooltips,'Checked','off');
+        case 'Tooltips' % switch on/off Tooltips      
+            switch get(src,'Checked')
+                case 'on' % if it is on, switch it off
+                    switchToolTips(gui,'off');
+                    set(src,'Checked','off');
                     data.info.ToolTips = 0;
                 case 'off'
-                    set(gui.menu.view_tooltips,'Checked','on');
+                    switchToolTips(gui,'on');
+                    set(src,'Checked','on');
                     data.info.ToolTips = 1;
             end
             
         case 'Figure Toolbar' % switch on/off the default Figure Toolbar
-            onoff = get(gui.menu.view_toolbar,'Checked');
-            switch onoff
-                case 'on'
-                    set(gui.menu.view_toolbar,'Checked','off');
+            switch get(src,'Checked')
+                case 'on' % if it is on, switch it off
+                    set(src,'Checked','off');
                     viewmenufcn('FigureToolbar');
                 case 'off'
-                    set(gui.menu.view_toolbar,'Checked','on');
+                    set(src,'Checked','on');
                     viewmenufcn('FigureToolbar');
             end
     end
@@ -70,7 +69,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     updateStatusInformation(fig);
     
 else
-    warndlg({'onMenuViewShow:','There is no figure with the BLOCHUS Tag open.'},...
+    warndlg({'onMenuView:','There is no figure with the BLOCHUS Tag open.'},...
         'BLOCHUS error');
 end
 

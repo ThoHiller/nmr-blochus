@@ -2,8 +2,8 @@
 % This script demonstrates the basic use of the BLOCHUS ode-solver. Two
 % different protons (H & He) are used to show the effect of the sign of the
 % gyromagnetic ratio \gamma
-% 1.) Hydrogen proton (gyromagnetic ratio > 0 )
-% 2.) Helium proton (gyromagnetic ratio < 0 )
+% 1.) Hydrogen proton (gyromagnetic ratio > 0)
+% 2.) Helium proton (gyromagnetic ratio < 0)
 %
 % general settings:
 % -> magnetic field B0 is set to 50 µT
@@ -30,8 +30,6 @@ clear variables; clc;
 usetest = [1 1];
 
 %% basic settings
-% get default values
-% defaults = BLOCHUS_loadDefaults('basic');
 zunit = [0 0 1]'; % z unit vector
 % ODE solver error tolerance
 tol = 1e-9;
@@ -44,22 +42,27 @@ if usetest(1)
     
     % parameter needed for the ODE
     odeparam.type = 'std';
-    odeparam.M0 = zunit; % equilibrium magnetization [A/m]
-    odeparam.B0 = 5e-5; % primary magnetic field B0 [T]
-    odeparam.T1 = 0.0010; % relaxation time T1 [s]
-    odeparam.T2 = 0.0005; % relaxation time T2 [s]
-    odeparam.gamma = getGyroRatio(nucleus); % gyromagnetic ratio [rad/s/T]
+    % equilibrium magnetization [A/m]
+    odeparam.M0 = zunit;
+    % primary magnetic field B0 [T]
+    odeparam.B0 = 5e-5;
+    % longitudinal relaxation time T1 [s]
+    odeparam.T1 = 0.0010;
+    % transversal relaxation time T2 [s]
+    odeparam.T2 = 0.0005;
+    % gyromagnetic ratio [rad/s/T]
+    odeparam.gamma = getGyroRatio(nucleus);
     
-    % initial magnetization pointing towards +x
-    Minit = [1 0 0]; % [A/m]
-    % simulation time
-    Tsim = 0.005; % [s]
+    % initial magnetization pointing towards +x  [A/m]
+    Minit = [1 0 0];
+    % simulation time [s]
+    Tsim = 0.005; 
     
     % ODE solver call
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference 
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f1 = figure; set(f1,'Name','example1a_ref');
@@ -99,14 +102,16 @@ if usetest(1)
     axis equal tight;
     
     % --- Helium ---
-    nucleus = '3He'; % helium proton
-    odeparam.gamma = getGyroRatio(nucleus); % gyromagnetic ratio [rad/s/T]
+    % helium proton
+    nucleus = '3He';
+    % gyromagnetic ratio [rad/s/T]
+    odeparam.gamma = getGyroRatio(nucleus); 
     
     % ODE solver call
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f2 = figure; set(f2,'Name','example1b_ref');
@@ -156,11 +161,16 @@ if usetest(2)
     % --- T2 = T1
     % parameter needed for the ODE
     odeparam.type = 'std';
-    odeparam.M0 = zunit; % equilibrium magnetization [A/m]
-    odeparam.B0 = 5e-5; % primary magnetic field B0 [T]
-    odeparam.T1 = 0.0010; % relaxation time T1 [s]
-    odeparam.T2 = 0.0010; % relaxation time T2 [s]
-    odeparam.gamma = getGyroRatio(nucleus); % gyromagnetic ratio [rad/s/T]
+    % equilibrium magnetization [A/m]
+    odeparam.M0 = zunit;
+    % primary magnetic field B0 [T]
+    odeparam.B0 = 5e-5;
+    % longitudinal relaxation time T1 [s]
+    odeparam.T1 = 0.0010;
+    % transversal relaxation time T2 [s]
+    odeparam.T2 = 0.0010;
+     % gyromagnetic ratio [rad/s/T]
+    odeparam.gamma = getGyroRatio(nucleus);
     
     % initial magnetization pointing towards +x
     Minit = [1 0 0]; % [A/m]
@@ -171,7 +181,7 @@ if usetest(2)
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference 
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     f3 = figure; set(f3,'Name','example1c_ref');
@@ -193,13 +203,14 @@ if usetest(2)
     set(get(ax2,'Title'),'String','T1 = T2');
     
     % --- T2 = 2*T1
-    odeparam.T2 = 0.0020; % relaxation time T2 [s]
+    % transversal relaxation time T2 [s]
+    odeparam.T2 = 0.0020; 
 
     % ODE solver call
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference 
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     ax3 = subplot(3,2,3); hold(ax3,'on');
@@ -222,13 +233,14 @@ if usetest(2)
     set(get(ax4,'Title'),'String','T2 = 2T1');
     
     % --- T1 = 2*T2
-    odeparam.T2 = 0.0005; % relaxation time T2 [s]
+    % transversal relaxation time T2 [s]
+    odeparam.T2 = 0.0005; 
 
     % ODE solver call
     % OUTPUT: time T and magnetization M
     [T,M] = ode45(@(t,m) fcn_BLOCHUS_ode(t,m,odeparam),[0 Tsim],Minit,options);
     
-    % rotate M(T) vector into rotating reference frame
+    % get M(T) in rotating frame of reference 
     Mrot = getMrot(M,getOmega0(odeparam.gamma,odeparam.B0).*T);
     
     ax5 = subplot(3,2,5); hold(ax5,'on');

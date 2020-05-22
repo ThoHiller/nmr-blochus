@@ -74,7 +74,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % create Figure
     hf = figure('Name','About BLOCHUS',...
         'NumberTitle','off','Tag','Help','ToolBar','none','MenuBar','none',...
-        'Resize','off','Position',[xp yp ww hh]);
+        'Resize','off','Position',[xp yp ww hh],'Visible','off');
     v1 = uix.VBox('Parent',hf,'Padding',10,'Spacing',10);
     
     % text area
@@ -116,6 +116,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
     % text hack
     jh = findjobj(t1);
     jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+	
+	% make the figure content visible
+	set(hf,'Visible','on');
     
 else
     warndlg({'onMenuHelp:','There is no figure with the BLOCHUS Tag open.'},...

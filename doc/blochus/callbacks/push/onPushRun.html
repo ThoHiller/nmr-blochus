@@ -271,9 +271,9 @@ This function is called by:
 0196             pulseparam.PulseType = data.pulse.Type;
 0197             <span class="comment">% gyromagnetic ratio [rad/s/T]</span>
 0198             pulseparam.gamma = odeparam.gamma;
-0199             <span class="comment">% Larmor frequency [rad]</span>
+0199             <span class="comment">% Larmor frequency [rad/s]</span>
 0200             pulseparam.omega0 = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0);
-0201             <span class="comment">% pulse amplitude [B0]</span>
+0201             <span class="comment">% pulse amplitude [T]</span>
 0202             pulseparam.Amp = odeparam.B0*data.pulse.B1Factor;
 0203             <span class="comment">% pulse frequency modulation [struct]</span>
 0204             pulseparam.fmod = data.results.pulse.fmod;
@@ -338,7 +338,7 @@ This function is called by:
 0263                 <span class="comment">% set theta for all time steps after the pulse simply to</span>
 0264                 <span class="comment">% omega0*t</span>
 0265                 theta(indT) = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT(indT);
-0266                 <span class="comment">% rotate M into rotating frame of reference</span>
+0266                 <span class="comment">% get M(T) in rotating frame of reference</span>
 0267                 Mrot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,dphi);
 0268                 <span class="comment">% get FFT of M in the laboratory frame of reference</span>
 0269                 [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
@@ -349,7 +349,7 @@ This function is called by:
 0274                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse &amp; relaxation ... finished.'</span>);
 0275                 pause(0.01);
 0276             <span class="keyword">else</span>
-0277                 <span class="comment">% rotate M into rotating frame of reference</span>
+0277                 <span class="comment">% get M(T) in rotating frame of reference</span>
 0278                 Mrot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta);
 0279                 <span class="comment">% get FFT of M in the laboratory frame of reference</span>
 0280                 [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
@@ -593,115 +593,116 @@ This function is called by:
 0518                 <span class="comment">% set theta for all time steps after the pulse simply to</span>
 0519                 <span class="comment">% omega0*t</span>
 0520                 theta(indT) = <a href="../../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(odeparam.gamma,odeparam.B0).*TT(indT);
-0521                 <span class="comment">% rotate M into rotating frame of reference</span>
-0522                 <span class="comment">% and account for the phase from the wait time before the</span>
-0523                 <span class="comment">% pulse</span>
-0524                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,dphi+phiWait);
-0525                 <span class="comment">% get FFT of the pulse</span>
-0526                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT(TT&lt;=Ttau),Bpulse(TT&lt;=Ttau,1:2));
-0527                 
-0528                 <span class="comment">% update Info field</span>
-0529                 set(gui.text_handles.Status,<span class="string">'String'</span>,[<span class="string">'Calculation of excitation pulse'</span>,<span class="keyword">...</span>
-0530                     <span class="string">' &amp; relaxation ... finished.'</span>]);
-0531                 pause(0.01);
-0532             <span class="keyword">else</span>
-0533                 <span class="comment">% rotate M into rotating frame of reference</span>
-0534                 <span class="comment">% and account for the phase from the wait time before the</span>
-0535                 <span class="comment">% pulse</span>
-0536                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,phiWait);
-0537                 <span class="comment">% get FFT of the pulse</span>
-0538                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,Bpulse(:,1:2));
-0539                 
-0540                 <span class="comment">% update Info field</span>
-0541                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ... finished.'</span>);
-0542                 pause(0.01);
-0543             <span class="keyword">end</span>
-0544             
+0521                 <span class="comment">% get M(T) in rotating frame of reference and account for</span>
+0522                 <span class="comment">% the phase from the wait time before the pulse</span>
+0523                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,dphi+phiWait);
+0524                 <span class="comment">% get FFT of the pulse</span>
+0525                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT(TT&lt;=Ttau),Bpulse(TT&lt;=Ttau,1:2));
+0526                 
+0527                 <span class="comment">% update Info field</span>
+0528                 set(gui.text_handles.Status,<span class="string">'String'</span>,[<span class="string">'Calculation of excitation pulse'</span>,<span class="keyword">...</span>
+0529                     <span class="string">' &amp; relaxation ... finished.'</span>]);
+0530                 pause(0.01);
+0531             <span class="keyword">else</span>
+0532                 <span class="comment">% get M(T) in rotating frame of reference and account for</span>
+0533                 <span class="comment">% the phase from the wait time before the pulse</span>
+0534                 MM3rot = <a href="../../../blochus/functions/blochsim/getMrot.html" class="code" title="function Mrot = getMrot(M,theta,varargin)">getMrot</a>(MM,theta,phiWait);
+0535                 <span class="comment">% get FFT of the pulse</span>
+0536                 [Xb,fbx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,Bpulse(:,1:2));
+0537                 
+0538                 <span class="comment">% update Info field</span>
+0539                 set(gui.text_handles.Status,<span class="string">'String'</span>,<span class="string">'Calculation of excitation pulse ... finished.'</span>);
+0540                 pause(0.01);
+0541             <span class="keyword">end</span>
+0542             
+0543             <span class="comment">% -------------------------------------------------------------</span>
+0544             <span class="comment">%% --- 4.) final data merging ---------------------------------</span>
 0545             <span class="comment">% -------------------------------------------------------------</span>
-0546             <span class="comment">%% --- 4.) final data merging ---------------------------------</span>
-0547             <span class="comment">% -------------------------------------------------------------</span>
-0548             <span class="comment">% because the simulation was done in &quot;local&quot; time</span>
-0549             <span class="comment">% coordinates, shift the time vector to the end of the</span>
-0550             <span class="comment">% wait time after the switch-off</span>
-0551             TT3 = TT + Tramp + Twait;
-0552             <span class="comment">% save data</span>
-0553             MM3 = MM;
-0554             
-0555             <span class="comment">% combine data from all stages</span>
-0556             TT = [TT1;TT2;TT3];
-0557             MM = [MM1;MM2;MM3];
-0558             <span class="comment">% because there is no M in the rotating frame of reference</span>
-0559             <span class="comment">% during the switch-off ramp, use the lab-frame data instead</span>
-0560             <span class="comment">%  --- IMPORTANT NOTE: ----------------------------------------</span>
-0561             <span class="comment">% The pre-polarization switch-off only &quot;lives&quot; in the laboratory</span>
-0562             <span class="comment">% frame of reference. However, for convenience reasons I plot</span>
-0563             <span class="comment">% the lab-frame pre-polarization data also in the rotating</span>
-0564             <span class="comment">% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure &quot;eye candy&quot;</span>
-0565             <span class="comment">% MM1 is lab-frame data!</span>
-0566             <span class="comment">%  -------------------------------------------------------------</span>
-0567             MMrot = [MM1;MM2rot;MM3rot];
-0568             
-0569             <span class="comment">% remove possible duplicate points</span>
-0570             [TT,ix] = unique(TT);
-0571             MM = MM(ix,:);
-0572             MMrot = MMrot(ix,:);
-0573             
-0574             <span class="comment">% save combined data</span>
-0575             data.results.basic.T = TT;
-0576             data.results.basic.M = MM;
-0577             data.results.basic.Mrot = MMrot;
-0578             
-0579             <span class="comment">% get FFT for the combined M</span>
-0580             [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
-0581             data.results.basic.Mspec.fx = fmx;
-0582             data.results.basic.Mspec.X = Xm;
-0583             <span class="comment">% save pulse FFT</span>
-0584             data.results.pulse.Bspec.fx = fbx;
-0585             data.results.pulse.Bspec.X = Xb;
-0586 
-0587     <span class="keyword">end</span>
-0588     <span class="comment">% time the calculation</span>
-0589     data.info.Timer = toc(t0);
-0590     
-0591     <span class="comment">% update GUI data</span>
-0592     setappdata(fig,<span class="string">'data'</span>,data);
-0593     <span class="comment">% plot results</span>
-0594     <a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>(fig);
-0595     <span class="comment">% update status bar</span>
-0596     <a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>(fig);
-0597     <span class="comment">% activate animation button</span>
-0598     set(gui.push_handles.Animate,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0599     
-0600     <span class="comment">% change the pushbutton color back to green</span>
-0601     set(src,<span class="string">'BackGroundColor'</span>,<span class="string">'g'</span>);
-0602     
-0603 <span class="keyword">else</span>
-0604     warndlg({<span class="string">'onPushRun:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
-0605         <span class="string">'BLOCHUS error'</span>);
-0606 <span class="keyword">end</span>
-0607 
-0608 <span class="keyword">end</span>
-0609 
-0610 <span class="comment">%------------- END OF CODE --------------</span>
-0611 
-0612 <span class="comment">%% License:</span>
-0613 <span class="comment">% GNU GPLv3</span>
-0614 <span class="comment">%</span>
-0615 <span class="comment">% BLOCHUS</span>
-0616 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0617 <span class="comment">%</span>
-0618 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0619 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0620 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0621 <span class="comment">% (at your option) any later version.</span>
-0622 <span class="comment">%</span>
-0623 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0624 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0625 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0626 <span class="comment">% GNU General Public License for more details.</span>
-0627 <span class="comment">%</span>
-0628 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0629 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0546             <span class="comment">% because the simulation was done in &quot;local&quot; time</span>
+0547             <span class="comment">% coordinates, shift the time vector to the end of the</span>
+0548             <span class="comment">% wait time after the switch-off</span>
+0549             TT3 = TT + Tramp + Twait;
+0550             <span class="comment">% save data</span>
+0551             MM3 = MM;
+0552             
+0553             <span class="comment">% combine data from all stages</span>
+0554             TT = [TT1;TT2;TT3];
+0555             MM = [MM1;MM2;MM3];
+0556             
+0557             <span class="comment">% because there is no M in the rotating frame of reference</span>
+0558             <span class="comment">% during the switch-off ramp, use the lab-frame data instead</span>
+0559             <span class="comment">%  --- IMPORTANT NOTE: ----------------------------------------</span>
+0560             <span class="comment">% The pre-polarization switch-off only &quot;lives&quot; in the laboratory</span>
+0561             <span class="comment">% frame of reference. However, for convenience reasons I plot</span>
+0562             <span class="comment">% the lab-frame pre-polarization data also in the rotating</span>
+0563             <span class="comment">% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure</span>
+0564             <span class="comment">% &quot;eye candy&quot;</span>
+0565             <span class="comment">%</span>
+0566             <span class="comment">% MM1 is lab-frame data!</span>
+0567             <span class="comment">%  -------------------------------------------------------------</span>
+0568             MMrot = [MM1;MM2rot;MM3rot];
+0569             
+0570             <span class="comment">% remove possible duplicate points</span>
+0571             [TT,ix] = unique(TT);
+0572             MM = MM(ix,:);
+0573             MMrot = MMrot(ix,:);
+0574             
+0575             <span class="comment">% save combined data</span>
+0576             data.results.basic.T = TT;
+0577             data.results.basic.M = MM;
+0578             data.results.basic.Mrot = MMrot;
+0579             
+0580             <span class="comment">% get FFT for the combined M</span>
+0581             [Xm,fmx] = <a href="../../../blochus/functions/blochsim/getFFT.html" class="code" title="function [Y,f] = getFFT(t,s)">getFFT</a>(TT,MM(:,1:2));
+0582             data.results.basic.Mspec.fx = fmx;
+0583             data.results.basic.Mspec.X = Xm;
+0584             <span class="comment">% save pulse FFT</span>
+0585             data.results.pulse.Bspec.fx = fbx;
+0586             data.results.pulse.Bspec.X = Xb;
+0587 
+0588     <span class="keyword">end</span>
+0589     <span class="comment">% time the calculation</span>
+0590     data.info.Timer = toc(t0);
+0591     
+0592     <span class="comment">% update GUI data</span>
+0593     setappdata(fig,<span class="string">'data'</span>,data);
+0594     <span class="comment">% plot results</span>
+0595     <a href="../../../blochus/functions/interface/plotResults.html" class="code" title="function plotResults(fig)">plotResults</a>(fig);
+0596     <span class="comment">% update status bar</span>
+0597     <a href="../../../blochus/functions/interface/updateStatusInformation.html" class="code" title="function updateStatusInformation(fig)">updateStatusInformation</a>(fig);
+0598     <span class="comment">% activate animation button</span>
+0599     set(gui.push_handles.Animate,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0600     
+0601     <span class="comment">% change the pushbutton color back to green</span>
+0602     set(src,<span class="string">'BackGroundColor'</span>,<span class="string">'g'</span>);
+0603     
+0604 <span class="keyword">else</span>
+0605     warndlg({<span class="string">'onPushRun:'</span>,<span class="string">'There is no figure with the BLOCHUS Tag open.'</span>},<span class="keyword">...</span>
+0606         <span class="string">'BLOCHUS error'</span>);
+0607 <span class="keyword">end</span>
+0608 
+0609 <span class="keyword">end</span>
+0610 
+0611 <span class="comment">%------------- END OF CODE --------------</span>
+0612 
+0613 <span class="comment">%% License:</span>
+0614 <span class="comment">% GNU GPLv3</span>
+0615 <span class="comment">%</span>
+0616 <span class="comment">% BLOCHUS</span>
+0617 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0618 <span class="comment">%</span>
+0619 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0620 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0621 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0622 <span class="comment">% (at your option) any later version.</span>
+0623 <span class="comment">%</span>
+0624 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0625 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0626 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0627 <span class="comment">% GNU General Public License for more details.</span>
+0628 <span class="comment">%</span>
+0629 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0630 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

@@ -85,14 +85,14 @@ In no particular order and without guarantee that it will ever happen :-) :
 ### Cite as
 If you use BLOCHUS for your research, please cite it as:
 
-Thomas Hiller. (2020, May 17). ThoHiller/nmr-blochus: v0.1.2 (Version v0.1.2). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
+Thomas Hiller. (2020, May 22). ThoHiller/nmr-blochus: v0.1.3 (Version v0.1.3). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
 
 Note: Even though the version number might change due to updates, this DOI is permanent (represents all versions) and always links to the latest version.
 
 
 ### References
 
-1. Hiller, T., Dlugosch, R. and Müller-Petke, M., "Utilizing pre-polarization to enhance SNMR signals - effect of imperfect switch-off", Geophysical Journal International **0**(0), p.1-15, 2020, [DOI](https://doi.org/10.1093/gji/ggaa216)
+1. Hiller, T., Dlugosch, R. and Müller-Petke, M., "Utilizing pre-polarization to enhance SNMR signals - effect of imperfect switch-off", Geophysical Journal International **222**(2), p.815-826, 2020, [DOI](https://doi.org/10.1093/gji/ggaa216)
 
 - - -
 <p style="text-align: center;"> MATLAB is a registered trademark of The Mathworks, Inc. </p>

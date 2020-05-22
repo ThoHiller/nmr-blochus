@@ -1,9 +1,10 @@
 % script: example3.m
-% This script demonstrates the basic use of the BLOCHUS ode-solver.
+% This script demonstrates how pre-polarization switch-off ramps are simulated
+% with BLOCHUS.
 % Both examples were also used as benchmark cases in the paper:
 %	Hiller, T., Dlugosch, R. and Müller-Petke, M., "Utilizing pre-
 %	polarization to enhance SNMR signals - effect of imperfect
-%	switch-off", Geophysical Journal International Vol. 0(0), p.1-15, 2020
+%	switch-off", Geophysical Journal International Vol. 222(2), p.815-826, 2020
 %
 % Two pre-polarization switch-off benchmarks are shown:
 %
@@ -188,13 +189,13 @@ end
 %% 2.) Conradi et al.(2017)
 if usetest(2)
     
-    % Fig. 4a
+    % Fig. 4a of Conradi et al.(2017)
     %     conradi_Bmax = 16/1e3; % [T]
     %     conradi_Bstar = [2000 250 120]./1e6; % [T]
     %     conradi_Tslope = 6/1e3; % [s]
     %     conradi_lgdstr = {'2000','250','120'};
     
-    % Fig. 4b
+    % Fig. 4b of Conradi et al.(2017)
     conradi_Bmax = 2.5/1e3; % [T]
     conradi_Bstar = [250 60 1]./1e6; % [T]
     conradi_Tslope = 10/1e3; % [s]

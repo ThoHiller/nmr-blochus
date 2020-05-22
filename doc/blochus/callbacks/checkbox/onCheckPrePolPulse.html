@@ -118,8 +118,8 @@ This function is called by:
 0047         data.basic.type = <span class="string">'std'</span>;
 0048         
 0049         <span class="comment">% menu settings</span>
-0050         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
-0051         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0050         set(gui.menu_handles.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0051         set(gui.menu_handles.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
 0052         
 0053         <span class="comment">% std settings</span>
 0054         data.basic.Minit = [1 0 0];
@@ -182,8 +182,8 @@ This function is called by:
 0111         data.basic.type = <span class="string">'prepol'</span>;
 0112         
 0113         <span class="comment">% menu settings</span>
-0114         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0115         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0114         set(gui.menu_handles.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0115         set(gui.menu_handles.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
 0116         
 0117         <span class="comment">% std settings</span>
 0118         data.basic.Tsim = data.prepol.Tramp;
@@ -244,8 +244,8 @@ This function is called by:
 0173         data.basic.type = <span class="string">'pulse'</span>;
 0174         
 0175         <span class="comment">% menu settings</span>
-0176         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
-0177         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0176         set(gui.menu_handles.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'off'</span>);
+0177         set(gui.menu_handles.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
 0178         
 0179         <span class="comment">% std settings</span>
 0180         data.basic.Tsim = data.pulse.Ttau;
@@ -294,8 +294,8 @@ This function is called by:
 0223         data.basic.type = <span class="string">'prepolpulse'</span>;
 0224         
 0225         <span class="comment">% menu settings</span>
-0226         set(gui.menu.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
-0227         set(gui.menu.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0226         set(gui.menu_handles.view_figures_ramp,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
+0227         set(gui.menu_handles.view_figures_pulse,<span class="string">'Enable'</span>,<span class="string">'on'</span>);
 0228         
 0229         <span class="comment">% std settings</span>
 0230         data.basic.Minit = [1 0 0];

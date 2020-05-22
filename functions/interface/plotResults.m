@@ -163,7 +163,10 @@ lh = legend(ax,'x','y','z','|xy|','|M|','Location','SouthWest');
 
 % adiabatic quality of switch-off ramp
 if strcmp(data.basic.type,'prepol') || strcmp(data.basic.type,'prepolpulse')
-    set(get(lh,'Title'),'String',['p=',sprintf('%4.3f',data.results.prepol.p)])
+%     set(get(lh,'Title'),'String',{'adiab. qual.',['p = ',sprintf('%4.3f',data.results.prepol.p)]})
+    set(get(ax,'Title'),'String',['adiabatic quality p = ',sprintf('%4.3f',data.results.prepol.p)])
+else
+    set(get(ax,'Title'),'String','');
 end
 % font size
 set(ax,'FontSize',myui.axfontsize);

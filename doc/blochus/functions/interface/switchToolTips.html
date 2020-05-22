@@ -23,7 +23,7 @@
 <div class="box"><strong> switches GUI tool tips either &quot;on&quot; or &quot;off&quot;</strong></div>
 
 <h2><a name="_synopsis"></a>SYNOPSIS <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
-<div class="box"><strong>function switchToolTips(gui,onoff) %#ok<INUSL> </strong></div>
+<div class="box"><strong>function switchToolTips(gui,onoff) </strong></div>
 
 <h2><a name="_description"></a>DESCRIPTION <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
 <div class="fragment"><pre class="comment">switchToolTips switches GUI tool tips either &quot;on&quot; or &quot;off&quot;
@@ -62,13 +62,13 @@ This function calls:
 </ul>
 This function is called by:
 <ul style="list-style-image:url(../../../matlabicon.gif)">
-<li><a href="../../../blochus/callbacks/menus/onMenuViewShow.html" class="code" title="function onMenuViewShow(src,~)">onMenuViewShow</a>	 handles the extra menu entries</li></ul>
+<li><a href="../../../blochus/callbacks/menus/onMenuView.html" class="code" title="function onMenuView(src,~)">onMenuView</a>	 handles the extra menu entries</li><li><a href="../../../blochus/callbacks/menus/onMenuViewShow.html" class="code" title="function onMenuViewShow(src,~)">onMenuViewShow</a>	 handles the extra menu entries</li></ul>
 <!-- crossreference -->
 
 
 
 <h2><a name="_source"></a>SOURCE CODE <a href="#_top"><img alt="^" border="0" src="../../../up.png"></a></h2>
-<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function switchToolTips(gui,onoff) </a><span class="comment">%#ok&lt;INUSL&gt;</span>
+<div class="fragment"><pre>0001 <a name="_sub0" href="#_subfunctions" class="code">function switchToolTips(gui,onoff)</a>
 0002 <span class="comment">%switchToolTips switches GUI tool tips either &quot;on&quot; or &quot;off&quot;</span>
 0003 <span class="comment">%</span>
 0004 <span class="comment">% Syntax:</span>
@@ -101,61 +101,66 @@ This function is called by:
 0031 <span class="comment">%------------- BEGIN CODE --------------</span>
 0032 
 0033 <span class="comment">%% list of handles that have switchable tool tips</span>
-0034 h = {<span class="string">'check_handles'</span>,<span class="string">'edit_handles'</span>,<span class="string">'popup_handles'</span>,<span class="string">'push_handles'</span>};
-0035 
-0036 <span class="comment">%% process all handles</span>
-0037 <span class="keyword">switch</span> lower(onoff)
-0038     <span class="keyword">case</span> <span class="string">'off'</span> <span class="comment">% if it is off, switch it on</span>
-0039         <span class="keyword">for</span> i = 1:numel(h)
-0040             eval([<span class="string">'fnames = fieldnames(gui.'</span>,h{i},<span class="string">');'</span>]);
-0041             <span class="keyword">for</span> j = 1:numel(fnames)
-0042                 eval([<span class="string">'ud = get(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
-0043                     <span class="string">',''UserData'');'</span>]);
-0044                 <span class="keyword">if</span> isfield(ud,<span class="string">'Tooltipstr'</span>)
-0045                     tstr = ud.Tooltipstr;
-0046                     eval([<span class="string">'set(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
-0047                         <span class="string">',''ToolTipString'',tstr);'</span>]);
-0048                 <span class="keyword">end</span>
-0049             <span class="keyword">end</span>
-0050         <span class="keyword">end</span>
-0051         
-0052     <span class="keyword">case</span> <span class="string">'on'</span> <span class="comment">% if it is on, switch it off</span>
-0053         <span class="keyword">for</span> i = 1:numel(h)
-0054             eval([<span class="string">'fnames = fieldnames(gui.'</span>,h{i},<span class="string">');'</span>]);
-0055             <span class="keyword">for</span> j = 1:numel(fnames)
-0056                 eval([<span class="string">'ud = get(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
-0057                     <span class="string">',''UserData'');'</span>]);
-0058                 <span class="keyword">if</span> isfield(ud,<span class="string">'Tooltipstr'</span>)
-0059                     tstr = ud.Tooltipstr;
-0060                     eval([<span class="string">'set(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
-0061                         <span class="string">',''ToolTipString'','''');'</span>]);
-0062                 <span class="keyword">end</span>
-0063             <span class="keyword">end</span>
-0064         <span class="keyword">end</span>
-0065 <span class="keyword">end</span>
-0066 
-0067 <span class="keyword">end</span>
-0068 
-0069 <span class="comment">%------------- END OF CODE --------------</span>
-0070 
-0071 <span class="comment">%% License:</span>
-0072 <span class="comment">% GNU GPLv3</span>
-0073 <span class="comment">%</span>
-0074 <span class="comment">% BLOCHUS</span>
-0075 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0076 <span class="comment">%</span>
-0077 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0078 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0079 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0080 <span class="comment">% (at your option) any later version.</span>
+0034 h = {<span class="string">'check_handles'</span>,<span class="string">'edit_handles'</span>,<span class="string">'popup_handles'</span>,<span class="keyword">...</span>
+0035     <span class="string">'push_handles'</span>};
+0036 
+0037 <span class="comment">%% process all handles</span>
+0038 <span class="keyword">switch</span> lower(onoff)
+0039     <span class="keyword">case</span> <span class="string">'on'</span> <span class="comment">% switch tool tips on</span>
+0040         <span class="keyword">for</span> i = 1:numel(h)
+0041             <span class="keyword">if</span> isfield(gui,h{i})
+0042                 eval([<span class="string">'fnames = fieldnames(gui.'</span>,h{i},<span class="string">');'</span>]);
+0043                 <span class="keyword">for</span> j = 1:numel(fnames)
+0044                     eval([<span class="string">'ud = get(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
+0045                         <span class="string">',''UserData'');'</span>]);
+0046                     <span class="keyword">if</span> isfield(ud,<span class="string">'Tooltipstr'</span>)
+0047                         tstr = ud.Tooltipstr;
+0048                         eval([<span class="string">'set(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
+0049                             <span class="string">',''ToolTipString'',tstr);'</span>]);
+0050                     <span class="keyword">end</span>
+0051                 <span class="keyword">end</span>
+0052             <span class="keyword">end</span>
+0053         <span class="keyword">end</span>
+0054         
+0055     <span class="keyword">case</span> <span class="string">'off'</span> <span class="comment">% switch tool tips off</span>
+0056         <span class="keyword">for</span> i = 1:numel(h)
+0057             <span class="keyword">if</span> isfield(gui,h{i})
+0058                 eval([<span class="string">'fnames = fieldnames(gui.'</span>,h{i},<span class="string">');'</span>]);
+0059                 <span class="keyword">for</span> j = 1:numel(fnames)
+0060                     eval([<span class="string">'ud = get(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
+0061                         <span class="string">',''UserData'');'</span>]);
+0062                     <span class="keyword">if</span> isfield(ud,<span class="string">'Tooltipstr'</span>)
+0063                         tstr = ud.Tooltipstr;
+0064                         eval([<span class="string">'set(gui.'</span>,h{i},<span class="string">'.'</span>,fnames{j},<span class="keyword">...</span>
+0065                             <span class="string">',''ToolTipString'','''');'</span>]);
+0066                     <span class="keyword">end</span>
+0067                 <span class="keyword">end</span>
+0068             <span class="keyword">end</span>
+0069         <span class="keyword">end</span>
+0070 <span class="keyword">end</span>
+0071 
+0072 <span class="keyword">end</span>
+0073 
+0074 <span class="comment">%------------- END OF CODE --------------</span>
+0075 
+0076 <span class="comment">%% License:</span>
+0077 <span class="comment">% GNU GPLv3</span>
+0078 <span class="comment">%</span>
+0079 <span class="comment">% BLOCHUS</span>
+0080 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
 0081 <span class="comment">%</span>
-0082 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0083 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0084 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0085 <span class="comment">% GNU General Public License for more details.</span>
+0082 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0083 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0084 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0085 <span class="comment">% (at your option) any later version.</span>
 0086 <span class="comment">%</span>
-0087 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0088 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0087 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0088 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0089 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0090 <span class="comment">% GNU General Public License for more details.</span>
+0091 <span class="comment">%</span>
+0092 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0093 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

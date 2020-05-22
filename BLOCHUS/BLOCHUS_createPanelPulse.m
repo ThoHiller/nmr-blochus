@@ -414,6 +414,8 @@ jh = findjobj(gui.text_handles.PulseType);
 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
 jh = findjobj(gui.text_handles.PulseAxis);
 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
+jh = findjobj(gui.text_handles.PulsePolarization);
+jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
 jh = findjobj(gui.text_handles.PulseB1Factor);
 jh.setVerticalAlignment(javax.swing.JLabel.CENTER)
 jh = findjobj(gui.text_handles.PulseTtau);

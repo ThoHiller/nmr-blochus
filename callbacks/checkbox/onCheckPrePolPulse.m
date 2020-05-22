@@ -47,8 +47,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         data.basic.type = 'std';
         
         % menu settings
-        set(gui.menu.view_figures_ramp,'Enable','off');
-        set(gui.menu.view_figures_pulse,'Enable','off');
+        set(gui.menu_handles.view_figures_ramp,'Enable','off');
+        set(gui.menu_handles.view_figures_pulse,'Enable','off');
         
         % std settings
         data.basic.Minit = [1 0 0];
@@ -111,8 +111,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         data.basic.type = 'prepol';
         
         % menu settings
-        set(gui.menu.view_figures_ramp,'Enable','on');
-        set(gui.menu.view_figures_pulse,'Enable','off');
+        set(gui.menu_handles.view_figures_ramp,'Enable','on');
+        set(gui.menu_handles.view_figures_pulse,'Enable','off');
         
         % std settings
         data.basic.Tsim = data.prepol.Tramp;
@@ -173,8 +173,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         data.basic.type = 'pulse';
         
         % menu settings
-        set(gui.menu.view_figures_ramp,'Enable','off');
-        set(gui.menu.view_figures_pulse,'Enable','on');
+        set(gui.menu_handles.view_figures_ramp,'Enable','off');
+        set(gui.menu_handles.view_figures_pulse,'Enable','on');
         
         % std settings
         data.basic.Tsim = data.pulse.Ttau;
@@ -223,8 +223,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
         data.basic.type = 'prepolpulse';
         
         % menu settings
-        set(gui.menu.view_figures_ramp,'Enable','on');
-        set(gui.menu.view_figures_pulse,'Enable','on');
+        set(gui.menu_handles.view_figures_ramp,'Enable','on');
+        set(gui.menu_handles.view_figures_pulse,'Enable','on');
         
         % std settings
         data.basic.Minit = [1 0 0];

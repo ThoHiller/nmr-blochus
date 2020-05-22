@@ -196,9 +196,9 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             pulseparam.PulseType = data.pulse.Type;
             % gyromagnetic ratio [rad/s/T]
             pulseparam.gamma = odeparam.gamma;
-            % Larmor frequency [rad]
+            % Larmor frequency [rad/s]
             pulseparam.omega0 = getOmega0(odeparam.gamma,odeparam.B0);
-            % pulse amplitude [B0]
+            % pulse amplitude [T]
             pulseparam.Amp = odeparam.B0*data.pulse.B1Factor;
             % pulse frequency modulation [struct]
             pulseparam.fmod = data.results.pulse.fmod;
@@ -263,7 +263,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 % set theta for all time steps after the pulse simply to
                 % omega0*t
                 theta(indT) = getOmega0(odeparam.gamma,odeparam.B0).*TT(indT);
-                % rotate M into rotating frame of reference
+                % get M(T) in rotating frame of reference 
                 Mrot = getMrot(MM,theta,dphi);
                 % get FFT of M in the laboratory frame of reference
                 [Xm,fmx] = getFFT(TT,MM(:,1:2));
@@ -274,7 +274,7 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 set(gui.text_handles.Status,'String','Calculation of excitation pulse & relaxation ... finished.');
                 pause(0.01);
             else
-                % rotate M into rotating frame of reference
+                % get M(T) in rotating frame of reference 
                 Mrot = getMrot(MM,theta);
                 % get FFT of M in the laboratory frame of reference
                 [Xm,fmx] = getFFT(TT,MM(:,1:2));
@@ -518,9 +518,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                 % set theta for all time steps after the pulse simply to
                 % omega0*t
                 theta(indT) = getOmega0(odeparam.gamma,odeparam.B0).*TT(indT);
-                % rotate M into rotating frame of reference
-                % and account for the phase from the wait time before the
-                % pulse
+                % get M(T) in rotating frame of reference and account for
+                % the phase from the wait time before the pulse
                 MM3rot = getMrot(MM,theta,dphi+phiWait);
                 % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT(TT<=Ttau),Bpulse(TT<=Ttau,1:2));
@@ -530,9 +529,8 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
                     ' & relaxation ... finished.']);
                 pause(0.01);
             else
-                % rotate M into rotating frame of reference
-                % and account for the phase from the wait time before the
-                % pulse
+                % get M(T) in rotating frame of reference and account for
+                % the phase from the wait time before the pulse
                 MM3rot = getMrot(MM,theta,phiWait);
                 % get FFT of the pulse
                 [Xb,fbx] = getFFT(TT,Bpulse(:,1:2));
@@ -555,13 +553,16 @@ if ~isempty(fig) && strcmp(get(fig,'Tag'),'BLOCHUS')
             % combine data from all stages
             TT = [TT1;TT2;TT3];
             MM = [MM1;MM2;MM3];
+            
             % because there is no M in the rotating frame of reference
             % during the switch-off ramp, use the lab-frame data instead
 			%  --- IMPORTANT NOTE: ----------------------------------------
 			% The pre-polarization switch-off only "lives" in the laboratory
 			% frame of reference. However, for convenience reasons I plot
 			% the lab-frame pre-polarization data also in the rotating
-			% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure "eye candy"
+			% frame of reference! This is u-n-p-h-y-s-i-c-a-l and pure
+            % "eye candy"
+            %
 			% MM1 is lab-frame data!
 			%  -------------------------------------------------------------
             MMrot = [MM1;MM2rot;MM3rot];

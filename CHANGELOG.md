@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.3] - 2020-05-22
+
+### Added
+- Two additional examples that demonstrate the creation of lookup tables (one example for pre-polarization switch-off ramps and one example for adiabatic excitation pulses).
+
+### Changed
+- Minor GUI improvements and consistency clean ups.
+
 ## [0.1.2] - 2020-05-17
 
 ### Changed
@@ -24,6 +32,7 @@
 
 Initial Version
 
+[0.1.3]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/ThoHiller/nmr-blochus/compare/v.0.1.1...v0.1.2
 [0.1.1]: https://github.com/ThoHiller/nmr-blochus/compare/v.0.1.0...v.0.1.1
 [0.1.0]: https://github.com/ThoHiller/nmr-blochus/releases/tag/v.0.1.0
