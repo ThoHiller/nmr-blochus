@@ -33,8 +33,8 @@ function BLOCHUS
 %------------- BEGIN CODE --------------
 
 %% GUI 'header' info and default GUI settings
-myui.version = '0.1.3';
-myui.date = '22.05.2020';
+myui.version = '0.1.4';
+myui.date = '25.09.2020';
 myui.author = 'Thomas Hiller';
 myui.email = 'thomas.hiller[at]leibniz-liag.de';
 

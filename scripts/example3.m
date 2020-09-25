@@ -39,7 +39,7 @@ clear variables; clc;
 
 % because this script takes a few minutes ask the user before continuing
 answer = questdlg({'This script needs about 5 min. to run.',...
-    'Do you want to continue?'},'Dessert Menu','Yes','No','Yes');
+    'Do you want to continue?'},'Continue?','Yes','No','Yes');
 % handle response
 switch answer
     case 'Yes'
@@ -87,7 +87,7 @@ if usetest(1)
     % switch over magnetization (for linexp case)
     rampparam.Bstar = odeparam.B0;
     
-    % initial orientation is toards y-axis
+    % initial orientation is towards y-axis
     orient = getRotationMatrixFromAngleandAxis(pi/2,[0 1 0])*zunit;
     orient = getRotationMatrixFromAngleandAxis(pi/2,[0 0 1])*orient;
     % initial magnetization in the direction of B0+Bp

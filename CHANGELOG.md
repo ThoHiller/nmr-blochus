@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.4] - 2020-09-25
+
+### Added
+- *pyBLOCHUS* - core functionality of *BLOCHUS* as python module without a graphical user interface.
+
+### Changed
+- Minor GUI improvements and consistency clean ups.
+
+### Fixed
+- bug inside the pulse modulation function
+
 ## [0.1.3] - 2020-05-22
 
 ### Added
@@ -32,6 +43,7 @@
 
 Initial Version
 
+[0.1.4]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/ThoHiller/nmr-blochus/compare/v.0.1.1...v0.1.2
 [0.1.1]: https://github.com/ThoHiller/nmr-blochus/compare/v.0.1.0...v.0.1.1

@@ -1,4 +1,4 @@
-## BLOCHUS
+## BLOCHUS / pyBLOCHUS
 
 <img src="blochus_logo_small.png" alt="BLOCHUS icon" width="96">
 
@@ -23,6 +23,9 @@
 ### About
 
 **BLOCHUS** is a set of MATLAB<sup>TM</sup> tools, that allow some basic simulations of (S)NMR spin dynamics based on the Bloch equations. The Bloch equations are solved in the laboratory frame of reference with MATLABs built-in `ode45` solver. Because it was developed within the scope of a near surface SNMR project, its main features are the simulation of (1) pre-polarization switch-off ramps and (2) excitation pulses. The main front-end to the underlying simulation tools is a graphical user interface (GUI) that allows playing around with the different features and helps to understand the basic concepts of (S)NMR spin dynamics.
+
+#### pyBLOCHUS
+**pyBLOCHUS** is a set of python modules that implement the core functionality of **BLOCHUS** without any graphical user interface. More information can be found [here](pyBLOCHUS).
 
 #### Basic features:
 1. Choose between different protons (e.g. *Hydrogen*, *Helium*, *Fluorine*, etc.)
@@ -76,16 +79,15 @@ A basic documentation to **BLOCHUS** can be found in the `blochus\doc` folder. J
 
 In no particular order and without guarantee that it will ever happen :-) :
 
-1. Adapt the core functionality in a Python module (this is on top of my agenda)
-2. A real Manual
-3. ...
+1. A real Manual
+2. ...
 
 - - -
 <a name="references"></a>
 ### Cite as
 If you use BLOCHUS for your research, please cite it as:
 
-Thomas Hiller. (2020, May 22). ThoHiller/nmr-blochus: v0.1.3 (Version v0.1.3). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
+Thomas Hiller. (2020, September 25). ThoHiller/nmr-blochus: v0.1.4 (Version v0.1.4). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
 
 Note: Even though the version number might change due to updates, this DOI is permanent (represents all versions) and always links to the latest version.
 

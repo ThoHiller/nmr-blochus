@@ -157,7 +157,7 @@ hold(ax,'off');
 % axis settings
 grid(ax,'on');
 set(get(ax,'XLabel'),'String','t [ms]');
-set(get(ax,'YLabel'),'String','magnetization M');
+set(get(ax,'YLabel'),'String','magnetization M / M0');
 % legend
 lh = legend(ax,'x','y','z','|xy|','|M|','Location','SouthWest');
 

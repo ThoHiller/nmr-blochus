@@ -194,7 +194,7 @@ This function is called by:
 0107             <span class="keyword">case</span> 0 <span class="comment">% during pulse</span>
 0108                 theta = 2*pi*(f0.*t + (delta_t*delta_f./fmod.A).*exp(fmod.A.*(-t/delta_t)));
 0109             <span class="keyword">case</span> 1 <span class="comment">% after pulse</span>
-0110                 theta = 2*pi*(fmod.end*t + (delta_t*delta_f./fmod.A)*exp(fmod.A*(-t/delta_t)));
+0110                 theta = 2*pi*(fmod.v1*t + (delta_t*delta_f./fmod.A)*exp(fmod.A*(-t/delta_t)));
 0111         <span class="keyword">end</span>
 0112         
 0113     <span class="keyword">otherwise</span>

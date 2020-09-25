@@ -28,7 +28,7 @@ clear variables; clc;
 
 % because this script takes approx. 30min, ask the user before continuing
 answer = questdlg({'This script needs about 30 min. to run.',...
-    'Do you want to continue?'},'Dessert Menu','Yes','No','Yes');
+    'Do you want to continue?'},'Continue?','Yes','No','Yes');
 % handle response
 switch answer
     case 'Yes'
@@ -189,7 +189,7 @@ end
 
 % plot data
 if plot_data
-    [xx,yy] = meshgrid(theta,PPfac);
+    [xx,yy] = meshgrid(linspace(0,180,Nt+1),logspace(-1,4,Np+1));
     figure;
     count = 0;
     for i1 = 1:numel(lookup_ramps)
@@ -197,10 +197,10 @@ if plot_data
             count = count + 1;
             p = data{i1,i2}.p;
             subplot(numel(lookup_ramps),numel(lookup_Tramps),count);
-            pcolor(xx,yy,p');
+            surf(xx,yy,ones(size(xx)),p'); view(2);
             shading flat;
-            set(gca,'XTick',linspace(0,180,5),'YScale','log',...
-                'YTick',logspace(-1,4,6),'FontSize',10);
+            set(gca,'XLim',[0 180],'XTick',linspace(0,180,5),'YScale','log',...
+                'YLim',[0.1 1e4],'YTick',logspace(-1,4,6),'FontSize',10);
             xlabel('\theta [deg]');
             ylabel('Bp [B0]');
             title([lookup_ramps{i1},' | ',sprintf('%3.1f',lookup_Tramps(i2)*1e3),'ms']);

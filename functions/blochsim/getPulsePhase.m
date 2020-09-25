@@ -107,7 +107,7 @@ switch fmod.shape
             case 0 % during pulse
                 theta = 2*pi*(f0.*t + (delta_t*delta_f./fmod.A).*exp(fmod.A.*(-t/delta_t)));
             case 1 % after pulse
-                theta = 2*pi*(fmod.end*t + (delta_t*delta_f./fmod.A)*exp(fmod.A*(-t/delta_t)));
+                theta = 2*pi*(fmod.v1*t + (delta_t*delta_f./fmod.A)*exp(fmod.A*(-t/delta_t)));
         end
         
     otherwise

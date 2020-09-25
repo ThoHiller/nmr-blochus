@@ -141,11 +141,6 @@ switch PulseType
                 Bout = 2.*I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) ...
                     0.*t];
         end
-        % test:
-        if phi ~= 0
-            disp(num2str(phi));
-        end
-        % end test
 end
 % if B-field values are NaN, set them to zero
 % this can happen due to the interpolation at the end of the MIDI-pulses

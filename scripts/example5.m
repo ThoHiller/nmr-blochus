@@ -36,7 +36,7 @@ clear variables; clc;
 
 % because this script takes approx. 75min, ask the user before continuing
 answer = questdlg({'This script needs about 75 min. to run.',...
-    'Do you want to continue?'},'Dessert Menu','Yes','No','Yes');
+    'Do you want to continue?'},'Continue?','Yes','No','Yes');
 % handle response
 switch answer
     case 'Yes'
@@ -203,14 +203,14 @@ if plot_data
     subplot(121);
     semilogy(Mfinal(:,4),B1.*1e6);
     xlim([-1 1]);
-    xlabel('Mx');
+    xlabel('Mx / M0');
     ylabel('B1 [µT]');
     grid on;
     
     subplot(122);
     semilogy(Mfinal(:,5),B1.*1e6);
     xlim([-1 1]);
-    xlabel('My');
+    xlabel('My / M0');
     grid on;
 end
 
