@@ -484,8 +484,11 @@ class Pulse:
                 # get line (band) width
                 # -> f_L/Q (simple bandwidth for bandpass)
                 lwidth = abs(self.larmor_f)/self.imod.qual_fac
-                # apply "Breit-Wigner" formula (here already normalized to 1 by
-                # multiplying with pi*lwidth)
+                # apply Cauchy-Lorentz type formula (here already normalized to
+				# 1 by multiplying with pi*lwidth)
+				# this is basically a Cauchy distribution PDF of the form:
+				# PDF = 1/pi * ( bw / ((f-f0)^2 + bw^2) )
+				# tweaked with some algebra
                 ltmp = 1.0 / (((freq_offset+self.imod.qual_fac_df)**2.0 /
                               lwidth**2)+1.0)
                 current = current*ltmp

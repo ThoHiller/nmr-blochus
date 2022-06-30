@@ -113,46 +113,48 @@ This function is called by:
 0039 B = B(:)./norm(B);
 0040 <span class="comment">% cross product of both vectors</span>
 0041 c = cross(A,B);
-0042 <span class="comment">% check if A and B are parallel / antiparallel</span>
-0043 <span class="keyword">if</span> sum(c)==0
-0044     <span class="comment">% check if A == B (parallel)</span>
-0045     <span class="keyword">if</span> all(A==B)
-0046         <span class="comment">% in that case the rotation matrix is obviously identity</span>
-0047         R = eye(3);
-0048     <span class="keyword">else</span> <span class="comment">% A == -B (antiparallel)</span>
-0049         R = -eye(3);
-0050     <span class="keyword">end</span>
-0051 <span class="keyword">else</span>
-0052     <span class="comment">% skew-symmetric cross-product</span>
-0053     ssc = [ 0  -c(3) c(2);
-0054            c(3)  0  -c(1);
-0055           -c(2) c(1)  0 ];
-0056     <span class="comment">% rotation matrix R</span>
-0057     R = eye(3) + ssc + ssc^2*(1-dot(A,B))/(norm(c))^2;
-0058 <span class="keyword">end</span>
-0059 
-0060 <span class="keyword">return</span>
+0042 <span class="comment">% angle between A and B</span>
+0043 alpha = acos(dot(A,B));
+0044 <span class="comment">% check if A and B are parallel / antiparallel</span>
+0045 <span class="keyword">if</span> abs(sum(c))&lt;1e-128 &amp;&amp; (alpha==0 || alpha==pi)
+0046     <span class="comment">% check if A == B (alpha=0 -&gt; parallel)</span>
+0047     <span class="keyword">if</span> alpha==0
+0048         <span class="comment">% in that case the rotation matrix is obviously identity</span>
+0049         R = eye(3);
+0050     <span class="keyword">else</span> <span class="comment">% A == -B (antiparallel)</span>
+0051         R = -eye(3);
+0052     <span class="keyword">end</span>
+0053 <span class="keyword">else</span>
+0054     <span class="comment">% skew-symmetric cross-product</span>
+0055     ssc = [ 0  -c(3) c(2);
+0056            c(3)  0  -c(1);
+0057           -c(2) c(1)  0 ];
+0058     <span class="comment">% rotation matrix R</span>
+0059     R = eye(3) + ssc + (ssc/norm(c))^2*(1-dot(A,B));
+0060 <span class="keyword">end</span>
 0061 
-0062 <span class="comment">%------------- END OF CODE --------------</span>
+0062 <span class="keyword">return</span>
 0063 
-0064 <span class="comment">%% License:</span>
-0065 <span class="comment">% GNU GPLv3</span>
-0066 <span class="comment">%</span>
-0067 <span class="comment">% BLOCHUS</span>
-0068 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
-0069 <span class="comment">%</span>
-0070 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0071 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0072 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0073 <span class="comment">% (at your option) any later version.</span>
-0074 <span class="comment">%</span>
-0075 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0076 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0077 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0078 <span class="comment">% GNU General Public License for more details.</span>
-0079 <span class="comment">%</span>
-0080 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0081 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0064 <span class="comment">%------------- END OF CODE --------------</span>
+0065 
+0066 <span class="comment">%% License:</span>
+0067 <span class="comment">% GNU GPLv3</span>
+0068 <span class="comment">%</span>
+0069 <span class="comment">% BLOCHUS</span>
+0070 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0071 <span class="comment">%</span>
+0072 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0073 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0074 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0075 <span class="comment">% (at your option) any later version.</span>
+0076 <span class="comment">%</span>
+0077 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0078 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0079 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0080 <span class="comment">% GNU General Public License for more details.</span>
+0081 <span class="comment">%</span>
+0082 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0083 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

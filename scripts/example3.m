@@ -245,7 +245,7 @@ if usetest(2)
     for b = 1:numel(Bstar)
         for r = 1:numel(theta)
             
-            % initial orientation is towards y-axis
+            % initial orientation is towards x-axis
             orient = getRotationMatrixFromAngleandAxis(deg2rad(theta(r)),[0 1 0])*zunit;
             % initial magnetization in the direction of B0+Bp
             Morient = orient*rampparam.Bmax + odeparam.B0*zunit;

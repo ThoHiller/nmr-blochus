@@ -39,10 +39,12 @@ A = A(:)./norm(A);
 B = B(:)./norm(B);
 % cross product of both vectors
 c = cross(A,B);
+% angle between A and B
+alpha = acos(dot(A,B));
 % check if A and B are parallel / antiparallel
-if sum(c)==0
-    % check if A == B (parallel)
-    if all(A==B)
+if abs(sum(c))<1e-128 && (alpha==0 || alpha==pi)
+    % check if A == B (alpha=0 -> parallel)
+    if alpha==0
         % in that case the rotation matrix is obviously identity
         R = eye(3);
     else % A == -B (antiparallel)
@@ -54,7 +56,7 @@ else
            c(3)  0  -c(1);
           -c(2) c(1)  0 ];
     % rotation matrix R
-    R = eye(3) + ssc + ssc^2*(1-dot(A,B))/(norm(c))^2;
+    R = eye(3) + ssc + (ssc/norm(c))^2*(1-dot(A,B));
 end
 
 return

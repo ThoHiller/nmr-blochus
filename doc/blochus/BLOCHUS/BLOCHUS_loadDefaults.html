@@ -170,15 +170,15 @@ This function is called by:
 0099 init.M0 = [0 0 1];
 0100 <span class="comment">% initial magnetization [A/m]</span>
 0101 init.Minit = [1 0 0];
-0102 <span class="comment">% Earth's magnetic field [T] default: 48µT min: 1fT max: 1T</span>
+0102 <span class="comment">% Earth's magnetic field [T] default: 48ÂµT min: 1fT max: 1T</span>
 0103 init.B0 = [48/1e6 1e-12 1];
 0104 <span class="comment">% corresponding Larmor frequencies [Hz]</span>
 0105 init.Omega0 = [<a href="../../blochus/functions/blochsim/getOmega0.html" class="code" title="function omega0 = getOmega0(gamma,B)">getOmega0</a>(init.gamma,init.B0(1))/2/pi -1e9 1e9];
-0106 <span class="comment">% T1 relaxation time [ms] default: 100ms min: 1µs max: 1000s</span>
+0106 <span class="comment">% T1 relaxation time [ms] default: 100ms min: 1Âµs max: 1000s</span>
 0107 init.T1relax = [100 1e-3 1e6];
-0108 <span class="comment">% T2 relaxation time [ms] default: 50ms min: 1µs max: 1000s</span>
+0108 <span class="comment">% T2 relaxation time [ms] default: 50ms min: 1Âµs max: 1000s</span>
 0109 init.T2relax = [50 1e-3 1e6];
-0110 <span class="comment">% simulation time [ms] default: 50ms min: 1µs max: 1000s</span>
+0110 <span class="comment">% simulation time [ms] default: 50ms min: 1Âµs max: 1000s</span>
 0111 init.Tsim = [50 1e-3 1e6];
 0112 
 0113 <span class="comment">% --- PRE-POLARIZATION ---</span>
@@ -189,14 +189,14 @@ This function is called by:
 0118 <span class="comment">% pre-polarization B-field amplitude in units of [B0]</span>
 0119 init.PrePolFactor = [100 1e-6 1e6];
 0120 <span class="comment">% polar angle of pre-polarization field [deg]</span>
-0121 init.PrePolTheta = [90 0 360];
+0121 init.PrePolTheta = [90 1e-3 360];
 0122 <span class="comment">% azimuthal angle of pre-polarization field [deg]</span>
 0123 init.PrePolPhi = [0 0 360];
 0124 <span class="comment">% pre-polarization B-field switch amplitude in units of [B0]</span>
 0125 init.PrePolSwitchFactor = [1 1e-6 1e6];
-0126 <span class="comment">% switch-off ramp time [ms] default: 1ms min: 1µs max: 1000s</span>
+0126 <span class="comment">% switch-off ramp time [ms] default: 1ms min: 1Âµs max: 1000s</span>
 0127 init.PrePolTramp = [1 1e-6 1e6];
-0128 <span class="comment">% switch-off ramp slope time [ms] default: 0.1ms min: 1µs max: 1000s</span>
+0128 <span class="comment">% switch-off ramp slope time [ms] default: 0.1ms min: 1Âµs max: 1000s</span>
 0129 init.PrePolTslope = [0.1 1e-6 1e6];
 0130 
 0131 <span class="comment">% --- PULSE ---</span>
@@ -208,7 +208,7 @@ This function is called by:
 0137 init.PulsePolarization = <span class="string">'circular'</span>;
 0138 <span class="comment">% relaxation during pulse [0/1]</span>
 0139 init.PulseRDP = 0;
-0140 <span class="comment">% pulse length [ms] default: 20ms min: 1µs max: 1000s</span>
+0140 <span class="comment">% pulse length [ms] default: 20ms min: 1Âµs max: 1000s</span>
 0141 init.PulseTtau = [20 1e-6 1e6];
 0142 <span class="comment">% pulse amplitude in units of [B0] default: 0.0061163 min: 1e-12 max: 1e6</span>
 0143 init.PulseB1Factor = [0.0061163 1e-12 1e6];

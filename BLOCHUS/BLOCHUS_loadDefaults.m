@@ -118,7 +118,7 @@ init.PrePolRDS = 0;
 % pre-polarization B-field amplitude in units of [B0]
 init.PrePolFactor = [100 1e-6 1e6];
 % polar angle of pre-polarization field [deg]
-init.PrePolTheta = [90 0 360];
+init.PrePolTheta = [90 1e-3 360];
 % azimuthal angle of pre-polarization field [deg]
 init.PrePolPhi = [0 0 360];
 % pre-polarization B-field switch amplitude in units of [B0]

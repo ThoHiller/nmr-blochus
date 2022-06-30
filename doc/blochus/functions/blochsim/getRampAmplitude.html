@@ -140,77 +140,80 @@ This function is called by:
 0058         Bp = Bmax .* (0.5+(cos(pi*t./Tramp)./2));
 0059     <span class="keyword">case</span> <span class="string">'lin'</span> <span class="comment">% linear</span>
 0060         Bp = Bmax.*(1-t./Tramp);
-0061 <span class="keyword">end</span>
-0062 
-0063 <span class="keyword">return</span>
-0064 <span class="comment">% ---</span>
+0061     <span class="keyword">case</span> <span class="string">'custom'</span>
+0062         idata = param.interp;
+0063         Bp = Bmax.*interp1(idata.t,idata.I,t);
+0064 <span class="keyword">end</span>
 0065 
-0066 <span class="comment">% ---</span>
-0067 <a name="_sub1" href="#_subfunctions" class="code">function Bp = getLinExpAmp(Bmax,Bstar,T,t)</a>
-0068 <span class="comment">% linear + exponential ramp after:</span>
-0069 <span class="comment">% Conradi et al., 2017, Journal of Magnetic Resonance 281, p.241-245</span>
-0070 <span class="comment">% https://doi.org/10.1016/j.jmr.2017.06.001</span>
-0071 
-0072 <span class="keyword">if</span> numel(t)&gt;1
-0073     <span class="comment">% linear part</span>
-0074     Bplin = (-Bmax/T)*t + Bmax;
-0075     <span class="comment">% exponential part</span>
-0076     Bpexp = exp(-t /(Bstar*T/Bmax));
-0077     <span class="comment">% find change</span>
-0078     index = find(abs(Bplin-Bstar)==min(abs(Bplin-Bstar)),1,<span class="string">'first'</span>);
-0079     <span class="comment">% merge the lin- and exp-part and scale the amplitude of the exp-part</span>
-0080     <span class="comment">% to that of the lin-part at the switch-over time t(index)</span>
-0081     scale_point = Bplin(index)/Bpexp(index);
-0082     <span class="comment">% in case something goes south due to very small numbers set the</span>
-0083     <span class="comment">% amplitude to 0</span>
-0084     <span class="keyword">if</span> isinf(scale_point) || isnan(scale_point)
-0085         scale_point = 0;
-0086     <span class="keyword">end</span>
-0087     <span class="comment">% the final amplitude vector</span>
-0088     Bp = [Bplin(1:index-1); scale_point * Bpexp(index:end)];
-0089 <span class="keyword">else</span>
-0090     <span class="comment">% linear part</span>
-0091     Bplin = (-Bmax/T)*t + Bmax;
-0092     <span class="comment">% exponential part</span>
-0093     Bpexp = exp(-t /(Bstar*T/Bmax));
-0094     <span class="comment">% Bstar time tstar</span>
-0095     tstar = (Bstar-Bmax)/(-Bmax/T);
-0096     <span class="comment">% amplitude at tstar for scaling</span>
-0097     Btstar = exp(-tstar /(Bstar*T/Bmax));
-0098     <span class="comment">% apply</span>
-0099     <span class="keyword">if</span> t&lt;tstar
-0100         Bp = Bplin;
-0101     <span class="keyword">else</span>
-0102         Bp = (Bstar/Btstar) * Bpexp;
-0103     <span class="keyword">end</span>
-0104 <span class="keyword">end</span>
-0105 
-0106 <span class="comment">% if due to division by &quot;0&quot; the value is NaN ... set it to 0</span>
-0107 Bp(isnan(Bp)) = 0;
+0066 <span class="keyword">return</span>
+0067 <span class="comment">% ---</span>
+0068 
+0069 <span class="comment">% ---</span>
+0070 <a name="_sub1" href="#_subfunctions" class="code">function Bp = getLinExpAmp(Bmax,Bstar,T,t)</a>
+0071 <span class="comment">% linear + exponential ramp after:</span>
+0072 <span class="comment">% Conradi et al., 2017, Journal of Magnetic Resonance 281, p.241-245</span>
+0073 <span class="comment">% https://doi.org/10.1016/j.jmr.2017.06.001</span>
+0074 
+0075 <span class="keyword">if</span> numel(t)&gt;1
+0076     <span class="comment">% linear part</span>
+0077     Bplin = (-Bmax/T)*t + Bmax;
+0078     <span class="comment">% exponential part</span>
+0079     Bpexp = exp(-t /(Bstar*T/Bmax));
+0080     <span class="comment">% find change</span>
+0081     index = find(abs(Bplin-Bstar)==min(abs(Bplin-Bstar)),1,<span class="string">'first'</span>);
+0082     <span class="comment">% merge the lin- and exp-part and scale the amplitude of the exp-part</span>
+0083     <span class="comment">% to that of the lin-part at the switch-over time t(index)</span>
+0084     scale_point = Bplin(index)/Bpexp(index);
+0085     <span class="comment">% in case something goes south due to very small numbers set the</span>
+0086     <span class="comment">% amplitude to 0</span>
+0087     <span class="keyword">if</span> isinf(scale_point) || isnan(scale_point)
+0088         scale_point = 0;
+0089     <span class="keyword">end</span>
+0090     <span class="comment">% the final amplitude vector</span>
+0091     Bp = [Bplin(1:index-1); scale_point * Bpexp(index:end)];
+0092 <span class="keyword">else</span>
+0093     <span class="comment">% linear part</span>
+0094     Bplin = (-Bmax/T)*t + Bmax;
+0095     <span class="comment">% exponential part</span>
+0096     Bpexp = exp(-t /(Bstar*T/Bmax));
+0097     <span class="comment">% Bstar time tstar</span>
+0098     tstar = (Bstar-Bmax)/(-Bmax/T);
+0099     <span class="comment">% amplitude at tstar for scaling</span>
+0100     Btstar = exp(-tstar /(Bstar*T/Bmax));
+0101     <span class="comment">% apply</span>
+0102     <span class="keyword">if</span> t&lt;tstar
+0103         Bp = Bplin;
+0104     <span class="keyword">else</span>
+0105         Bp = (Bstar/Btstar) * Bpexp;
+0106     <span class="keyword">end</span>
+0107 <span class="keyword">end</span>
 0108 
-0109 
-0110 <span class="keyword">return</span>
+0109 <span class="comment">% if due to division by &quot;0&quot; the value is NaN ... set it to 0</span>
+0110 Bp(isnan(Bp)) = 0;
 0111 
-0112 <span class="comment">%------------- END OF CODE --------------</span>
-0113 
-0114 <span class="comment">%% License:</span>
-0115 <span class="comment">% GNU GPLv3</span>
-0116 <span class="comment">%</span>
-0117 <span class="comment">% BLOCHUS</span>
-0118 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0112 
+0113 <span class="keyword">return</span>
+0114 
+0115 <span class="comment">%------------- END OF CODE --------------</span>
+0116 
+0117 <span class="comment">%% License:</span>
+0118 <span class="comment">% GNU GPLv3</span>
 0119 <span class="comment">%</span>
-0120 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0121 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0122 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0123 <span class="comment">% (at your option) any later version.</span>
-0124 <span class="comment">%</span>
-0125 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0126 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0127 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0128 <span class="comment">% GNU General Public License for more details.</span>
-0129 <span class="comment">%</span>
-0130 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0131 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0120 <span class="comment">% BLOCHUS</span>
+0121 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0122 <span class="comment">%</span>
+0123 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0124 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0125 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0126 <span class="comment">% (at your option) any later version.</span>
+0127 <span class="comment">%</span>
+0128 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0129 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0130 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0131 <span class="comment">% GNU General Public License for more details.</span>
+0132 <span class="comment">%</span>
+0133 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0134 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

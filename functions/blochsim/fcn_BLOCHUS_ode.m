@@ -57,7 +57,7 @@ gamma = param.gamma;
 
 switch param.type
     case 'std'
-        B = B0*zunit;        
+        B = B0*zunit;
         % dM/dt
         dM = gamma*cross(m,B) - ( (m(1)*xunit+m(2)*yunit) / T2 ) - ( ((m(3)-M0(3))*zunit) / T1 );
         

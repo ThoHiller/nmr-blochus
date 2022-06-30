@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.1.5] - 2022-06-30
+
+### Added
+- custom pre-polarization current switch-off ramps are now supported via an interpolation routine (so far only via script and in MATLAB<sup>TM</sup>)
+
+### Changed
+- now multiple angle-axis-pairs are allowed as input for function `getRotationMatrixFromAngleandAxis`
+
+### Fixed
+- fixed an issue in `getRotationMatrixFromVectors` for very small angles between vectors A and B (also edge case like parallel and anti-parallel vectors are now considered)
+
 ## [0.1.4] - 2020-09-25
 
 ### Added
@@ -43,6 +54,7 @@
 
 Initial Version
 
+[0.1.5]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.4...v0.1.5
 [0.1.4]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ThoHiller/nmr-blochus/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/ThoHiller/nmr-blochus/compare/v.0.1.1...v0.1.2

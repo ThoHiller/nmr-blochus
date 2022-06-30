@@ -132,13 +132,13 @@ This function is called by:
 0061 
 0062 <span class="comment">% now adjust the direction of the pre-polarization field</span>
 0063 <span class="comment">% 1.) rotation by angle theta [deg] around y-axis for the z-unit vector</span>
-0064 <span class="comment">% this means an angle of 90° around the y-axis will turn the z-unit into</span>
+0064 <span class="comment">% this means an angle of 90Â° around the y-axis will turn the z-unit into</span>
 0065 <span class="comment">% the x-unit vector</span>
 0066 RM = <a href="../../../blochus/functions/blochsim/getRotationMatrixFromAngleandAxis.html" class="code" title="function R = getRotationMatrixFromAngleandAxis(phi,n)">getRotationMatrixFromAngleandAxis</a>(deg2rad(data.prepol.Theta),[0 1 0]);
 0067 orient = RM * zunit;
 0068 <span class="comment">% now this new orientation vector gets rotated by  angle phi [deg] around</span>
 0069 <span class="comment">% the z-axis for the x-unit vector</span>
-0070 <span class="comment">% this means an angle of 90° around the z-axis will turn the x-unit into</span>
+0070 <span class="comment">% this means an angle of 90Â° around the z-axis will turn the x-unit into</span>
 0071 <span class="comment">% the y-unit vector</span>
 0072 RM = <a href="../../../blochus/functions/blochsim/getRotationMatrixFromAngleandAxis.html" class="code" title="function R = getRotationMatrixFromAngleandAxis(phi,n)">getRotationMatrixFromAngleandAxis</a>(deg2rad(data.prepol.Phi),[0 0 1]);
 0073 orient = RM * orient;

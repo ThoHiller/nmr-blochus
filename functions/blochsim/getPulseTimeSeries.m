@@ -124,8 +124,11 @@ switch PulseType
         if Imod.useQ && Imod.Q > 0
             % get line (band) width -> f_L/Q (simple bandwidth for bandpass)
             Lwidth = abs(param.omega0/2/pi) / Imod.Q;
-            % apply "Breit-Wigner" formula (here already normalized to 1 by
-            % multiplying with pi*Lwidth)
+            % apply Cauchy-Lorentz type formula (here already normalized to
+            % 1 by multiplying with pi*Lwidth)
+            % this is basically a Cauchy distribution PDF of the form:
+            % PDF = 1/pi * ( bw / ((f-f0)^2 + bw^2) )
+            % tweaked with some algebra
             L = 1 ./ ( ((df+Imod.Qdf).^2 ./ Lwidth.^2) + 1 );
             I = I.*L;
         end

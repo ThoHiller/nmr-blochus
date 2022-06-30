@@ -58,6 +58,9 @@ switch ramp
         Bp = Bmax .* (0.5+(cos(pi*t./Tramp)./2));
     case 'lin' % linear
         Bp = Bmax.*(1-t./Tramp);
+    case 'custom'
+        idata = param.interp;
+        Bp = Bmax.*interp1(idata.t,idata.I,t);
 end
 
 return

@@ -36,11 +36,11 @@ I tested it successfully under Windows 7 (64bit) and 10 (64bit) with [Anaconda](
 
 1. Makes sure that all required packages are installed and work properly
 2. Download or `clone` the **BLOCHUS** repository and put the folder somewhere on your hard drive.
-3. As I recommend uying an IDE like [Spyder](https://www.spyder-ide.org/), make sure that the **pyBLOCHUS** folder is on your PYTHONPATH (e.g. in [Spyder](https://www.spyder-ide.org/):  Tools -> PYTHONPATH manager -> Add path)
+3. As I recommend using an IDE like [Spyder](https://www.spyder-ide.org/), make sure that the **pyBLOCHUS** folder is on your PYTHONPATH (e.g. in [Spyder](https://www.spyder-ide.org/):  Tools -> PYTHONPATH manager -> Add path)
 4. Sometimes a [Spyder](https://www.spyder-ide.org/) restart is necessary tu update/sync the PYTHONPATH
 
 - - -
 <a name="usage"></a>
 ### Usage
 
-Have a look in the [example](pyBLOCHUS/examples) scripts  for the usage of the different modules. 
+Have a look in the [example](examples) scripts  for the usage of the different modules. 

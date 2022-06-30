@@ -317,7 +317,7 @@ This function is called by:
 0246 x(locu) = I*ones(size(locu));
 0247 
 0248 <span class="comment">% now create an artificial y-component by shifting the original signal</span>
-0249 <span class="comment">% (x-component) 90° (quarter of a full period)</span>
+0249 <span class="comment">% (x-component) 90Â° (quarter of a full period)</span>
 0250 <span class="comment">% get the length of a quarter period</span>
 0251 t90 = dtL/4;
 0252 <span class="comment">% cut out these first samples and put them to the end of the original signal</span>
@@ -330,7 +330,7 @@ This function is called by:
 0259 <span class="comment">% pulse this is already taken care of during assembling)</span>
 0260 <span class="keyword">if</span> strcmp(param.Tx,<span class="string">'MIDI_OR'</span>) &amp;&amp; isfield(param,<span class="string">'PulseAxis'</span>)
 0261     <span class="comment">% depending on the frequency, there is a different amount of time</span>
-0262     <span class="comment">% steps for the &quot;90° phase shift&quot;</span>
+0262     <span class="comment">% steps for the &quot;90Â° phase shift&quot;</span>
 0263     shiftind = sum(t&lt;t90);
 0264     <span class="comment">% now shift both components by the necessary amount of samples</span>
 0265     <span class="keyword">switch</span> param.PulseAxis

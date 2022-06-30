@@ -6,11 +6,11 @@ function R = getRotationMatrixFromAngleandAxis(phi,n)
 %       getRotationMatrixFromAngleandAxis(phi,n)
 %
 % Inputs:
-%       phi - rotation angle [rad]
-%       n - rotation axis vector [x y z]
+%       phi - rotation angle [rad]; size Nx1
+%       n - rotation axis vector [x y z]; size Nx3
 %
 % Outputs:
-%       R - 3x3 rotation matrix
+%       R - 3x3xN rotation matrix
 %
 % Example:
 %       R = getRotationMatrixFromAngleandAxis(pi,[0 0 1]')
@@ -35,21 +35,57 @@ function R = getRotationMatrixFromAngleandAxis(phi,n)
 
 %------------- BEGIN CODE --------------
 
-% make "n" a unit vector
-n = n./norm(n);
-% get the individual components
-nx = n(1);
-ny = n(2);
-nz = n(3);
-% matrix terms needed
-omcos = 1-cos(phi);
-cosp = cos(phi);
-sinp = sin(phi);
+% for only one axis-angle pair
+if numel(phi) == 1
+    % make "n" a unit vector
+    n = n./norm(n);
+    % get the individual components
+    nx = n(1);
+    ny = n(2);
+    nz = n(3);
+    % matrix terms needed
+    omcos = 1-cos(phi);
+    cosp = cos(phi);
+    sinp = sin(phi);
+    
+    % assemble rotation matrix R
+    R(1,1) = nx*nx*omcos +    cosp;
+    R(1,2) = nx*ny*omcos - nz*sinp;
+    R(1,3) = nx*nz*omcos + ny*sinp;
+    
+    R(2,1) = ny*nx*omcos + nz*sinp;
+    R(2,2) = ny*ny*omcos +    cosp;
+    R(2,3) = ny*nz*omcos - nx*sinp;
+    
+    R(3,1) = nz*nx*omcos - ny*sinp;
+    R(3,2) = nz*ny*omcos + nx*sinp;
+    R(3,3) = nz*nz*omcos +    cosp; 
 
-% assemble rotation matrix R
-R = [nx*nx*omcos +    cosp  nx*ny*omcos - nz*sinp  nx*nz*omcos + ny*sinp; ...
-     ny*nx*omcos + nz*sinp  ny*ny*omcos +    cosp  ny*nz*omcos - nx*sinp; ...
-     nz*nx*omcos - ny*sinp  nz*ny*omcos + nx*sinp  nz*nz*omcos +    cosp];
+else % for multiple axes and angles
+    
+    % n should contain only unit vectors!
+    % get the individual components
+    nx = n(:,1);
+    ny = n(:,2);
+    nz = n(:,3);
+    % matrix terms needed
+    omcos = 1-cos(phi);
+    cosp = cos(phi);
+    sinp = sin(phi);
+    
+    % assemble rotation matrix R
+    R(1,1,:) = nx.*nx.*omcos +     cosp;
+    R(1,2,:) = nx.*ny.*omcos - nz.*sinp;
+    R(1,3,:) = nx.*nz.*omcos + ny.*sinp;
+    
+    R(2,1,:) = ny.*nx.*omcos + nz.*sinp;
+    R(2,2,:) = ny.*ny.*omcos +     cosp;
+    R(2,3,:) = ny.*nz.*omcos - nx.*sinp;
+    
+    R(3,1,:) = nz.*nx.*omcos - ny.*sinp;
+    R(3,2,:) = nz.*ny.*omcos + nx.*sinp;
+    R(3,3,:) = nz.*nz.*omcos +     cosp; 
+end
 
 return
 

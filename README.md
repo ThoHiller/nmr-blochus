@@ -48,7 +48,7 @@ In order to work properly you need to meet the following requirements:
 
 #### Operating System
 
-I tested it successfully under Windows 7 (64bit) and 10 (64bit) with Matlab R2017a and newer. Always with the latest version of the GUI Layout Toolbox (current version is v2.3.4)
+I tested it successfully under Windows 7 (64bit) and 10 (64bit) with Matlab R2017a and newer. Always with the latest version of the GUI Layout Toolbox (current version is v2.3.5)
 
 **NOTE:** So far I did not test anything on Linux or a Mac. If you get it to work on either of the two systems (which it basically should I guess) please let me know.
 
@@ -63,7 +63,7 @@ I tested it successfully under Windows 7 (64bit) and 10 (64bit) with Matlab R201
 <a name="usage"></a>
 ### Usage
 
-1. By executing the start scripts (see above)
+1. By executing the start script (see above)
 2. Simply type `BLOCHUS` on the MATLAB<sup>TM</sup> prompt (make sure the `blochus` folder is on the MATLAB<sup>TM</sup> path)
 3. Check the example scripts for the usage of the core functions without the GUI (inside the `scripts` folder)
 
@@ -87,14 +87,15 @@ In no particular order and without guarantee that it will ever happen :-) :
 ### Cite as
 If you use BLOCHUS for your research, please cite it as:
 
-Thomas Hiller. (2020, September 25). ThoHiller/nmr-blochus: v0.1.4 (Version v0.1.4). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
+Thomas Hiller. (2020, September 25). ThoHiller/nmr-blochus: v0.1.5 (Version v0.1.5). Zenodo. [https://doi.org/10.5281/zenodo.3829464]
 
 Note: Even though the version number might change due to updates, this DOI is permanent (represents all versions) and always links to the latest version.
 
 
 ### References
-
-1. Hiller, T., Dlugosch, R. and Müller-Petke, M., "Utilizing pre-polarization to enhance SNMR signals - effect of imperfect switch-off", Geophysical Journal International **222**(2), p.815-826, 2020, [DOI](https://doi.org/10.1093/gji/ggaa216)
+1. Hiller, T., Costabel, S., Dlugosch, R. and Müller-Petke, M. "First Measurements of Surface Nuclear Magnetic Resonance Signals Without an Oscillating Excitation Pulse – Exploiting Non-Adiabatic Prepolarization Switch-Off", Geophysical Research Letters, **48**(23), e2021GL095371, 2021, [DOI](https://doi.org/10.1029/2021GL095371)
+1. Hiller, T., Costabel, S., Radic, T., Dlugosch, R. and Müller-Petke, M. "Feasibility study on prepolarized surface nuclear magnetic resonance for soil moisture measurements", Vadose Zone Journal, **20**(5), e20138, 2021, [DOI](https://doi.org/10.1002/vzj2.20138)
+2. Hiller, T., Dlugosch, R. and Müller-Petke, M., "Utilizing pre-polarization to enhance SNMR signals - effect of imperfect switch-off", Geophysical Journal International **222**(2), p.815-826, 2020, [DOI](https://doi.org/10.1093/gji/ggaa216)
 
 - - -
 <p style="text-align: center;"> MATLAB is a registered trademark of The Mathworks, Inc. </p>

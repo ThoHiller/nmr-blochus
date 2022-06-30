@@ -214,50 +214,53 @@ This function is called by:
 0124         <span class="keyword">if</span> Imod.useQ &amp;&amp; Imod.Q &gt; 0
 0125             <span class="comment">% get line (band) width -&gt; f_L/Q (simple bandwidth for bandpass)</span>
 0126             Lwidth = abs(param.omega0/2/pi) / Imod.Q;
-0127             <span class="comment">% apply &quot;Breit-Wigner&quot; formula (here already normalized to 1 by</span>
-0128             <span class="comment">% multiplying with pi*Lwidth)</span>
-0129             L = 1 ./ ( ((df+Imod.Qdf).^2 ./ Lwidth.^2) + 1 );
-0130             I = I.*L;
-0131         <span class="keyword">end</span>
-0132            
-0133         <span class="comment">% get instantaneous phase due to frequency modulation</span>
-0134         theta = <a href="getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>(t,df,param,0);
-0135         
-0136         <span class="keyword">switch</span> PulsePolarization
-0137             <span class="keyword">case</span> <span class="string">'circular'</span>
-0138                 Bout = I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
-0139                     sin(theta + phi + phi_ax + phi_ref)];
-0140             <span class="keyword">case</span> <span class="string">'linear'</span>
-0141                 Bout = 2.*I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
-0142                     0.*t];
-0143         <span class="keyword">end</span>
-0144 <span class="keyword">end</span>
-0145 <span class="comment">% if B-field values are NaN, set them to zero</span>
-0146 <span class="comment">% this can happen due to the interpolation at the end of the MIDI-pulses</span>
-0147 Bout(isnan(Bout)) = 0;
-0148 
-0149 <span class="keyword">end</span>
-0150 
-0151 <span class="comment">%------------- END OF CODE --------------</span>
-0152 
-0153 <span class="comment">%% License:</span>
-0154 <span class="comment">% GNU GPLv3</span>
-0155 <span class="comment">%</span>
-0156 <span class="comment">% BLOCHUS</span>
-0157 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0127             <span class="comment">% apply Cauchy-Lorentz type formula (here already normalized to</span>
+0128             <span class="comment">% 1 by multiplying with pi*Lwidth)</span>
+0129             <span class="comment">% this is basically a Cauchy distribution PDF of the form:</span>
+0130             <span class="comment">% PDF = 1/pi * ( bw / ((f-f0)^2 + bw^2) )</span>
+0131             <span class="comment">% tweaked with some algebra</span>
+0132             L = 1 ./ ( ((df+Imod.Qdf).^2 ./ Lwidth.^2) + 1 );
+0133             I = I.*L;
+0134         <span class="keyword">end</span>
+0135            
+0136         <span class="comment">% get instantaneous phase due to frequency modulation</span>
+0137         theta = <a href="getPulsePhase.html" class="code" title="function theta = getPulsePhase(t,df,param,flag)">getPulsePhase</a>(t,df,param,0);
+0138         
+0139         <span class="keyword">switch</span> PulsePolarization
+0140             <span class="keyword">case</span> <span class="string">'circular'</span>
+0141                 Bout = I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
+0142                     sin(theta + phi + phi_ax + phi_ref)];
+0143             <span class="keyword">case</span> <span class="string">'linear'</span>
+0144                 Bout = 2.*I.*Amp.*[cos(theta + phi + phi_ax + phi_ref) <span class="keyword">...</span>
+0145                     0.*t];
+0146         <span class="keyword">end</span>
+0147 <span class="keyword">end</span>
+0148 <span class="comment">% if B-field values are NaN, set them to zero</span>
+0149 <span class="comment">% this can happen due to the interpolation at the end of the MIDI-pulses</span>
+0150 Bout(isnan(Bout)) = 0;
+0151 
+0152 <span class="keyword">end</span>
+0153 
+0154 <span class="comment">%------------- END OF CODE --------------</span>
+0155 
+0156 <span class="comment">%% License:</span>
+0157 <span class="comment">% GNU GPLv3</span>
 0158 <span class="comment">%</span>
-0159 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
-0160 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
-0161 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
-0162 <span class="comment">% (at your option) any later version.</span>
-0163 <span class="comment">%</span>
-0164 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
-0165 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-0166 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-0167 <span class="comment">% GNU General Public License for more details.</span>
-0168 <span class="comment">%</span>
-0169 <span class="comment">% You should have received a copy of the GNU General Public License</span>
-0170 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
+0159 <span class="comment">% BLOCHUS</span>
+0160 <span class="comment">% Copyright (C) 2019 Thomas Hiller</span>
+0161 <span class="comment">%</span>
+0162 <span class="comment">% This program is free software: you can redistribute it and/or modify</span>
+0163 <span class="comment">% it under the terms of the GNU General Public License as published by</span>
+0164 <span class="comment">% the Free Software Foundation, either version 3 of the License, or</span>
+0165 <span class="comment">% (at your option) any later version.</span>
+0166 <span class="comment">%</span>
+0167 <span class="comment">% This program is distributed in the hope that it will be useful,</span>
+0168 <span class="comment">% but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+0169 <span class="comment">% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+0170 <span class="comment">% GNU General Public License for more details.</span>
+0171 <span class="comment">%</span>
+0172 <span class="comment">% You should have received a copy of the GNU General Public License</span>
+0173 <span class="comment">% along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;.</span></pre></div>
 <hr><address>Generated by <strong><a href="http://www.artefact.tk/software/matlab/m2html/" target="_parent">m2html</a></strong> &copy; 2005</address>
 </body>
 </html>

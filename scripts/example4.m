@@ -140,7 +140,7 @@ for i1 = 1:numel(lookup_ramps)
                 % switch-over amplitude for the "linexp" ramp (factor*B0) [T]
                 rampparam.Bstar = SwitchFactor*odeparam.B0;
 
-                % initial orientation is towards y-axis
+                % initial orientation is towards x-axis
                 orient = getRotationMatrixFromAngleandAxis(deg2rad(theta(tt)),[0 1 0])*zunit;
                 % initial magnetization in the direction of B0+Bp
                 Morient = orient*rampparam.Bmax + odeparam.B0*zunit;
